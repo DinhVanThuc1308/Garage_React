@@ -1,31 +1,40 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+.Slide_bar {
 
-.Sb__container {
-    position: absolute;
-    width: 275px;
+    width: 100%;
     height: 1024px;
-    left: 0px;
-    top: 0px;
-
     background: #FFFFFF;
     border-radius: 16px;
 }
 
-.sb__text {
-    position: absolute;
-    width: 45px;
-    height: 24px;
+.sb_item {
+    height: 1024px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 24px;
+
+    /* position: absolute; */
+    width: 100%;
+    height: 232px;
     left: 24px;
-    top: 32px;
+    top: 80px;
+    color: #919FB6;
+
 
     /* Paragraph 3/Medium */
 
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins';
+    font-style: normal;
 
+}
+
+.Slider_text {
+    width: 45px;
+    height: 24px;
+    /* Paragraph 3/Medium */
+
+    font-family: 'Poppins';
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -36,77 +45,91 @@
     /* Primary/1 */
 
     color: #8767E1;
+    margin-left: 25px;
+    margin-top: 20px;
 }
 
-.sb__list {
+/* end slide-bar */
+
+/* begin header */
+Header {
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    gap: 1400px;
+
+    position: absolute;
+    width: 1165px;
+    height: 74px;
+    left: 275px;
+    top: 0px;
+
+    background: #FFFFFF;
+}
+
+.header__mini-profile {
+
+    display: flex;
+    padding: 0;
+    margin-top: -50px;
+    margin-left: 1550px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.header_avt {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.header__text {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 0px;
-    gap: 24px;
 
-    position: absolute;
-    width: 227px;
-    height: 232px;
-    left: 24px;
-    top: 80px;
+    width: 78px;
+    height: 42px;
 }
 
-.sb__garage {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 32px;
+.header__text1 {
+    width: 78px;
+    height: 22px;
 
-    width: 227px;
-    height: 40px;
-
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
-
-.sb__garage-item {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 8px;
-
-    width: 179px;
-    height: 24px;
-
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    align-items: center;
-}
-
-.sb__list-text {
-    width: 179px;
-    height: 24px;
-
-    /* Paragraph 3/Medium */
+    /* Body 1/Medium */
 
     font-family: 'Roboto', sans-serif;
-
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    /* identical to box height, or 150% */
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.header__text2 {
+    font-family: 'Roboto', sans-serif;
+    width: 40px;
+    height: 20px;
+
+    /* Body 2/Regular */
 
 
-    /* Neutral Dark/4 */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    /* identical to box height, or 167% */
 
-    color: #919FB6;
+
+    /* Neutral Light/3 */
+
+    color: #CBCBCB;
 
 
     /* Inside auto layout */
@@ -116,58 +139,4 @@
     flex-grow: 0;
 }
 
-.sb__keybord {}
-
-.sb__garage-owner {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 32px;
-
-    width: 227px;
-    height: 40px;
-
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
-
-.sb__garage-staff {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 32px;
-
-    width: 227px;
-    height: 40px;
-
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
-
-.sb__garage-services {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 32px;
-
-    width: 227px;
-    height: 40px;
-
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
+/* end header */

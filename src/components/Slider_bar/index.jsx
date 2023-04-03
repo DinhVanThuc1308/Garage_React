@@ -1,21 +1,24 @@
-// import Slider_bar from './components/Slider_bar/Slider_bar';
-import './style.css';
+import React from "react";
+import sb_img from '../Slider_bar/asset/img/sb_img.png'
+import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png'
+import './Slider_bar.css';
+import ChangePassword from '../ChangePassword';
+
+
+
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined, a
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 // import sb_img from './components/Slider_bar/asset/img/sb_img.png';
 // import sb_keybord_img from './components/Slider_bar/asset/img/sb__keybord.png';
-// import Header_avt from './components/Slider_bar/asset/img/sb__img.png'
+// import Header_avt from './components/Header/asset/img/avt2.jpg'
 
 const { Header, Sider, Content } = Layout;
 
-const Side_bar = () => {
+const Slide_bar = () => {
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer },
@@ -68,7 +71,7 @@ const Side_bar = () => {
                     })}
 
                     <div className='header__mini-profile'>
-                        {/* <img className="header_avt" src={Header_avt}></img> */}
+                        <img className="header_avt" ></img>
 
                         <span className="header__text">
                             <span className="header__text1" >Ha Nguyen</span>
@@ -87,11 +90,14 @@ const Side_bar = () => {
                         background: colorBgContainer,
                     }}
                 >
-
-                    THem Content tai day
+                    thêm content tại đây
+                    {/* <h1>Change Password</h1>
+                    <ChangePassword /> */}
                 </Content>
             </Layout>
         </Layout>
+
     );
+
 };
-export default Side_bar;
+export default Slide_bar;

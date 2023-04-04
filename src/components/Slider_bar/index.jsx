@@ -3,19 +3,19 @@ import sb_img from '../Slider_bar/asset/img/sb_img.png'
 import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png'
 import './Slider_bar.css';
 import ChangePassword from '../ChangePassword';
-
-
+import Update_Profile from "../Update_Profile";
 
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme,DatePicker } from 'antd';
 import { useState } from 'react';
 // import sb_img from './components/Slider_bar/asset/img/sb_img.png';
 // import sb_keybord_img from './components/Slider_bar/asset/img/sb__keybord.png';
 // import Header_avt from './components/Header/asset/img/avt2.jpg'
-
+import Header_avt from '../Header/asset/img/avt2.jpg'
+import Icon from './asset/img/Vector.png'
 const { Header, Sider, Content } = Layout;
 
 const Slide_bar = () => {
@@ -81,7 +81,13 @@ const Slide_bar = () => {
 
                 </Header>
 
-
+                    <div style={{ fontFamily: 'Poppins',
+fontStyle: "normal",
+fontƯeight: 700,
+fontSize: '24px',
+lineHeight: '32px'}}>
+                        <h1>My Profile</h1>
+                    </div>
                 <Content
                     style={{
                         margin: '24px 16px',
@@ -90,7 +96,8 @@ const Slide_bar = () => {
                         background: colorBgContainer,
                     }}
                 >
-                    thêm content tại đây
+
+                    <Update_Profile/>
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}
                 </Content>

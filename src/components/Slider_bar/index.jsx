@@ -4,12 +4,13 @@ import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png'
 import './Slider_bar.css';
 import ChangePassword from '../ChangePassword';
 import Update_Profile from "../Update_Profile";
+import SearchAndFilter from "../SearchAndFilter";
 
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, theme,DatePicker } from 'antd';
+import { Layout, Menu, theme, DatePicker } from 'antd';
 import { useState } from 'react';
 // import sb_img from './components/Slider_bar/asset/img/sb_img.png';
 // import sb_keybord_img from './components/Slider_bar/asset/img/sb__keybord.png';
@@ -81,13 +82,15 @@ const Slide_bar = () => {
 
                 </Header>
 
-                    <div style={{ fontFamily: 'Poppins',
-fontStyle: "normal",
-fontƯeight: 700,
-fontSize: '24px',
-lineHeight: '32px'}}>
-                        <h1>My Profile</h1>
-                    </div>
+                <div style={{
+                    fontFamily: 'Poppins',
+                    fontStyle: "normal",
+                    fontƯeight: 700,
+                    fontSize: '24px',
+                    lineHeight: '32px'
+                }}>
+                    {/* <h1>My Profile</h1> */}
+                </div>
                 <Content
                     style={{
                         margin: '24px 16px',
@@ -96,8 +99,8 @@ lineHeight: '32px'}}>
                         background: colorBgContainer,
                     }}
                 >
-
-                    <Update_Profile/>
+                    <SearchAndFilter />
+                    {/* <Update_Profile/> */}
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}
                 </Content>

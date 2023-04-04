@@ -5,6 +5,7 @@ import './Slider_bar.css';
 import ChangePassword from '../ChangePassword';
 import Update_Profile from "../Update_Profile";
 import SearchAndFilter from "../SearchAndFilter";
+import ViewProfile from "../ViewProfile";
 
 import {
     MenuFoldOutlined,
@@ -92,15 +93,16 @@ const Slide_bar = () => {
                     {/* <h1>My Profile</h1> */}
                 </div>
                 <Content
-                    style={{
-                        margin: '24px 16px',
-                        padding: 24,
-                        minHeight: 280,
-                        background: colorBgContainer,
-                    }}
+                    // style={{
+                    //     margin: '24px 16px',
+                    //     padding: 24,
+                    //     minHeight: 280,
+                    //     background: colorBgContainer,
+                    // }}
                 >
-                    <SearchAndFilter />
+                    {/* <SearchAndFilter /> */}
                     {/* <Update_Profile/> */}
+                    <ViewProfile />
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}
                 </Content>

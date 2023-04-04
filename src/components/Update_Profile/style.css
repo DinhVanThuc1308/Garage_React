@@ -1,0 +1,12 @@
+.avt{
+    position: absolute;
+width: 250px;
+height: 250px;
+border-radius: 250px;
+background: rgba(17, 17, 17, 0.3);
+margin: auto;
+}
+
+.silver-text{
+    color: #939393;
+}

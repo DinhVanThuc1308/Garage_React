@@ -1,25 +1,33 @@
+
 import React from "react";
-import sb_img from '../Slider_bar/asset/img/sb_img.png'
-import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png'
 import './Slider_bar.css';
 import ChangePassword from '../ChangePassword';
 import Update_Profile from "../Update_Profile";
 import SearchAndFilter from "../SearchAndFilter";
-
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme, DatePicker } from 'antd';
 import { useState } from 'react';
-// import sb_img from './components/Slider_bar/asset/img/sb_img.png';
-// import sb_keybord_img from './components/Slider_bar/asset/img/sb__keybord.png';
-// import Header_avt from './components/Header/asset/img/avt2.jpg'
-import Header_avt from '../Header/asset/img/avt2.jpg'
+
+// import img của slider bar
+import sb_img from '../Slider_bar/asset/img/sb_img.png';
+import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png';
+
+
+import Header_content from "../Header/Header_content";
+
 import Icon from './asset/img/Vector.png'
+import Logout from "../Logout/Logout";
 const { Header, Sider, Content } = Layout;
 
 const Slide_bar = () => {
+
+    function EClick() {
+        alert("Xin chao");
+    }
+
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer },
@@ -36,22 +44,22 @@ const Slide_bar = () => {
                     items={[
                         {
                             key: '1',
-                            // icon: <img src={sb_img}></img>,
+                            icon: <img src={sb_img}></img>,
                             label: 'Garage',
                         },
                         {
                             key: '2',
-                            // icon: <img src={sb_img}></img>,
+                            icon: <img src={sb_img}></img>,
                             label: 'Garage-owner',
                         },
                         {
                             key: '3',
-                            // icon: <img src={sb_img}></img>,
+                            icon: <img src={sb_img}></img>,
                             label: 'Garage-staff',
                         },
                         {
                             key: '4',
-                            // icon: <img src={sb_img}></img>,
+                            icon: <img src={sb_img}></img>,
                             label: 'Garage-services',
                         },
                     ]}
@@ -71,14 +79,8 @@ const Slide_bar = () => {
                         onClick: () => setCollapsed(!collapsed),
                     })}
 
-                    <div className='header__mini-profile'>
-                        <img className="header_avt" ></img>
-
-                        <span className="header__text">
-                            <span className="header__text1" >Ha Nguyen</span>
-                            <span className="header__text2">Admin</span>
-                        </span>
-                    </div>
+                    <Header_content></Header_content>
+                    <Logout></Logout>
 
                 </Header>
 

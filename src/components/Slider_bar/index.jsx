@@ -17,6 +17,7 @@ import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png';
 
 
 import Header_content from "../Header/Header_content";
+import Table from "../Table";
 
 import Icon from './asset/img/Vector.png'
 import Logout from "../Logout/Logout";
@@ -80,7 +81,7 @@ const Slide_bar = () => {
                     })}
 
                     <Header_content></Header_content>
-                    <Logout></Logout>
+                    {/* <Logout></Logout> */}
 
                 </Header>
 
@@ -101,8 +102,9 @@ const Slide_bar = () => {
                         background: colorBgContainer,
                     }}
                 >
-                    <SearchAndFilter />
-                    <Update_Profile />
+                    <Table />
+                    {/* <SearchAndFilter /> */}
+                    {/* <Update_Profile /> */}
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}
                 </Content>

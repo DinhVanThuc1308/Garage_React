@@ -102,7 +102,7 @@ const Slide_bar = () => {
                     }}
                 >
                     <SearchAndFilter />
-                    {/* <Update_Profile/> */}
+                    <Update_Profile />
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}
                 </Content>

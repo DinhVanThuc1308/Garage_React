@@ -18,6 +18,7 @@ import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png';
 
 import Header_content from "../Header/Header_content";
 import Table from "../Table";
+// import Button from "../Button";
 
 import Icon from './asset/img/Vector.png'
 import Logout from "../Logout/Logout";
@@ -102,8 +103,14 @@ const Slide_bar = () => {
                         background: colorBgContainer,
                     }}
                 >
-                    <Table />
-                    {/* <SearchAndFilter /> */}
+                    {/* DDaay la code  Garage_owner_list
+                    <div className="Garage_owner_list" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <h1>All Garages</h1>
+                        <button className="add_garage" onClick={EClick} style={{ width: '140px', height: '48px', background: '#8767E1', borderRadius: '8px', border: 'none' }}>Add Garage</button>
+                    </div>
+                    <SearchAndFilter />
+
+                    <Table />  */}
                     {/* <Update_Profile /> */}
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}

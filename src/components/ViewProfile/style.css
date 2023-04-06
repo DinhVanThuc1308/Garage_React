@@ -91,11 +91,7 @@ div {
 
     /* background: url(.png); */
 
-    /* Inside auto layout */
 
-    flex: none;
-    order: 0;
-    flex-grow: 0;
 }
 
 .info-wrapper {
@@ -210,11 +206,7 @@ hr {
     border-radius: 8px;
     border-color: #8767E1;
 
-    /* Inside auto layout */
 
-    flex: none;
-    order: 0;
-    flex-grow: 0;
 }
 
 
@@ -255,11 +247,7 @@ hr {
     border-radius: 8px;
     border-color: #8767E1;
 
-    /* Inside auto layout */
-/* 
-    flex: none;
-    order: 0;
-    flex-grow: 0; */
+
 }
 
 .buttons .change-btn a {
@@ -280,11 +268,4 @@ hr {
     /* Primary/1 */
 
     color: #8767E1;
-
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
 }

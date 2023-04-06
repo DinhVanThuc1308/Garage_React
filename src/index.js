@@ -12,7 +12,8 @@ const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    <Slide_bar />
+    {/* <Slide_bar /> */}
+    <App />
   </StrictMode>
 );
 

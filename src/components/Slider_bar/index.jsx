@@ -71,7 +71,7 @@ const Slide_bar = () => {
                         className: 'trigger',
                         onClick: () => setCollapsed(!collapsed),
                     })}
-
+{/* 
                     <div className='header__mini-profile'>
                         <img className="header_avt" ></img>
 
@@ -79,7 +79,7 @@ const Slide_bar = () => {
                             <span className="header__text1" >Ha Nguyen</span>
                             <span className="header__text2">Admin</span>
                         </span>
-                    </div>
+                    </div> */}
 
                 </Header>
 

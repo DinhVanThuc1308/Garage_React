@@ -1,9 +1,10 @@
-
 import React from "react";
 import './Slider_bar.css';
 import ChangePassword from '../ChangePassword';
-// import Update_Profile from "../Update_Profile";
-// import SearchAndFilter from "../SearchAndFilter";
+import Update_Profile from "../Update_Profile";
+import SearchAndFilter from "../SearchAndFilter";
+import ViewProfile from "../ViewProfile";
+
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -22,15 +23,9 @@ import Table from "../Table";
 // import Button from "../Button";
 
 import Icon from './asset/img/Vector.png'
-import Logout from "../Logout/Logout";
 const { Header, Sider, Content } = Layout;
 
 const Slide_bar = () => {
-
-    function EClick() {
-        alert("Xin chao");
-    }
-
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer },
@@ -47,22 +42,22 @@ const Slide_bar = () => {
                     items={[
                         {
                             key: '1',
-                            icon: <img src={sb_img}></img>,
+                            // icon: <img src={sb_img}></img>,
                             label: 'Garage',
                         },
                         {
                             key: '2',
-                            icon: <img src={sb_img}></img>,
+                            // icon: <img src={sb_img}></img>,
                             label: 'Garage-owner',
                         },
                         {
                             key: '3',
-                            icon: <img src={sb_img}></img>,
+                            // icon: <img src={sb_img}></img>,
                             label: 'Garage-staff',
                         },
                         {
                             key: '4',
-                            icon: <img src={sb_img}></img>,
+                            // icon: <img src={sb_img}></img>,
                             label: 'Garage-services',
                         },
                     ]}
@@ -81,6 +76,9 @@ const Slide_bar = () => {
                         className: 'trigger',
                         onClick: () => setCollapsed(!collapsed),
                     })}
+                    {/* 
+                    <div className='header__mini-profile'>
+                        <img className="header_avt" ></img>
 
                     <Header_content></Header_content>
                     {/* <Logout></Logout> */}
@@ -97,12 +95,12 @@ const Slide_bar = () => {
                     {/* <h1>My Profile</h1> */}
                 </div>
                 <Content
-                    style={{
-                        margin: '24px 16px',
-                        padding: 24,
-                        minHeight: 280,
-                        background: colorBgContainer,
-                    }}
+                // style={{
+                //     margin: '24px 16px',
+                //     padding: 24,
+                //     minHeight: 280,
+                //     background: colorBgContainer,
+                // }}
                 >
                     {/* DDaay la code  Garage_owner_list
                     <div className="Garage_owner_list" style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -113,8 +111,9 @@ const Slide_bar = () => {
 
                     <Table />  */}
                     <GarageOwnerList />
+                    {/* <ViewProfile />  */}
                     {/* <Update_Profile /> */}
-                    {/* <h1>Change Password</h1>
+                    {/* <h1>Change Password</h1>    
                     <ChangePassword /> */}
                 </Content>
             </Layout>

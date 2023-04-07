@@ -22,6 +22,9 @@ import Table from "../Table";
 // import Button from "../Button";
 
 import Icon from './asset/img/Vector.png'
+import Logout from "../Logout/Logout";
+import ViewProfile from "../ViewProfile/ViewProfile";
+
 const { Header, Sider, Content } = Layout;
 
 const Slide_bar = () => {
@@ -71,11 +74,12 @@ const Slide_bar = () => {
                     }}
                 >
 
+
                     {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                         className: 'trigger',
                         onClick: () => setCollapsed(!collapsed),
                     })}
-{/* 
+                    {/* 
                     <div className='header__mini-profile'>
                         <img className="header_avt" ></img>
 
@@ -91,25 +95,18 @@ const Slide_bar = () => {
                     fontSize: '24px',
                     lineHeight: '32px'
                 }}>
-                    {/* <h1>My Profile</h1> */}
+                    <h1>My Profile</h1>
                 </div>
                 <Content
-                    // style={{
-                    //     margin: '24px 16px',
-                    //     padding: 24,
-                    //     minHeight: 280,
-                    //     background: colorBgContainer,
-                    // }}
+                // style={{
+                //     margin: '24px 16px',
+                //     padding: 24,
+                //     minHeight: 280,
+                //     background: colorBgContainer,
+                // }}
                 >
-                    {/* DDaay la code  Garage_owner_list
-                    <div className="Garage_owner_list" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <h1>All Garages</h1>
-                        <button className="add_garage" onClick={EClick} style={{ width: '140px', height: '48px', background: '#8767E1', borderRadius: '8px', border: 'none' }}>Add Garage</button>
-                    </div>
-                    <SearchAndFilter />
-
-                    <Table />  */}
-                    <ViewProfile />
+                    <ViewProfile></ViewProfile>
+                    {/* <SearchAndFilter /> */}
                     {/* <Update_Profile /> */}
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}

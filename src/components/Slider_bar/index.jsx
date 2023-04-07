@@ -20,6 +20,8 @@ import Header_content from "../Header/Header_content";
 
 import Icon from './asset/img/Vector.png'
 import Logout from "../Logout/Logout";
+import ViewProfile from "../ViewProfile/ViewProfile";
+
 const { Header, Sider, Content } = Layout;
 
 const Slide_bar = () => {
@@ -74,6 +76,7 @@ const Slide_bar = () => {
                     }}
                 >
 
+
                     {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                         className: 'trigger',
                         onClick: () => setCollapsed(!collapsed),
@@ -91,7 +94,7 @@ const Slide_bar = () => {
                     fontSize: '24px',
                     lineHeight: '32px'
                 }}>
-                    {/* <h1>My Profile</h1> */}
+                    <h1>My Profile</h1>
                 </div>
                 <Content
                     style={{
@@ -101,8 +104,9 @@ const Slide_bar = () => {
                         background: colorBgContainer,
                     }}
                 >
-                    <SearchAndFilter />
-                    <Update_Profile />
+                    <ViewProfile></ViewProfile>
+                    {/* <SearchAndFilter /> */}
+                    {/* <Update_Profile /> */}
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}
                 </Content>

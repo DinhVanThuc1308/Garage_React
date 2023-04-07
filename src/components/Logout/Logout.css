@@ -5,12 +5,21 @@
 }
 
 .container {
-    position: absolute;
-    margin-left: 1286px;
-    margin-top: 8px;
     display: block;
     transform-origin: right 10px;
     animation: containerUp ease-in 0.3;
+}
+
+.Logout_UI {
+    width: 300px;
+    height: 150px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px #D3D3D3;
+    margin-top: -8px;
+    right: 80px;
+    top: 80px;
+    position: absolute;
 }
 
 @keyframes containerUp {
@@ -42,15 +51,6 @@
     cursor: pointer;
 }
 
-.Logout_UI {
-    width: 300px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 3px 3px 3px 3px #D3D3D3;
-    margin-top: -8px;
-
-    position: absolute;
-}
 
 .logout_avt {
     width: 32px;

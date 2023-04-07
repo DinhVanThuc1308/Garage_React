@@ -1,6 +1,4 @@
 import React from "react";
-import sb_img from '../Slider_bar/asset/img/sb_img.png'
-import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png'
 import './Slider_bar.css';
 import ChangePassword from '../ChangePassword';
 import Update_Profile from "../Update_Profile";
@@ -13,10 +11,16 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, theme, DatePicker } from 'antd';
 import { useState } from 'react';
-// import sb_img from './components/Slider_bar/asset/img/sb_img.png';
-// import sb_keybord_img from './components/Slider_bar/asset/img/sb__keybord.png';
-// import Header_avt from './components/Header/asset/img/avt2.jpg'
-import Header_avt from '../Header/asset/img/avt2.jpg'
+
+// import img của slider bar
+import sb_img from '../Slider_bar/asset/img/sb_img.png';
+import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png';
+
+
+import Header_content from "../Header/Header_content";
+import Table from "../Table";
+// import Button from "../Button";
+
 import Icon from './asset/img/Vector.png'
 const { Header, Sider, Content } = Layout;
 
@@ -75,11 +79,8 @@ const Slide_bar = () => {
                     <div className='header__mini-profile'>
                         <img className="header_avt" ></img>
 
-                        <span className="header__text">
-                            <span className="header__text1" >Ha Nguyen</span>
-                            <span className="header__text2">Admin</span>
-                        </span>
-                    </div> */}
+                    <Header_content></Header_content>
+                    {/* <Logout></Logout> */}
 
                 </Header>
 
@@ -100,9 +101,16 @@ const Slide_bar = () => {
                     //     background: colorBgContainer,
                     // }}
                 >
-                    {/* <SearchAndFilter /> */}
-                    {/* <Update_Profile/> */}
+                    {/* DDaay la code  Garage_owner_list
+                    <div className="Garage_owner_list" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <h1>All Garages</h1>
+                        <button className="add_garage" onClick={EClick} style={{ width: '140px', height: '48px', background: '#8767E1', borderRadius: '8px', border: 'none' }}>Add Garage</button>
+                    </div>
+                    <SearchAndFilter />
+
+                    <Table />  */}
                     <ViewProfile />
+                    {/* <Update_Profile /> */}
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}
                 </Content>

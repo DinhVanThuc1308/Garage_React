@@ -11,7 +11,7 @@ const columns = [
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        
+
     },
     {
         title: 'Email',
@@ -58,7 +58,7 @@ const columns = [
         key: 'action',
         render: (_, record) => (
             <Space size="middle">
-                <a><img src={eye} style={{width:'14.05px',height:'16.03px'}}/></a>
+                <a><img src={eye} style={{ width: '14.05px', height: '16.03px' }} /></a>
                 <a><img src={edit} /></a>
                 <a><img src={deleteIcon} /></a>
             </Space>
@@ -86,5 +86,5 @@ const data = [
 
 ];
 
-const App = () => <Table columns={columns} dataSource={data} />;
+const App = () => <Table columns={columns} dataSource={data} pagination={false} />;
 export default App;

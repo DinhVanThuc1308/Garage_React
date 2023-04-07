@@ -1,5 +1,6 @@
 import { Input, Select, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import './style.css'
 
 const options = [
     {
@@ -22,10 +23,11 @@ const options2 = [
     }
 ];
 const SearchAndFilter = () => (
-    <Space direction="vertical" size="middle" >
+    <Space className='SearchAndFilter' direction="vertical" size="middle" >
         <span >
+
             <Space.Compact style={{ width: ' 493px' }}>
-                <Select defaultValue="Name" options={options} />
+                <Select defaultValue="Name" options={options} style={{ height: '58px' }} />
                 <Input placeholder="Search" suffix={<SearchOutlined />} style={{ height: '58px' }} />
             </Space.Compact>
             <Select defaultValue="Status" options={options2} style={{ paddingLeft: '28px', width: ' 296px', }} />

@@ -22,7 +22,7 @@ import Table from "../Table";
 
 import Icon from './asset/img/Vector.png'
 import Logout from "../Logout/Logout";
-import ViewProfile from "../ViewProfile/ViewProfile";
+// import ViewProfile from "../ViewProfile/ViewProfile";
 
 const { Header, Sider, Content } = Layout;
 

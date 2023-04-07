@@ -25,10 +25,10 @@ const SearchAndFilter = () => (
     <Space direction="vertical" size="middle" >
         <span >
             <Space.Compact style={{ width: ' 493px' }}>
-                <Select defaultValue="Name" options={options}  />
-                <Input placeholder="Search" suffix={<SearchOutlined />} />
+                <Select defaultValue="Name" options={options} />
+                <Input placeholder="Search" suffix={<SearchOutlined />} style={{ height: '58px' }} />
             </Space.Compact>
-            <Select defaultValue="Status" options={options2} style={{ paddingLeft: '28px', width: ' 296px',  }} />
+            <Select defaultValue="Status" options={options2} style={{ paddingLeft: '28px', width: ' 296px', }} />
 
         </span>
     </Space>

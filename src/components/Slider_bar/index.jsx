@@ -3,7 +3,6 @@ import './Slider_bar.css';
 import ChangePassword from '../ChangePassword';
 import Update_Profile from "../Update_Profile";
 import SearchAndFilter from "../SearchAndFilter";
-import ViewProfile from "../ViewProfile";
 
 import {
     MenuFoldOutlined,
@@ -79,19 +78,16 @@ const Slide_bar = () => {
                         className: 'trigger',
                         onClick: () => setCollapsed(!collapsed),
                     })}
-                    {/* 
-                    <div className='header__mini-profile'>
-                        <img className="header_avt" ></img>
-
+                    
                     <Header_content></Header_content>
-                    {/* <Logout></Logout> */}
+                    <Logout></Logout>
 
                 </Header>
 
                 <div style={{
                     fontFamily: 'Poppins',
                     fontStyle: "normal",
-                    fontƯeight: 700,
+                    fontWeight: 700,
                     fontSize: '24px',
                     lineHeight: '32px'
                 }}>

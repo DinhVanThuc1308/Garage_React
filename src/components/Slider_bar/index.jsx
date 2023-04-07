@@ -2,14 +2,15 @@
 import React from "react";
 import './Slider_bar.css';
 import ChangePassword from '../ChangePassword';
-import Update_Profile from "../Update_Profile";
-import SearchAndFilter from "../SearchAndFilter";
+// import Update_Profile from "../Update_Profile";
+// import SearchAndFilter from "../SearchAndFilter";
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme, DatePicker } from 'antd';
 import { useState } from 'react';
+import GarageOwnerList from "../GarageOwnerList";
 
 // import img của slider bar
 import sb_img from '../Slider_bar/asset/img/sb_img.png';
@@ -111,6 +112,7 @@ const Slide_bar = () => {
                     <SearchAndFilter />
 
                     <Table />  */}
+                    <GarageOwnerList />
                     {/* <Update_Profile /> */}
                     {/* <h1>Change Password</h1>
                     <ChangePassword /> */}

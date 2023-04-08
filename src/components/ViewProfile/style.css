@@ -3,45 +3,8 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-
-.all {
-    background: colorBgContainer;
-    height: 100vh;
-    
-}
-
 div {
     margin-bottom: 0;
-}
-
-.heading {
-    width: 121px;
-    height: 32px;
-    margin-left: 24px;
-    margin-bottom: 32px;
-    margin-top: 24px;
-
-    /* Headline 7/Bold */
-
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 32px;
-    /* identical to box height, or 133% */
-
-
-    /* Neutral Dark/1 */
-
-    color: #111111;
-
-
-    /* Inside auto layout */
-
-    /* flex: none;
-    order: 0;
-    flex-grow: 0; */
 }
 
 .container {
@@ -136,12 +99,6 @@ div {
 
     color: #939393;
 
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
 }
 
 .title .h1 {
@@ -171,7 +128,7 @@ div {
 }
 
 hr {
-    margin-top: 24px;
+    /* margin-top: 24px; */
     width: 1086px;
     height: 0px;
 

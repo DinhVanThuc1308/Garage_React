@@ -3,6 +3,10 @@ import './Slider_bar.css';
 
 import Update_Profile from "../Update_Profile";
 import SearchAndFilter from "../SearchAndFilter";
+
+// Create Owner
+import CreateOwner from "../CreateOwner";
+
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -18,6 +22,8 @@ import Table from "../Table";
 // import Button from "../Button";
 import Icon from './asset/img/Vector.png'
 import Logout from "../Logout/Logout";
+
+// View Profile
 import ViewProfile from "../ViewProfile/ViewProfile";
 
 
@@ -75,7 +81,7 @@ const Slide_bar = ({ children }) => {
                     })}
 
                     <Header_content></Header_content>
-                    <Logout></Logout>
+                    {/* <Logout></Logout> */}
 
                 </Header>
 
@@ -89,16 +95,19 @@ const Slide_bar = ({ children }) => {
                     <h1>My Profile</h1>
                 </div>
                 <Content
-                    style={{
-                        margin: '24px 16px',
-                        padding: 24,
-                        minHeight: 280,
-                        background: colorBgContainer,
-                    }}
+                style={{
+                    margin: '24px 16px',
+                    padding: 24,
+                    minHeight: 280,
+                    background: colorBgContainer,
+                }}
                 >
-                    {
-                        children
-                    }
+                    <CreateOwner></CreateOwner>
+                    {/* <ViewProfile></ViewProfile> */}
+                    {/* <SearchAndFilter /> */}
+                    {/* <Update_Profile /> */}
+                    {/* <h1>Change Password</h1>
+                    <ChangePassword /> */}
                 </Content>
             </Layout>
         </Layout>

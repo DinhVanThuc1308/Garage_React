@@ -11,6 +11,35 @@ export default function Login() {
   //     // let a = localStorage.setItem("data", JSON.stringify(data));
   //     // console.log(a);
   //   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const email = data.get("email");
+    const password = data.get("password");
+    const emailRegex = /^\S+@\S+\.\S+$/;
+  
+    if (!email || !password) {
+      alert("Please fill in both email and password fields");
+      return;
+    }
+  
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+  
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+  
+    const account = {
+      identifier: email,
+      password: password,
+    };
+    
+    getAPI(account);
+  };
 
   function getAPI(data) {
     axios.post(API, data, {
@@ -21,22 +50,22 @@ export default function Login() {
     });
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const account = {
-      identifier: data.get("email"),
-      password: data.get("password"),
-    };
-    console.log(account);
-    getAPI(account);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const data = new FormData(e.currentTarget);
+  //   const account = {
+  //     identifier: data.get("email"),
+  //     password: data.get("password"),
+  //   };
+  //   console.log(account);
+  //   getAPI(account);
+  // };
 
   // dùng axios để gọi api
 
   return (
     <div className="login">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <div className="header-login">
           <h3>Welcome</h3>
           <p>login to your account</p>
@@ -62,8 +91,7 @@ export default function Login() {
 
   );
 
-  // hiển thị dữ liệu ra ngoài màn hình
-  // return (
+
 
 
 }

@@ -63,35 +63,141 @@ export default function Login() {
 
   // dùng axios để gọi api
 
-  return (
-    <div className="login">
-      <form onSubmit={handleSubmit} >
-        <div className="header-login">
-          <h3>Welcome</h3>
-          <p>login to your account</p>
-        </div>
-        <div className="body-login">
-          <label>Email:</label>
-          <br />
-          <input type="text" id="email" name="email" placeholder="Email" />
-          <br />
-          <label>Password:</label>
-          <br />
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-          />
-          <br />
-          <button type="submit">Login</button>
-        </div>
-      </form>
-    </div>
+//   return (
+//     <div className="login">
+//       <form onSubmit={handleSubmit} >
+//         <div className="header-login">
+//           <h3>Welcome</h3>
+//           <p>login to your account</p>
+//         </div>
+//         <div className="body-login">
+//           <label>Email:</label>
+//           <br />
+//           <input type="text" id="email" name="email" placeholder="Email" />
+//           <br />
+//           <label>Password:</label>
+//           <br />
+//           <input
+//             type="password"
+//             id="password"
+//             name="password"
+//             placeholder="Password"
+//           />
+//           <br />
+//           <button type="submit">Login</button>
+//         </div>
+//       </form>
+//     </div>
 
-  );
-
-
+//   );
 
 
-}
+
+
+// }
+
+
+// import {
+//     Button,
+//     Form,
+//     Input,
+//   } from 'antd';
+//   import { useState } from 'react';
+  
+  
+  // const formItemLayout = {
+  //   labelCol: {
+  //     xs: {
+  //       span: 24,
+  //     },
+  //     sm: {
+  //       span: 8,
+  //     },
+  //   },
+  //   wrapperCol: {
+  //     xs: {
+  //       span: 24,
+  //     },
+  //     sm: {
+  //       span: 16,
+  //     },
+  //   },
+  // };
+  // const tailFormItemLayout = {
+  //   wrapperCol: {
+  //     xs: {
+  //       span: 24,
+  //       offset: 0,
+  //     },
+  //     sm: {
+  //       span: 16,
+  //       offset: 8,
+  //     },
+  //   },
+  // };
+//   const App = () => {
+//     const [form] = Form.useForm();
+//     const onFinish = values => {
+//       console.log('Received values of form: ', values);
+//     };
+  
+  
+//     const [autoCompleteResult, setAutoCompleteResult] = useState([]);
+  
+  
+//     return (
+//       <Form 
+  
+//         form={form}
+//         name="register"
+//         onFinish={onFinish}
+//         initialValues={{
+//           residence: ['zhejiang', 'hangzhou', 'xihu'],
+//           prefix: '86',
+//         }}
+//         style={{
+//           maxWidth: 600,
+//         }}
+  
+//       >
+//         <Form.Item
+//           name="email"
+//           label="E-mail"
+//           rules={[
+//             {
+//               type: 'email',
+//               message: 'The input is not valid E-mail!',
+//             },
+//             {
+//               required: true,
+//               message: 'Please input your E-mail!',
+//             },
+//           ]}
+//         >
+//           <Input />
+//         </Form.Item>
+  
+//         <Form.Item
+//           name="password"
+//           label="Password"
+//           rules={[
+//             {
+//               required: true,
+//               message: 'Please input your password!',
+//             },
+//           ]}
+//           hasFeedback
+//         >
+//           <Input.Password />
+//         </Form.Item>
+  
+//         <Form.Item >
+//           <Button type="primary" htmlType="submit">
+//             Register
+//           </Button>
+//         </Form.Item>
+//       </Form>
+//     );
+//   };
+//   export default App;
+  

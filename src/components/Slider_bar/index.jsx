@@ -1,9 +1,8 @@
 import React from "react";
 import './Slider_bar.css';
-import ChangePassword from '../ChangePassword';
+
 import Update_Profile from "../Update_Profile";
 import SearchAndFilter from "../SearchAndFilter";
-
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -14,19 +13,17 @@ import { useState } from 'react';
 // import img của slider bar
 import sb_img from '../Slider_bar/asset/img/sb_img.png';
 import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png';
-
-
 import Header_content from "../Header/Header_content";
 import Table from "../Table";
 // import Button from "../Button";
-
 import Icon from './asset/img/Vector.png'
 import Logout from "../Logout/Logout";
 import ViewProfile from "../ViewProfile/ViewProfile";
 
-const { Header, Sider, Content } = Layout;
 
-const Slide_bar = () => {
+const { Header, Sider, Content } = Layout;
+//props. chi
+const Slide_bar = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer },
@@ -72,13 +69,11 @@ const Slide_bar = () => {
                         background: colorBgContainer,
                     }}
                 >
-
-
                     {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                         className: 'trigger',
                         onClick: () => setCollapsed(!collapsed),
                     })}
-                    
+
                     <Header_content></Header_content>
                     <Logout></Logout>
 
@@ -94,18 +89,16 @@ const Slide_bar = () => {
                     <h1>My Profile</h1>
                 </div>
                 <Content
-                // style={{
-                //     margin: '24px 16px',
-                //     padding: 24,
-                //     minHeight: 280,
-                //     background: colorBgContainer,
-                // }}
+                    style={{
+                        margin: '24px 16px',
+                        padding: 24,
+                        minHeight: 280,
+                        background: colorBgContainer,
+                    }}
                 >
-                    <ViewProfile></ViewProfile>
-                    {/* <SearchAndFilter /> */}
-                    {/* <Update_Profile /> */}
-                    {/* <h1>Change Password</h1>
-                    <ChangePassword /> */}
+                    {
+                        children
+                    }
                 </Content>
             </Layout>
         </Layout>

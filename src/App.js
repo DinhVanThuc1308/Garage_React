@@ -11,16 +11,18 @@ import ChangePassword from './components/ChangePassword/index.jsx';
 import Profile_page from './pages/Profile/index.jsx';
 import Change_pw_page from './pages/Change_password/index.jsx';
 import Update_Page from './pages/Update_page/index.jsx';
+import Garage_Details from './pages/Garage_Detail/index.jsx';
 
 
 function App() {
   return (
     <div className="App">
-      <Login></Login>
+      {/* <Login></Login> */}
       {/* <Slide_bar></Slide_bar> */}
       {/* <Profile_page></Profile_page> */}
       {/* <Change_pw_page></Change_pw_page> */}
       {/* <Update_Page></Update_Page> */}
+      <Garage_Details></Garage_Details>
     </div>
   );
 

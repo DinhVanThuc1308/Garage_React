@@ -1,0 +1,37 @@
+.style-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: nowrap;
+    width: 100%;
+
+    font-family: 'Poppins';
+    /* font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px; */
+}
+
+.style-col {
+    width: 30%;
+    height: 100%;
+}
+
+.title-label {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+
+    /* Neutral Light/2 */
+
+    color: #939393;
+}
+
+.red-require{
+    color: red;
+}

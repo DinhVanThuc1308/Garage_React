@@ -92,7 +92,7 @@ const Slide_bar = ({ children }) => {
                     fontSize: '24px',
                     lineHeight: '32px'
                 }}>
-                    <h1>My Profile</h1>
+                <h1>My Profile</h1>
                 </div>
                 <Content
                 style={{

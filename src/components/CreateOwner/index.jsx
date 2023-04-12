@@ -1,7 +1,10 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import { Button, Form, Input, message, Space, Select, DatePicker } from 'antd';
+import { Button, Form, Input, message, Space, Select, DatePicker, Checkbox } from 'antd';
 import dayjs from 'dayjs';
+import binlogo from './Vector.svg'
+import styles from './styles.module.css';
+
 
 function CreateOwner() {
   // form
@@ -25,11 +28,17 @@ function CreateOwner() {
   const onSearch = value => {
     console.log('search:', value);
   };
-    // date picker
+  // date picker
+
+//   Checkbox
+const onChangeBox = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
   return (
     <div>
-      <Row >
+      <Row className={styles['style-row']}>
         <Col
+          className={styles['style-col']}
           span={8}
           rules={[
             // {
@@ -46,50 +55,50 @@ function CreateOwner() {
           ]}
         >
           <label htmlFor="">
-            <span>Name</span>
-            <span>*</span>
+            <span className={styles['title-label']}>Name</span>
+            <span className={styles['red-require']}>*</span>
           </label>
 
           <Input placeholder="Enter owner name" />
         </Col>
-        <Col span={8}>
+        <Col className={styles['style-col']} span={8}>
           {' '}
           <label htmlFor="">
-            <span>Email</span>
-            <span>*</span>
+            <span className={styles['title-label']}>Email</span>
+            <span className={styles['red-require']}>*</span>
           </label>
           <Input placeholder="Enter owner email" />
         </Col>
-        <Col span={8}>
+        <Col className={styles['style-col']} span={8}>
           {' '}
           <label htmlFor="">
-            <span>Username</span>
-            <span>*</span>
+            <span className={styles['title-label']}>Username</span>
+            <span className={styles['red-require']}>*</span>
           </label>
           <Input placeholder="Enter owner username" />
         </Col>
       </Row>
-      <Row>
-        <Col span={8}>
+      <Row className={styles['style-row']}>
+        <Col className={styles['style-col']} span={8}>
           {' '}
           <label htmlFor="">
-            <span>Password</span>
-            <span>*</span>
+            <span className={styles['title-label']}>Password</span>
+            <span className={styles['red-require']}>*</span>
           </label>
           <Input placeholder="Enter owner password" />
         </Col>
-        <Col span={8}>
+        <Col className={styles['style-col']} span={8}>
           <label htmlFor="">
-            <span>Phone number</span>
-            <span>*</span>
+            <span className={styles['title-label']}>Phone number</span>
+            <span className={styles['red-require']}>*</span>
           </label>
 
           <Input placeholder="Enter owner phone number" />
         </Col>
-        <Col span={8}>
+        <Col className={styles['style-col']} span={8}>
           <label htmlFor="">
-            <span>Gender</span>
-            <span>*</span>
+            <span className={styles['title-label']}>Gender</span>
+            <span className={styles['red-require']}>*</span>
           </label>
           <Select
             showSearch
@@ -120,18 +129,18 @@ function CreateOwner() {
           />
         </Col>
       </Row>
-      <Row>
-        <Col span={8}>
+      <Row className={styles['style-row']}>
+        <Col className={styles['style-col']} span={8}>
           <label htmlFor="">
-            <span>DOB</span>
-            <span>*</span>
+            <span className={styles['title-label']}>DOB</span>
+            <span className={styles['red-require']}>*</span>
           </label>
-          <DatePicker  style={{ width: '100%' }}  placeholder= 'Select a date'/>
+          <DatePicker style={{ width: '100%' }} placeholder="Select a date" />
         </Col>
-        <Col span={8}>
+        <Col className={styles['style-col']} span={8}>
           <label htmlFor="">
-            <span>Role</span>
-            <span>*</span>
+            <span className={styles['title-label']}>Role</span>
+            <span className={styles['red-require']}>*</span>
           </label>
           <Select
             showSearch
@@ -161,10 +170,10 @@ function CreateOwner() {
             ]}
           />
         </Col>
-        <Col span={8}>
+        <Col className={styles['style-col']} span={8}>
           <label htmlFor="">
-            <span>Status</span>
-            <span>*</span>
+            <span className={styles['title-label']}>Status</span>
+            <span className={styles['red-require']}>*</span>
           </label>
           <Select
             showSearch
@@ -195,6 +204,20 @@ function CreateOwner() {
           />
         </Col>
       </Row>
+      <div className="choose-container">
+        <div className="checkbox-garage">
+            <Input placeholder="Search for garages .." />
+            <Checkbox onChange={onChangeBox}>Garage ABC</Checkbox>
+            <Checkbox onChange={onChangeBox}>TLS</Checkbox>
+            <Checkbox onChange={onChangeBox}>AHC</Checkbox>
+            <Checkbox onChange={onChangeBox}>CB Garage</Checkbox>
+            <Checkbox onChange={onChangeBox}>UCQ</Checkbox>
+        </div>
+        <div className="list-garage">
+            <label htmlFor="">Select garages</label>
+            
+        </div>
+      </div>
       <Form.Item>
         <Space>
           <Button type="primary" htmlType="submit">

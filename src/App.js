@@ -11,16 +11,21 @@ import ChangePassword from './components/ChangePassword/index.jsx';
 import Profile_page from './pages/Profile/index.jsx';
 import Change_pw_page from './pages/Change_password/index.jsx';
 import Update_Page from './pages/Update_page/index.jsx';
+import Update_Owner from './pages/Update_owner/Update_Owner.jsx';
 
 
 function App() {
   return (
     <div className="App">
-      <Login></Login>
-      {/* <Slide_bar></Slide_bar> */}
+      {/* <Login></Login> */}
+      <Slide_bar>
+        <Update_Owner></Update_Owner>
+        {/* <ViewProfile></ViewProfile> */}
+      </Slide_bar>
       {/* <Profile_page></Profile_page> */}
       {/* <Change_pw_page></Change_pw_page> */}
       {/* <Update_Page></Update_Page> */}
+
     </div>
   );
 

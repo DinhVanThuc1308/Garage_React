@@ -30,6 +30,7 @@ function ChangePassword() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <p style={{color: 'gray'}}>Now you can create a new Password for your account  </p>
       <div>
         <label htmlFor="currentPassword">Current Password:</label>
         <br />

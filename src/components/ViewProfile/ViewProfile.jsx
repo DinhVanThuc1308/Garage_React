@@ -1,12 +1,12 @@
 import React from 'react'
 import './ViewProfile.css';
-import ellipse from './view_img.jpg';
+import ellipse from './avt2.jpg';
 export default function ViewProfile() {
     return (
         <div className='container-view'>
             <div className='pf-container'>
                 <div className='avatar'>
-                    <img src={ellipse} />
+                    <img className='img_view_profile' src={ellipse} />
                 </div>
                 <div className='info-wrapper'>
                     <div className='info-left'>

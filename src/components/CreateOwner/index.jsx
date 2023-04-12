@@ -1,10 +1,18 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import { Button, Form, Input, message, Space, Select, DatePicker, Checkbox } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Space,
+  Select,
+  DatePicker,
+  Checkbox,
+} from 'antd';
 import dayjs from 'dayjs';
-import binlogo from './Vector.svg'
+import binicon from './Vector.svg';
 import styles from './styles.module.css';
-
 
 function CreateOwner() {
   // form
@@ -30,12 +38,12 @@ function CreateOwner() {
   };
   // date picker
 
-//   Checkbox
-const onChangeBox = (e) => {
+  //   Checkbox
+  const onChangeBox = e => {
     console.log(`checked = ${e.target.checked}`);
   };
   return (
-    <div>
+    <div className={styles['create-form']}>
       <Row className={styles['style-row']}>
         <Col
           className={styles['style-col']}
@@ -204,30 +212,35 @@ const onChangeBox = (e) => {
           />
         </Col>
       </Row>
-      <div className="choose-container">
-        <div className="checkbox-garage">
-            <Input placeholder="Search for garages .." />
+      <div className={styles['choose-container']}>
+        <div className={styles['checkbox-garage']}>
+          <Input placeholder="Search for garages .." />
+          <div className={styles['checkbox-list']}>
             <Checkbox onChange={onChangeBox}>Garage ABC</Checkbox>
             <Checkbox onChange={onChangeBox}>TLS</Checkbox>
             <Checkbox onChange={onChangeBox}>AHC</Checkbox>
             <Checkbox onChange={onChangeBox}>CB Garage</Checkbox>
             <Checkbox onChange={onChangeBox}>UCQ</Checkbox>
+          </div>
         </div>
-        <div className="list-garage">
-            <label htmlFor="">Select garages</label>
-            
+        <div className={styles['list-garage']}>
+          <label htmlFor="">Select garages (2)</label>
+          <div className={styles['pickitem']}>
+            <div className="pickitem-name">Garage ABC</div>
+            <img src={binicon} alt="" />
+          </div>
+          <div className={styles['pickitem']}>
+            <div className="pickitem-name">TLS</div>
+            <img src={binicon} alt="" />
+          </div>
         </div>
       </div>
-      <Form.Item>
-        <Space>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-          <Button htmlType="button" onClick={onFill}>
-            Fill
-          </Button>
-        </Space>
-      </Form.Item>
+
+      <hr />
+      <div className={styles['btn-container']}>
+        <Button type='primary' className={styles['btn-save']}>Save</Button>
+        <Button className={styles['btn-cancel']}>Cancel</Button>
+      </div>
     </div>
   );
 }

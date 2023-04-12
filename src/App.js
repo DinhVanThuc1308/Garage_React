@@ -17,8 +17,8 @@ function App() {
       {/* <Profile_page></Profile_page> */}
       {/* <Change_pw_page></Change_pw_page> */}
       {/* <Update_Page></Update_Page> */}
-      {/* <CreateOwner_page></CreateOwner_page> */}
-      <ViewProfile_page />
+      <CreateOwner_page></CreateOwner_page>
+      {/* <ViewProfile_page /> */}
     </div>
   );
 

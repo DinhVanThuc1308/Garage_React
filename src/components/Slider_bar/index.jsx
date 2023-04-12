@@ -40,22 +40,22 @@ const Slide_bar = ({ children }) => {
                     items={[
                         {
                             key: '1',
-                            // icon: <img src={sb_img}></img>,
+                            icon: <img src={sb_img}></img>,
                             label: 'Garage',
                         },
                         {
                             key: '2',
-                            // icon: <img src={sb_img}></img>,
+                            icon: <img src={sb_img}></img>,
                             label: 'Garage-owner',
                         },
                         {
                             key: '3',
-                            // icon: <img src={sb_img}></img>,
+                            icon: <img src={sb_img}></img>,
                             label: 'Garage-staff',
                         },
                         {
                             key: '4',
-                            // icon: <img src={sb_img}></img>,
+                            icon: <img src={sb_img}></img>,
                             label: 'Garage-services',
                         },
                     ]}

@@ -44,6 +44,10 @@ div {
     flex-grow: 0; */
 }
 
+.img_view_profile {
+    border-radius: 50%;
+}
+
 .container-view {
     /* Frame 48098312 */
 

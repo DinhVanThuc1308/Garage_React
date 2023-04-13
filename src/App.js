@@ -19,15 +19,15 @@ function App() {
   return (
     <div className="App">
       {/* <Login></Login> */}
-      <Slide_bar>
+      {/* <Slide_bar> */}
         {/* <Update_Owner></Update_Owner> */}
-        <Change_pw_page/>
+        {/* <Change_pw_page/> */}
         {/* <ViewProfile></ViewProfile> */}
-      </Slide_bar>
+      {/* </Slide_bar> */}
       {/* <Profile_page></Profile_page> */}
       {/* <Change_pw_page></Change_pw_page> */}
       {/* <Update_Page></Update_Page> */}
-      {/* <CreateOwner_page></CreateOwner_page> */}
+      <CreateOwner_page></CreateOwner_page>
       {/* <ViewProfile_page /> */}
 
     </div>

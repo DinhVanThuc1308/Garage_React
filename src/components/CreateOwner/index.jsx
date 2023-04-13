@@ -216,7 +216,7 @@ function CreateOwner() {
         <div className={styles['checkbox-garage']}>
           <Input placeholder="Search for garages .." />
           <div className={styles['checkbox-list']}>
-            <Checkbox onChange={onChangeBox}>Garage ABC</Checkbox>
+            <Checkbox style={{marginLeft: '8px'}} onChange={onChangeBox}>Garage ABC</Checkbox>
             <Checkbox onChange={onChangeBox}>TLS</Checkbox>
             <Checkbox onChange={onChangeBox}>AHC</Checkbox>
             <Checkbox onChange={onChangeBox}>CB Garage</Checkbox>
@@ -236,7 +236,7 @@ function CreateOwner() {
         </div>
       </div>
 
-      <hr />
+      <hr style={{width: '100%'}}/>
       <div className={styles['btn-container']}>
         <Button type='primary' className={styles['btn-save']}>Save</Button>
         <Button className={styles['btn-cancel']}>Cancel</Button>

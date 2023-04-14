@@ -101,7 +101,7 @@ const Slide_bar = ({ children }) => {
           }}
         >
           <h1>My Profile</h1>
-         
+
         </div>
         {/* <Breadcrumb
             separator=">"
@@ -120,15 +120,10 @@ const Slide_bar = ({ children }) => {
             margin: '24px 16px',
             padding: 24,
             minHeight: 280,
-            background: colorBgContainer,
+            // background: colorBgContainer,
           }}
         >
-          <CreateOwner></CreateOwner>
-          {/* <ViewProfile></ViewProfile> */}
-          {/* <SearchAndFilter /> */}
-          {/* <Update_Profile /> */}
-          {/* <h1>Change Password</h1>
-                    <ChangePassword /> */}
+          {children}
         </Content>
       </Layout>
     </Layout>

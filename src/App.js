@@ -13,7 +13,6 @@ import Update_Page from './pages/Update_page/index.jsx';
 import Page_update_owner from './pages/Page_update_owner/Page_update_owner.jsx';
 import CreateOwner_page from './pages/CreateOwner_page/index.jsx';
 import ViewProfile_page from './pages/ViewProfile_page/index.jsx';
-import Update_Owner from './pages/Update_owner/Update_Owner.jsx';
 import Garage_Detail from './pages/Garage_Detail/index.jsx';
 
 function App() {

@@ -20,6 +20,7 @@ import Table from '../Table';
 // import Button from "../Button";
 import Icon from './asset/img/Vector.png';
 import Logout from '../Logout/Logout';
+import { Link } from "react-router-dom";
 
 // View Profile
 import ViewProfile from '../ViewProfile/ViewProfile';
@@ -56,7 +57,7 @@ const Slide_bar = ({ children }) => {
             {
               key: '2',
               icon: <img src={sb_img}></img>,
-              label: 'Garage-owner',
+              label: <Link to="/garage_owner">Garage Owner</Link>,
             },
             {
               key: '3',
@@ -67,6 +68,7 @@ const Slide_bar = ({ children }) => {
               key: '4',
               icon: <img src={sb_img}></img>,
               label: 'Garage-services',
+
             },
           ]}
         />
@@ -90,19 +92,7 @@ const Slide_bar = ({ children }) => {
           {/* <Logout></Logout> */}
         </Header>
 
-        <div
-          style={{
-            fontFamily: 'Poppins',
-            fontStyle: 'normal',
-            fontWeight: 700,
-            fontSize: '24px',
-            lineHeight: '32px',
-            margin: '24px 16px',
-          }}
-        >
-          <h1>My Profile</h1>
 
-        </div>
         {/* <Breadcrumb
             separator=">"
             items={[

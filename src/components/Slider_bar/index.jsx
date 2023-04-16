@@ -97,7 +97,8 @@ const Slide_bar = ({ children }) => {
             fontWeight: 700,
             fontSize: '24px',
             lineHeight: '32px',
-            margin: '24px 16px',
+            marginLeft: '16px',
+            marginTop: '16px',
           }}
         >
           <h1>My Profile</h1>

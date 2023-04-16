@@ -34,3 +34,7 @@ h2 {
     line-height: 24px;
 
 }
+
+.ant-transfer-list .ant-transfer-list-body .ant-transfer-list-body-search-wrapper .ant-input-affix-wrapper {
+    /* display: none; */
+}

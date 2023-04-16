@@ -6,14 +6,17 @@ import * as serviceWorker from './serviceWorker';
 import 'antd/dist/reset.css';
 import './index.css';
 import Slide_bar from './components/Slider_bar';
+import { BrowserRouter } from 'react-router-dom';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    {/* <Slide_bar /> */}
-    <App />
+    <BrowserRouter>
+      {/* <Slide_bar /> */}
+      <App />
+    </BrowserRouter>
   </StrictMode>
 );
 

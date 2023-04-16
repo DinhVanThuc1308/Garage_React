@@ -2,6 +2,8 @@ import { Space, Table } from 'antd';
 import eye from './assets/Icon/eye.png';
 import edit from './assets/Icon/Edit.png';
 import deleteIcon from './assets/Icon/Vector.png';
+import { Link } from 'react-router-dom';
+
 const columns = [
     {
         title: '#',
@@ -11,7 +13,7 @@ const columns = [
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        
+
     },
     {
         title: 'Email',
@@ -58,8 +60,9 @@ const columns = [
         key: 'action',
         render: (_, record) => (
             <Space size="middle">
-                <a><img src={eye} style={{width:'14.05px',height:'16.03px'}}/></a>
-                <a><img src={edit} /></a>
+
+                <Link to="/garage_detail"><img src={eye} style={{ width: '14.05px', height: '16.03px' }} /></Link>
+                <Link to="/update_owner"><img src={edit} /></Link>
                 <a><img src={deleteIcon} /></a>
             </Space>
         ),

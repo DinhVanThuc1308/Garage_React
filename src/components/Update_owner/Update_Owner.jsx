@@ -6,7 +6,6 @@ import { DatePicker, TimePicker } from 'antd';
 import './Update_Owner.css';
 import { Switch, Transfer } from 'antd';
 import { useState } from 'react';
-import Footer_update_owner from '../Footer_update_owner/Footer_update_owner';
 
 
 const style = {
@@ -120,7 +119,7 @@ const Update_Owner = () => (
             </Col>
         </Row>
 
-        <Footer_update_owner></Footer_update_owner>
+
 
     </>
 );

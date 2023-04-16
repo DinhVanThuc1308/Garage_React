@@ -123,7 +123,7 @@ const Slide_bar = ({ children }) => {
             background: colorBgContainer,
           }}
         >
-          <CreateOwner></CreateOwner>
+          {/* <CreateOwner></CreateOwner> */}
           {/* <ViewProfile></ViewProfile> */}
           {/* <SearchAndFilter /> */}
           {/* <Update_Profile /> */}

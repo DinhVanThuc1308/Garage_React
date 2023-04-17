@@ -22,6 +22,7 @@ import Icon from './asset/img/Vector.png';
 import Logout from '../Logout/Logout';
 import { Link } from "react-router-dom";
 
+
 // View Profile
 import ViewProfile from '../ViewProfile/ViewProfile';
 
@@ -32,6 +33,7 @@ const Slide_bar = ({ children }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const [isLogoutVisible, setIsLogoutVisible] = useState(false);
   return (
     <Layout>
       <Sider
@@ -88,8 +90,9 @@ const Slide_bar = ({ children }) => {
             }
           )}
 
-          <Header_content></Header_content>
-          {/* <Logout></Logout> */}
+          <Header_content toggleLogout={() => setIsLogoutVisible(!isLogoutVisible)} ></Header_content>
+          <Logout isVisible={isLogoutVisible}></Logout>
+
         </Header>
 
 

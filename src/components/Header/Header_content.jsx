@@ -3,15 +3,11 @@ import menu_icon from '../Header/asset/img/Menu_icon.png';
 import Header_avt from '../Header/asset/img/avt2.jpg'
 import './Header.css';
 import Logout from "../Logout/Logout";
+import { useState } from 'react';
 
-
-const EClick = () => {
-
-}
-
-function Header_content() {
+function Header_content(props) {
     return (
-        <div onClick={EClick} className="container_mini_profile">
+        <div onClick={props.toggleLogout} className="container_mini_profile">
             <div className="header__mini_profile">
                 <img className="header_avt" src={Header_avt}></img>
                 <div className="header__text">

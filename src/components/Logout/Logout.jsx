@@ -3,9 +3,9 @@ import './Logout.css';
 import Header_avt from '../Header/asset/img/avt2.jpg';
 import Logout_img from './asset/img/logout_img.png';
 
-function Logout() {
+function Logout(props) {
     return (
-        <div className="container">
+        <div className={`container ${props.isVisible ? 'show' : 'hide'}`}>
             <div className="Logout_UI">
                 <div className="logout_item1">
                     <img className="logout_avt" src={Header_avt}></img>
@@ -14,7 +14,7 @@ function Logout() {
 
                 <div className="logout_item2">
                     <img className="logout_img" src={Logout_img}></img>
-                    <span className="item2_text">Đăng xuất</span>
+                    <span className="item2_text">Logout</span>
                 </div>
             </div>
         </div>

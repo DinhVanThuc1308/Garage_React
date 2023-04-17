@@ -1,8 +1,6 @@
 import React from 'react';
 import Login from './pages/Authorization/Login/index.jsx';
 import { Route, Routes } from 'react-router-dom';
-
-
 // import ChangePassword from './components/ChangePassword/index.jsx';
 import Slide_bar from './components/Slider_bar/index.jsx';
 
@@ -20,6 +18,7 @@ import GarageOwner from './pages/GarageOwner/index.jsx';
 
 
 function App() {
+
   return (
     <div className="App">
       <Routes>
@@ -32,10 +31,7 @@ function App() {
         <Route path="/garage_detail" element={<Garage_Detail />} />
         <Route path="/update_owner" element={<Page_update_owner />} />
         <Route path="/garage_owner" element={<GarageOwner />} />
-        
-
       </Routes>
-      
       {/* <Login></Login> */}
       {/* <Page_update_owner></Page_update_owner> */}
       {/* <Change_pw_page/> */}

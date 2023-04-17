@@ -2,6 +2,7 @@ import { Transfer } from 'antd';
 import { useState } from 'react';
 import './Footer_update_owner.css';
 
+
 const mockData = [{ key: '0', title: 'Garage ABC', description: 'description of content1' },
 { key: '1', title: 'TLS', description: 'description of content2' },
 { key: '2', title: 'AHC', description: 'description of content3' },

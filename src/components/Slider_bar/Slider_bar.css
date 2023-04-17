@@ -20,14 +20,20 @@
     left: 24px;
     top: 80px;
     color: #919FB6;
-
-
     /* Paragraph 3/Medium */
 
     font-family: 'Poppins';
     font-style: normal;
-
 }
+
+.ant-menu-item {
+    transition: 0.5s linear;
+}
+
+.ant-menu-item:hover {
+    transform: scale(1.05);
+}
+
 
 .Slider_text {
     width: 45px;
@@ -48,5 +54,13 @@
     margin-left: 25px;
     margin-top: 20px;
 }
+
+Header {
+    z-index: 1;
+}
+
+
+
+
 
 /* end slide-bar */

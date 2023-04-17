@@ -90,14 +90,15 @@ function CreateOwner() {
         </Col>
         <Col className="gutter-row" span={8}>
           <Form.Item
-            className="Garage_require"
+            className={styles['antform-size']}
             label="Open time"
             rules={[{ required: true, message: 'Please select your Status!' }]}
             name="Status"
           ></Form.Item>
           <Select
             size="large"
-            className="Garage_select"
+            
+            className={styles['antform-size']}
             placeholder="Select a Status"
             allowClear
           >
@@ -108,14 +109,14 @@ function CreateOwner() {
         </Col>
         <Col className="gutter-row" span={8}>
           <Form.Item
-            className="Garage_require"
+            className={styles['antform-size']}
             label="Close"
             rules={[{ required: true, message: 'Please input your gender!' }]}
             name="Gender"
           ></Form.Item>
           <Select
             size="large"
-            className="Garage_select"
+            className={styles['antform-size']}
             placeholder="Select Garage gender"
             allowClear
           >
@@ -127,14 +128,14 @@ function CreateOwner() {
 
         <Col className="gutter-row" span={8}>
           <Form.Item
-            className="Garage_require"
+            className={styles['antform-size']}
             label="Role"
             rules={[{ required: true, message: 'Please select your role!' }]}
             name="Role"
           ></Form.Item>
           <Select
             size="large"
-            className="Garage_select"
+            className={styles['antform-size']}
             placeholder="Select a role"
             allowClear
           >
@@ -145,14 +146,14 @@ function CreateOwner() {
         </Col>
         <Col className="gutter-row" span={8}>
           <Form.Item
-            className="Garage_require"
+           className={styles['antform-size']}
             label="Status"
             rules={[{ required: true, message: 'Please select your Status!' }]}
             name="Status"
           ></Form.Item>
           <Select
             size="large"
-            className="Garage_select"
+            className={styles['antform-size']}
             placeholder="Select a Status"
             allowClear
           >

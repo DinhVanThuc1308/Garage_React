@@ -5,13 +5,13 @@ import { AuthContext } from '../context/auth';
 const AuthRoutes = () => {
   const isAuth = useContext(AuthContext).checkLogin;
 
-  return isAuth ? <Outlet /> : <Navigate to="/" />;
+  return isAuth ? <Outlet /> : <Navigate to="/login" />;
 };
 
 const GuestRoutes = () => {
   const isAuth = useContext(AuthContext).checkLogin;
   console.log(isAuth);
-  return isAuth ? <Navigate to="/profile" /> : <Outlet />;
+  return isAuth ? <Navigate to="/" /> : <Outlet />;
 };
 
 export { AuthRoutes, GuestRoutes };

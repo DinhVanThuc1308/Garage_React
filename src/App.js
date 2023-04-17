@@ -27,10 +27,10 @@ function App() {
     <div className="App">
       <Routes>
         <Route element={<GuestRoutes />}>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Route>
         <Route element={<AuthRoutes />}>
-          <Route path="/profile" element={<Profile_page />} />
+          <Route path="/" element={<Profile_page />} />
           <Route path="/change_password" element={<Change_pw_page />} />
           <Route path="/update" element={<Update_Page />} />
           <Route path="/create_owner" element={<CreateOwner_page />} />

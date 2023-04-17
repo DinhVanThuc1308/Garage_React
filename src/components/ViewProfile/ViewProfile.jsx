@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './ViewProfile.module.css';
 import ellipse from './avt2.jpg';
+import { Link } from 'react-router-dom';
 export default function ViewProfile() {
     return (
         <div className={styles['container-view']}>
@@ -52,7 +53,7 @@ export default function ViewProfile() {
                     <a href='/update-profile'>Update Profile</a>
                 </button>
                 <button className={styles['change-btn']}>
-                    <a href='/change-password'>Change Password</a>
+                    <Link to="/change_password">Change Password</Link>
                 </button>
             </div>
         </div>

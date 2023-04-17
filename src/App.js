@@ -2,7 +2,6 @@ import React from 'react';
 import Login from './pages/Authorization/Login/index.jsx';
 import { Route, Routes } from 'react-router-dom';
 
-
 // import ChangePassword from './components/ChangePassword/index.jsx';
 import Slide_bar from './components/Slider_bar/index.jsx';
 
@@ -17,25 +16,27 @@ import CreateOwner_page from './pages/CreateOwner_page/index.jsx';
 import ViewProfile_page from './pages/ViewProfile_page/index.jsx';
 import Garage_Detail from './pages/Garage_Detail/index.jsx';
 import GarageOwner from './pages/GarageOwner/index.jsx';
-
+import { AuthRoutes, GuestRoutes } from './middleware/PrivateRoutes.js';
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/profile" element={<Profile_page />} />
-        <Route path="/change_password" element={<Change_pw_page />} />
-        <Route path="/update" element={<Update_Page />} />
-        <Route path="/create_owner" element={<CreateOwner_page />} />
-        <Route path="/view_profile" element={<ViewProfile_page />} />
-        <Route path="/garage_detail" element={<Garage_Detail />} />
-        <Route path="/update_owner" element={<Page_update_owner />} />
-        <Route path="/garage_owner" element={<GarageOwner />} />
-        
-
+        <Route element={<GuestRoutes />}>
+          <Route path="/" element={<Login />} />
+        </Route>
+        <Route element={<AuthRoutes />}>
+          <Route path="/profile" element={<Profile_page />} />
+          <Route path="/change_password" element={<Change_pw_page />} />
+          <Route path="/update" element={<Update_Page />} />
+          <Route path="/create_owner" element={<CreateOwner_page />} />
+          <Route path="/view_profile" element={<ViewProfile_page />} />
+          <Route path="/garage_detail" element={<Garage_Detail />} />
+          <Route path="/update_owner" element={<Page_update_owner />} />
+          <Route path="/garage_owner" element={<GarageOwner />} />
+        </Route>
       </Routes>
-      
+
       {/* <Login></Login> */}
       {/* <Page_update_owner></Page_update_owner> */}
       {/* <Change_pw_page/> */}
@@ -45,10 +46,8 @@ function App() {
       {/* <Update_Page></Update_Page> */}
       {/* <CreateOwner_page></CreateOwner_page> */}
       {/* <ViewProfile_page /> */}
-
     </div>
   );
-
 }
 
 export default App;

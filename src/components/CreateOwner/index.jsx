@@ -13,6 +13,7 @@ import {
 import dayjs from 'dayjs';
 import binicon from './Vector.svg';
 import styles from './styles.module.css';
+import { Option } from 'antd/es/mentions';
 
 function CreateOwner() {
   // form
@@ -44,179 +45,116 @@ function CreateOwner() {
   };
   return (
     <div className={styles['create-form']}>
-      <Row className={styles['style-row']}>
-        <Col
-          className={styles['style-col']}
-          span={8}
-          rules={[
-            // {
-            //   required: true,
-            // },
-            {
-              type: 'name',
-              warningOnly: true,
-            },
-            {
-              type: 'string',
-              min: 6,
-            },
-          ]}
-        >
-          <label htmlFor="">
-            <span className={styles['title-label']}>Name</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
+      <Row gutter={[30, 20]}>
+            <Col className="gutter-row Owner_col" span={8}>
+                <Form.Item className='Owner_require'
+                    label="Name"
+                    rules={[{ required: true, message: 'Please input your name!' }]}
+                    name="Name"
+                ></Form.Item>
+                <Input size="large" placeholder="Enter owner name" />
+            </Col>
+            <Col className="gutter-row" span={8}>
+                <Form.Item className='Owner_require'
+                    label="Email"
+                    rules={[{ required: true, message: 'Please input your email!' }]}
+                    name="Email"
+                ></Form.Item>
+                <Input size="large" placeholder="Enter owner email" />
 
-          <Input placeholder="Enter owner name" />
-        </Col>
-        <Col className={styles['style-col']} span={8}>
-          {' '}
-          <label htmlFor="">
-            <span className={styles['title-label']}>Email</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
-          <Input placeholder="Enter owner email" />
-        </Col>
-        <Col className={styles['style-col']} span={8}>
-          {' '}
-          <label htmlFor="">
-            <span className={styles['title-label']}>Username</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
-          <Input placeholder="Enter owner username" />
-        </Col>
-      </Row>
-      <Row className={styles['style-row']}>
-        <Col className={styles['style-col']} span={8}>
-          {' '}
-          <label htmlFor="">
-            <span className={styles['title-label']}>Password</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
-          <Input placeholder="Enter owner password" />
-        </Col>
-        <Col className={styles['style-col']} span={8}>
-          <label htmlFor="">
-            <span className={styles['title-label']}>Phone number</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
+            </Col>
+            <Col className="gutter-row" span={8}>
+                <Form.Item className='Owner_require'
+                    label="Username"
+                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    name="Username"
+                ></Form.Item>
+                <Input size="large" placeholder="Enter owner username" />
 
-          <Input placeholder="Enter owner phone number" />
-        </Col>
-        <Col className={styles['style-col']} span={8}>
-          <label htmlFor="">
-            <span className={styles['title-label']}>Gender</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
-          <Select
-            showSearch
-            style={{
-              width: '100%',
-            }}
-            placeholder="Select owner gender"
-            optionFilterProp="children"
-            onChange={onChange}
-            onSearch={onSearch}
-            filterOption={(input, option) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            }
-            options={[
-              {
-                value: 'male',
-                label: 'Male',
-              },
-              {
-                value: 'female',
-                label: 'Female',
-              },
-              {
-                value: 'other',
-                label: 'Other',
-              },
-            ]}
-          />
-        </Col>
-      </Row>
-      <Row className={styles['style-row']}>
-        <Col className={styles['style-col']} span={8}>
-          <label htmlFor="">
-            <span className={styles['title-label']}>DOB</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
-          <DatePicker style={{ width: '100%' }} placeholder="Select a date" />
-        </Col>
-        <Col className={styles['style-col']} span={8}>
-          <label htmlFor="">
-            <span className={styles['title-label']}>Role</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
-          <Select
-            showSearch
-            style={{
-              width: '100%',
-            }}
-            placeholder="Select a role"
-            optionFilterProp="children"
-            onChange={onChange}
-            onSearch={onSearch}
-            filterOption={(input, option) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            }
-            options={[
-              {
-                value: 'male',
-                label: 'Male',
-              },
-              {
-                value: 'female',
-                label: 'Female',
-              },
-              {
-                value: 'other',
-                label: 'Other',
-              },
-            ]}
-          />
-        </Col>
-        <Col className={styles['style-col']} span={8}>
-          <label htmlFor="">
-            <span className={styles['title-label']}>Status</span>
-            <span className={styles['red-require']}>*</span>
-          </label>
-          <Select
-            showSearch
-            style={{
-              width: '100%',
-            }}
-            placeholder="Select a status"
-            optionFilterProp="children"
-            onChange={onChange}
-            onSearch={onSearch}
-            filterOption={(input, option) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            }
-            options={[
-              {
-                value: 'male',
-                label: 'Male',
-              },
-              {
-                value: 'female',
-                label: 'Female',
-              },
-              {
-                value: 'other',
-                label: 'Other',
-              },
-            ]}
-          />
-        </Col>
-      </Row>
+            </Col>
+
+            <Col className="gutter-row Owner_lable" span={8}>
+                <Form.Item className='Owner_require'
+                    label="Password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                    name="password"
+                ></Form.Item>
+
+                <Input.Password size="large" placeholder="Enter owner password" />
+
+            </Col>
+            <Col className="gutter-row" span={8}>
+                <Form.Item className='Owner_require'
+                    label="Phone Number"
+                    rules={[{ required: true, message: 'Please input your phone number!' }]}
+                    name="Phone Number"
+                ></Form.Item>
+                <Input size="large" placeholder="Enter owner phone number" />
+            </Col>
+            <Col className="gutter-row" span={8}>
+
+                <Form.Item className='Owner_require'
+                    label="Gender"
+                    rules={[{ required: true, message: 'Please input your gender!' }]}
+                    name="Gender"
+                ></Form.Item>
+                <Select size="large" className='Owner_select'
+                    placeholder="Select owner gender"
+                    allowClear
+                >
+                    <Option value="Male">Male</Option>
+                    <Option value="Female">Female</Option>
+                    <Option value="Other">Other</Option>
+                </Select>
+            </Col>
+
+            <Col className="gutter-row" span={8}>
+                <Form.Item className='Owner_require'
+                    label="DOB"
+                    rules={[{ required: true, message: 'Please input your DOB!' }]}
+                    name="DOB"
+                ></Form.Item>
+                <DatePicker className='Owner_DOB' size='large'></DatePicker>
+            </Col>
+            <Col className="gutter-row" span={8}>
+                <Form.Item className='Owner_require'
+                    label="Role"
+                    rules={[{ required: true, message: 'Please select your role!' }]}
+                    name="Role"
+                ></Form.Item>
+                <Select size="large" className='Owner_select'
+                    placeholder="Select a role"
+                    allowClear
+                >
+                    <Option value="Male">User</Option>
+                    <Option value="Female">.....</Option>
+                    <Option value="Other">.....</Option>
+                </Select>
+            </Col>
+            <Col className="gutter-row" span={8}>
+                <Form.Item className='Owner_require'
+                    label="Status"
+                    rules={[{ required: true, message: 'Please select your Status!' }]}
+                    name="Status"
+                ></Form.Item>
+                <Select size="large" className='Owner_select'
+                    placeholder="Select a Status"
+                    allowClear
+                >
+                    <Option value="Male">Active</Option>
+                    <Option value="Female">.....</Option>
+                    <Option value="Other">.....</Option>
+                </Select>
+            </Col>
+        </Row>
+
       <div className={styles['choose-container']}>
         <div className={styles['checkbox-garage']}>
-          <Input placeholder="Search for garages .." />
+          <Input size='large' placeholder="Search for garages .." />
           <div className={styles['checkbox-list']}>
-            <Checkbox style={{marginLeft: '8px'}} onChange={onChangeBox}>Garage ABC</Checkbox>
+            <Checkbox style={{ marginLeft: '8px' }} onChange={onChangeBox}>
+              Garage ABC
+            </Checkbox>
             <Checkbox onChange={onChangeBox}>TLS</Checkbox>
             <Checkbox onChange={onChangeBox}>AHC</Checkbox>
             <Checkbox onChange={onChangeBox}>CB Garage</Checkbox>
@@ -236,10 +174,12 @@ function CreateOwner() {
         </div>
       </div>
 
-      <hr style={{width: '100%'}}/>
+      <hr style={{ width: '100%' }} />
       <div className={styles['btn-container']}>
-        <Button type='primary' className={styles['btn-save']}>Save</Button>
-        <Button className={styles['btn-cancel']}>Cancel</Button>
+        <Button size='large' type="primary" className={styles['btn-save']}>
+          Save
+        </Button>
+        <Button size='large' type='default' className={styles['btn-cancel']}>Cancel</Button>
       </div>
     </div>
   );

@@ -7,16 +7,19 @@ import 'antd/dist/reset.css';
 import './index.css';
 import Slide_bar from './components/Slider_bar';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/auth';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      {/* <Slide_bar /> */}
-      <App />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        {/* <Slide_bar /> */}
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
   </StrictMode>
 );
 

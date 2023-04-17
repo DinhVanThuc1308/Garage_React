@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import "./login.css";
 import {
@@ -6,47 +6,31 @@ import {
   Form,
   Input,
 } from 'antd';
+import { AuthContext } from "../../../context/auth";
+import { useNavigate } from "react-router-dom";
 export default function Login() {
 
+  const auth = useContext(AuthContext);
+  const nav = useNavigate()
 
   const API = "https://edison-garage-api.savvycom.xyz/api/auth/local";
-  //   const newData = {};
-  // Lưu dữ liệu vào localsotrage
-  //   const saveData = (data) => {
-  //     // let a = localStorage.setItem("data", JSON.stringify(data));
-  //     // console.log(a);
-  //   };
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    console.log('SUBMIT',e);
-    const data = new FormData(e.currentTarget);
+
     const account = {
-      identifier: data.get("email"),
-      password: data.get("password"),
+      identifier: e.username,
+      password: e.password,
     };
-    console.log(account);
+
     getAPI(account);
   };
 
   function getAPI(data) {
     axios.post(API, data, {
     }).then((res) => {
-      // const newData = res.data;
-      console.log(res.data);
-      localStorage.setItem("data", JSON.stringify(res.data.jwt));
+      auth.setKey(res.data.jwt)
+      nav('/profile')
     });
   }
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const data = new FormData(e.currentTarget);
-  //   const account = {
-  //     identifier: data.get("email"),
-  //     password: data.get("password"),
-  //   };
-  //   console.log(account);
-  //   getAPI(account);
-  // };
 
   const formItemLayout = {
     labelCol: {
@@ -83,12 +67,12 @@ export default function Login() {
           <br /> */}
         <Form onFinish={handleSubmit} {...formItemLayout} layout="vertical">
           <Form.Item
-            name="email"
-            label="E-mail"
+            name="username"
+            label="User Name"
             rules={[
               {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
+                required: true,
+                message: 'Please input your user name!',
               },
               {
                 required: true,
@@ -97,7 +81,7 @@ export default function Login() {
             ]}
           >
 
-            <Input />
+            <Input name="username" id="username" placeholder="User Name" />
 
           </Form.Item>
           <Form.Item
@@ -111,22 +95,23 @@ export default function Login() {
               {
                 min: 6,
                 message: 'Password must be at least 6 characters long',
-
               }
             ]}
             hasFeedback
           >
 
 
-            <Input.Password />
+            <Input.Password name="password" />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" style={{width:'400px',height:'48px'}} >Login</Button>
+          <Button type="primary" htmlType="submit" style={{ width: '400px', height: '48px' }} >Login</Button>
 
         </Form>
 
+
       </div>
-      {/* </form> */}
+
+
     </div>
 
   );

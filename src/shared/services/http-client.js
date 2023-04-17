@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
   async config => {
     // Do something before request is sent
     const token = localStorage.getItem(ACCESS_TOKEN) || '';
-
+    console.log('token', token);
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }

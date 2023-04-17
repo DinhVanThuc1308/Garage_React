@@ -1,4 +1,5 @@
 import React from "react";
+import './style.css'
 import {
     Button,
     Form,
@@ -29,6 +30,7 @@ function Change_pw_page() {
     };
     return (
         <div className="Change_pw_page">
+            <div className="Change_pw_page_box">
             <p style={{ color: 'gray' }}>Now you can create a new Password for your account  </p>
             <Form {...formItemLayout} layout="vertical">
                 <Form.Item
@@ -95,34 +97,10 @@ function Change_pw_page() {
                 </Form.Item>
                 <Form.Item >
                     <Button type="primary" htmlType="submit" style={{ width: '15%', height: '48px', margin: '15px 30px', }}>Save</Button>
-                    <Button style={{ width: '15%', height: '48px', border: "2px solid #8767E1", paddingLeft:"8px" }}>Cancel</Button>
+                    <Button style={{ width: '15%', height: '48px', border: "2px solid #8767E1", paddingLeft: "8px" }}>Cancel</Button>
                 </Form.Item>
             </Form>
-
-
-
-
-            {/* <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="currentPassword">Current Password:</label>
-        <br />
-        <input type="password" name="currentPassword" value={currentPassword} onChange={handleChange} />
-      </div>
-      <div>
-        <label htmlFor="newPassword">New Password:</label>
-        <br />
-        <input type="password" name="newPassword" value={newPassword} onChange={handleChange} />
-      </div>
-      <div>
-        <label htmlFor="confirmPassword">Confirm Password:</label>
-        <br />
-        <input type="password" name="confirmPassword" value={confirmPassword} onChange={handleChange} />
-      </div>
-      <div className="div-btn">
-      <button type="submit">Save</button>
-      <button type="button">Cancel</button>
-      </div>
-    </form>    */}
+            </div>
         </div>
     );
 }

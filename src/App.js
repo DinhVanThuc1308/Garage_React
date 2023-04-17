@@ -18,6 +18,7 @@ import CreateGarage_page from './pages/CreateGarage_page/index.jsx';
 import ViewProfile_page from './pages/ViewProfile_page/index.jsx';
 import Garage_Detail from './pages/Garage_Detail/index.jsx';
 import GarageOwner from './pages/GarageOwner/index.jsx';
+import UpdateService_page from './pages/UpdateService_page/index.jsx';
 
 
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/update_owner" element={<Page_update_owner />} />
         <Route path="/garage_owner" element={<GarageOwner />} />
         <Route path="/create_garage" element={<CreateGarage_page />} />
+        <Route path="/update_service" element={<UpdateService_page />} />
         
 
       </Routes>

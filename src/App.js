@@ -14,9 +14,11 @@ import Change_pw_page from './pages/Change_password/index.jsx';
 import Update_Page from './pages/Update_page/index.jsx';
 import Page_update_owner from './pages/Page_update_owner/Page_update_owner.jsx';
 import CreateOwner_page from './pages/CreateOwner_page/index.jsx';
+import CreateGarage_page from './pages/CreateGarage_page/index.jsx';
 import ViewProfile_page from './pages/ViewProfile_page/index.jsx';
 import Garage_Detail from './pages/Garage_Detail/index.jsx';
 import GarageOwner from './pages/GarageOwner/index.jsx';
+
 
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
         <Route path="/garage_detail" element={<Garage_Detail />} />
         <Route path="/update_owner" element={<Page_update_owner />} />
         <Route path="/garage_owner" element={<GarageOwner />} />
+        <Route path="/create_garage" element={<CreateGarage_page />} />
         
 
       </Routes>

@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
 import './style.css'
+import swal from 'sweetalert';
 import { useEffect } from "react";
 // import { AuthContext } from "../../../context/auth";
 import { useNavigate } from "react-router-dom";
 import Slide_bar from "../../components/Slider_bar/index";
+import axiosInstance from '../../shared/services/http-client.js';
+
 
 import {
     Button,
@@ -17,16 +20,34 @@ function Change_pw_page() {
     // const auth = useContext(AuthContext);
     // const nav = useNavigate()    
     const API = "https://edison-garage-api.savvycom.xyz/api/auth/local";
-    function getAPI(data) {
-        axios.post(API, data, {
-        }).then((res) => {
-            console.log(res);
 
-        });
-    }
+
 
     const handleSubmit = (e) => {
-        console.log(e.CurrentPassword);
+        const data = {
+            currentPassword: e.CurrentPassword,
+            password: e.NewPassword,
+            passwordConfirmation: e.ConfirmPassword,
+        }
+        try {
+            axiosInstance.post("auth/change-password", data).then((res) => {
+                swal({
+                    title: 'Good job!',
+                    text: 'Changepassword is successful!',
+                    icon: 'success',
+                    button: 'OK',
+                    position: 'top-end',
+                    width: 400,
+                    padding: '2em',
+                    backdrop: true,
+                    timer: 1000,
+                })
+            }
+            )
+        } catch (error) {
+            console.log(error)
+
+        }
     };
     const formItemLayout = {
         labelCol: {
@@ -89,7 +110,7 @@ function Change_pw_page() {
                             ]}
                             hasFeedback
                         >
-                            <Input.Password placeholder="Enter New Password" />
+                            <Input.Password name="NewPassword" placeholder="Enter New Password" />
                         </Form.Item>
                         <Form.Item
                             name="ConfirmPassword"
@@ -112,7 +133,7 @@ function Change_pw_page() {
                                 // }),
                             ]}
                         >
-                            <Input.Password placeholder="Enter confirm Password" />
+                            <Input.Password name="ConfirmPassword" placeholder="Enter confirm Password" />
                         </Form.Item>
                         <Form.Item >
                             <Button type="primary" htmlType="submit" style={{ width: '15%', height: '48px', margin: '15px 30px', }}>Save</Button>

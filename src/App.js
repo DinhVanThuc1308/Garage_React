@@ -20,8 +20,6 @@ import GarageOwner from './pages/GarageOwner/index.jsx';
 import { AuthRoutes, GuestRoutes } from './middleware/PrivateRoutes.js';
 import UpdateService_page from './pages/UpdateService_page/index.jsx';
 
-
-
 function App() {
   return (
     <div className="App">
@@ -38,8 +36,8 @@ function App() {
           <Route path="/garage_detail" element={<Garage_Detail />} />
           <Route path="/update_owner" element={<Page_update_owner />} />
           <Route path="/garage_owner" element={<GarageOwner />} />
-        <Route path="/create_garage" element={<CreateGarage_page />} />
-        <Route path="/update_service" element={<UpdateService_page />} />
+          <Route path="/create_garage" element={<CreateGarage_page />} />
+          <Route path="/update_service" element={<UpdateService_page />} />
         </Route>
       </Routes>
 

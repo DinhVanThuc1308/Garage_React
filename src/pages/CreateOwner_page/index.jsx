@@ -6,7 +6,6 @@ import { Breadcrumb } from 'antd';
 function CreateOwner_page() {
   return (
     <div className="CreateOwner_page">
-        
       <Slide_bar>
         <CreateOwner></CreateOwner>
       </Slide_bar>

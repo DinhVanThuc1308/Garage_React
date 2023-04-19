@@ -1,5 +1,5 @@
 * {
-    margin: 0; 
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
@@ -24,6 +24,11 @@
     color: #939393;
 }
 
+.antform-size{
+    font-family: 'Poppins';
+    width: 100%;
+}
+
 .red-require {
     color: red;
 }
@@ -39,6 +44,24 @@
     border: 1px solid #DDE4EE;
     border-radius: 8px;
     margin-bottom: 0 !important;
+}
+
+.textarea-form {
+    width: 100%;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+    font-size: 14px;
+}
+
+.description-form {
+    width: 50%;
+}
+
+.policy-form {
+    width: 50%;
 }
 
 .checkbox-garage {
@@ -80,7 +103,7 @@
     justify-content: space-between;
 }
 
-.btn-container{
+.btn-container {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -89,7 +112,7 @@
     margin-top: 16px;
 }
 
-.btn-save{
+.btn-save {
     width: 95px;
     height: 24px;
     font-family: 'Poppins';
@@ -106,7 +129,7 @@
     background: #8767E1;
 }
 
-.btn-cancel{
+.btn-cancel {
     width: 95px;
     height: 24px;
     font-family: 'Poppins';
@@ -126,14 +149,13 @@
 
 ::-webkit-scrollbar {
     width: 5px;
- }
- 
- ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background-color: #c1c1c1;
- }
- 
- ::-webkit-scrollbar-thumb:hover {
+}
+
+::-webkit-scrollbar-thumb:hover {
     background-color: #555;
- }
- 
+}

@@ -1,11 +1,37 @@
 import React from 'react';
 import { Layout, Menu, theme, DatePicker } from 'antd';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Header_avt from '../Header/asset/img/avt2.jpg';
 import Icon from '../Slider_bar/asset/img/Vector.png';
 import './style.css';
+import moment from 'moment';
+
+
 
 function Update_Profile() {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    // const myHeaders = new Headers();
+    // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc5NjY1MzA0LCJleHAiOjE2ODIyNTczMDR9.4fpLZSqIMJSaSVOMPxATSbCODvEmVdfw0bR9MQZ_04Y");
+
+    // const requestOptions = {
+    //   method: 'GET',
+    //   headers: myHeaders,
+    //   redirect: 'follow'
+    // };
+
+    fetch("https://edison-garage-api.savvycom.xyz/api/users/1")//, requestOptions
+      .then(response => response.json())
+      .then(data => setUserData(data))
+      .catch(error => console.log('error', error));
+  }, []);
+
+  // if (!userData) {
+  //   return <p>Loading...</p>;
+  // }
+
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <div style={{ display: 'flex', flex: 9, height: '100%' }}>
@@ -50,7 +76,7 @@ function Update_Profile() {
               id="name"
               name="name"
               placeholder="Nhập tên"
-              value="Ha Nguyen"
+              value={userData.fullname}
               style={{ marginBottom: '20px', padding: '16px' }}
             />
 
@@ -61,7 +87,7 @@ function Update_Profile() {
               id="email"
               name="email"
               placeholder="Nhập email"
-              value="ha.nguyen@gmail.com"
+              value={userData.email}
               style={{
                 marginBottom: '20px',
                 padding: '16px',
@@ -77,7 +103,7 @@ function Update_Profile() {
               id="userName"
               name="userName"
               placeholder="Nhập Username"
-              value="ha.nguyen"
+              value={userData.username}
               style={{
                 marginBottom: '20px',
                 padding: '16px',
@@ -90,12 +116,13 @@ function Update_Profile() {
               className="container"
               style={{ display: 'flex', height: '100%' }}
             >
-              <div
-                style={{ flexBasis: '50%', marginRight: 10, height: '100px' }}
-              >
-                <label htmlFor="DatePicker">Dob:</label>
-                <DatePicker style={{ width: '170px', padding: '9px' }} />
-              </div>
+              <div style={{ flexBasis: '50%', marginRight: 10, height: '100px' }}>
+      <label htmlFor="DatePicker">Dob:</label>
+      <DatePicker
+        style={{ width: '170px', padding: '9px' }}
+        defaultValue={moment(userData.dob, 'YYYY-MM-DD')}
+      />
+    </div>
               <div style={{ flexBasis: '50%' }}>
                 <label htmlFor="phone">Phone Number:</label>
                 <input
@@ -103,6 +130,7 @@ function Update_Profile() {
                   id="phone"
                   name="phone"
                   placeholder="Nhập PhoneNumber"
+                  value={userData.phoneNumber}
                   style={{
                     marginBottom: '10px',
                     padding: '16px',
@@ -118,7 +146,7 @@ function Update_Profile() {
               id="address"
               name="address"
               placeholder="Nhập address"
-              value="CauGiay,HaNoi"
+              value={userData.address}
               style={{ marginBottom: '20px', padding: '16px' }}
             />
 
@@ -128,13 +156,15 @@ function Update_Profile() {
               type="Textbox"
               id="role"
               name="role"
-              value="admin"
+              value={userData.role}
               style={{
                 marginBottom: '20px',
                 padding: '16px',
                 background: '#EEEEEE',
                 borderRadius: '8px',
+
               }}
+              disabled
             />
           </form>
         </div>

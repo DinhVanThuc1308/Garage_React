@@ -17,11 +17,12 @@ import ViewProfile_page from './pages/ViewProfile_page/index.jsx';
 import Garage_Detail from './pages/Garage_Detail/index.jsx';
 import GarageOwner from './pages/GarageOwner/index.jsx';
 import { AuthRoutes, GuestRoutes } from './middleware/PrivateRoutes.js';
+import DetailService from './pages/DetailService/index.jsx'
 
 function App() {
   return (
     <div className="App">
-      <Routes>
+      {/* <Routes>
         <Route element={<GuestRoutes />}>
           <Route path="/" element={<Login />} />
         </Route>
@@ -34,9 +35,12 @@ function App() {
           <Route path="/garage_detail" element={<Garage_Detail />} />
           <Route path="/update_owner" element={<Page_update_owner />} />
           <Route path="/garage_owner" element={<GarageOwner />} />
+          <Route path="/update_profile" element={<Update_Profile/>}/>
         </Route>
-      </Routes>
+      </Routes> */}
 
+
+      {/* <Update_Profile/> */}
       {/* <Login></Login> */}
       {/* <Page_update_owner></Page_update_owner> */}
       {/* <Change_pw_page/> */}
@@ -46,6 +50,7 @@ function App() {
       {/* <Update_Page></Update_Page> */}
       {/* <CreateOwner_page></CreateOwner_page> */}
       {/* <ViewProfile_page /> */}
+      <DetailService/>
     </div>
   );
 }

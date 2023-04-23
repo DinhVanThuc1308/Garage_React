@@ -5,7 +5,7 @@ import { AuthContext } from '../context/auth';
 const AuthRoutes = () => {
   const isAuth = useContext(AuthContext).checkLogin;
 
-  return isAuth ? <Outlet /> : <Navigate to="/" />;
+  return isAuth ? <Outlet /> : <Navigate to="/login" />;
 };
 
 const GuestRoutes = () => {

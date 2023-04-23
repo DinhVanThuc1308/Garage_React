@@ -3,6 +3,7 @@ import styles from './ViewProfile.module.css';
 import ellipse from './avt2.jpg';
 import { Link } from 'react-router-dom';
 
+
 export default function ViewProfile(props) {
 
     return (

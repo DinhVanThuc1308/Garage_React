@@ -1,5 +1,7 @@
 .Change_pw_page{
-    width: 100%;
-    height: 100%;
-    background-color: fff;
+    width: 450px;
+    height: 40%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 16px;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Slide_bar from '../../components/Slider_bar';
 import ViewProfile from '../../components/ViewProfile/ViewProfile';
-import { axiosInstance } from '../../shared/services/http-client';
+import axiosInstance from '../../shared/services/http-client';
 import { useState } from 'react';
 
 function ViewProfile_page() {

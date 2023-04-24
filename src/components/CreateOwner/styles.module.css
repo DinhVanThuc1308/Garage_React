@@ -127,9 +127,8 @@
 
     color: #F1F4F9;
     background: #8767E1;
-    border-radius: 8px;
     border: 1px solid #F1F4F9;
-
+    border-radius: 8px;
 }
 
 .btn-cancel {
@@ -148,6 +147,7 @@
     color: #8767E1;
     background: #F1F4F9;
     border: 1px solid #8767E1;
+    border-radius: 8px;
 }
 
 ::-webkit-scrollbar {

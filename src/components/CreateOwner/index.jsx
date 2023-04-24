@@ -1,17 +1,18 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import {
-  Input,
-  Select,
-  DatePicker,
-  Checkbox,
-} from 'antd';
+import { Input, Select, DatePicker, Checkbox } from 'antd';
 import binicon from './Vector.svg';
 import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
+import axiosInstance from '../../shared/services/http-client';
+import { useState } from 'react';
 
 function CreateOwner() {
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       name: '',
       email: '',
@@ -25,7 +26,6 @@ function CreateOwner() {
     },
   });
 
-
   //   select
   // const onChange = value => {
   //   console.log(`selected ${value}`);
@@ -35,13 +35,64 @@ function CreateOwner() {
   // };
   // date picker
 
-  //   Checkbox
+  // chosse garage
+  const [checkedBoxes, setCheckedBoxes] = useState([]);
+
   const onChangeBox = e => {
-    console.log(`checked = ${e.target.checked}`);
+    // const value = e.target.value;
+    // if (e.target.checked) {
+    //   setGarageList([...garageList, value]);
+    // } else {
+    //   setGarageList(garageList.filter(item => item !== value));
+    // }
+    const value = e.target.value;
+    const isChecked = e.target.checked;
+
+    if (isChecked) {
+      setCheckedBoxes([...checkedBoxes, value]);
+    } else {
+      setCheckedBoxes(checkedBoxes.filter(item => item !== value));
+    }
+  };
+
+  // delete garage
+  const handleDelete = item => {
+    setCheckedBoxes(checkedBoxes.filter(checked => checked !== item));
   };
 
   const onSubmit = data => {
-    console.log(data);
+    createOwner(data);
+  };
+
+  // search garage
+  // const [garageList, setGarageList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const garageList = ['Garage ABC', 'TLS', 'AHC', 'CB Garage', 'UCQ'];
+
+  const handleSearch = e => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredGarages =
+    garageList &&
+    garageList.filter(
+      garage => garage.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
+    );
+
+  // const handleSearchGarage = () => {
+
+  //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
+  //     setGarageList(res.data);
+  //   });
+  // };
+
+  // create owner
+
+  const createOwner = data => {
+    axiosInstance.post('users', data).then(res => {
+      console.log(res);
+      console.log(res.data);
+    });
   };
 
   return (
@@ -69,7 +120,9 @@ function CreateOwner() {
                 />
               )}
             />
-            {errors.name && <p style={{ color: "red" }}>Please enter your name</p>}
+            {errors.name && (
+              <p style={{ color: 'red' }}>Please enter your name</p>
+            )}
           </div>
           <div className={styles['row-item']}>
             <label htmlFor="" className={styles['title-label']}>
@@ -87,7 +140,9 @@ function CreateOwner() {
                 />
               )}
             />
-            {errors.email && <p style={{ color: "red" }}>Please enter a valid email address</p>}
+            {errors.email && (
+              <p style={{ color: 'red' }}>Please enter a valid email address</p>
+            )}
           </div>
           <div className={styles['row-item']}>
             <label htmlFor="" className={styles['title-label']}>
@@ -105,7 +160,9 @@ function CreateOwner() {
                 />
               )}
             />
-            {errors.username && <p style={{ color: "red" }}>Please enter username</p>}
+            {errors.username && (
+              <p style={{ color: 'red' }}>Please enter username</p>
+            )}
           </div>
         </div>
         <div className={styles['form-row']}>
@@ -126,7 +183,9 @@ function CreateOwner() {
                 />
               )}
             />
-            {errors.password && <p style={{ color: "red" }}>Please enter a valid password</p>}
+            {errors.password && (
+              <p style={{ color: 'red' }}>Please enter a valid password</p>
+            )}
           </div>
           <div className={styles['row-item']}>
             <label htmlFor="" className={styles['title-label']}>
@@ -144,7 +203,9 @@ function CreateOwner() {
                 />
               )}
             />
-            {errors.phone && <p style={{ color: "red" }}>Please enter a valid phonenumber</p>}
+            {errors.phone && (
+              <p style={{ color: 'red' }}>Please enter a valid phonenumber</p>
+            )}
           </div>
           <div className={styles['row-item']}>
             <label htmlFor="" className={styles['title-label']}>
@@ -167,7 +228,9 @@ function CreateOwner() {
                 </Select>
               )}
             />
-            {errors.gender && <p style={{ color: "red" }}>Please select gender</p>}
+            {errors.gender && (
+              <p style={{ color: 'red' }}>Please select gender</p>
+            )}
           </div>
         </div>
         <div className={styles['form-row']}>
@@ -183,7 +246,9 @@ function CreateOwner() {
                 <DatePicker {...field} size="large"></DatePicker>
               )}
             />
-            {errors.dob && <p style={{ color: "red" }}>Please select date of birth</p>}
+            {errors.dob && (
+              <p style={{ color: 'red' }}>Please select date of birth</p>
+            )}
           </div>
           <div className={styles['row-item']}>
             <label htmlFor="" className={styles['title-label']}>
@@ -206,7 +271,7 @@ function CreateOwner() {
                 </Select>
               )}
             />
-            {errors.role && <p style={{ color: "red" }}>Please select role</p>}
+            {errors.role && <p style={{ color: 'red' }}>Please select role</p>}
           </div>
           <div className={styles['row-item']}>
             <label htmlFor="" className={styles['title-label']}>
@@ -229,32 +294,42 @@ function CreateOwner() {
                 </Select>
               )}
             />
-            {errors.status && <p style={{ color: "red" }}>Please select status</p>}
+            {errors.status && (
+              <p style={{ color: 'red' }}>Please select status</p>
+            )}
           </div>
         </div>
+
         <div className={styles['choose-container']}>
           <div className={styles['checkbox-garage']}>
-            <Input size="large" placeholder="Search for garages .." />
+            <Input size="large" placeholder="Search for garages .." value={searchTerm} onChange={handleSearch} />
             <div className={styles['checkbox-list']}>
-              <Checkbox style={{ marginLeft: '8px' }} onChange={onChangeBox}>
-                Garage ABC
-              </Checkbox>
-              <Checkbox onChange={onChangeBox}>TLS</Checkbox>
-              <Checkbox onChange={onChangeBox}>AHC</Checkbox>
-              <Checkbox onChange={onChangeBox}>CB Garage</Checkbox>
-              <Checkbox onChange={onChangeBox}>UCQ</Checkbox>
+              {filteredGarages.map(garageName => (
+                <Checkbox
+                  key={garageName}
+                  style={{ marginLeft: '8px' }}
+                  onChange={onChangeBox}
+                  value={garageName}
+                  checked={checkedBoxes.includes(garageName)}
+                >
+                  {garageName}
+                </Checkbox>
+              ))}
             </div>
           </div>
           <div className={styles['list-garage']}>
-            <label htmlFor="">Select garages (2)</label>
-            <div className={styles['pickitem']}>
-              <div className="pickitem-name">Garage ABC</div>
-              <img src={binicon} alt="" />
-            </div>
-            <div className={styles['pickitem']}>
-              <div className="pickitem-name">TLS</div>
-              <img src={binicon} alt="" />
-            </div>
+            <label htmlFor="">Select garages ({checkedBoxes.length})</label>
+            {checkedBoxes.map(item => (
+              <div className={styles['pickitem']} key={item}>
+                <div className="pickitem-name">{item}</div>
+                <img
+                  src={binicon}
+                  alt=""
+                  onClick={() => handleDelete(item)}
+                  style={{ cursor: 'pointer', marginLeft: '5px' }}
+                />
+              </div>
+            ))}
           </div>
         </div>
         <hr style={{ width: '100%' }} />

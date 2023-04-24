@@ -1,186 +1,360 @@
 import React from 'react';
-import { Row, Col } from 'antd';
-import {
-  Button,
-  Form,
-  Input,
-  message,
-  Space,
-  Select,
-  DatePicker,
-  Checkbox,
-} from 'antd';
-import dayjs from 'dayjs';
+import { useForm, Controller } from 'react-hook-form';
+import { Input, Select, DatePicker, Checkbox } from 'antd';
 import binicon from './Vector.svg';
 import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
+import axiosInstance from '../../shared/services/http-client';
+import { useState } from 'react';
 
 function CreateOwner() {
-  // form
-  const [form] = Form.useForm();
-  const onFinish = () => {
-    message.success('Submit success!');
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      fullname: '',
+      email: '',
+      username: '',
+      password: '',
+      phoneNumber: '',
+      gender: '',
+      dob: '',
+      role: '',
+      status: '',
+      garage: [],
+    },
+  });
+
+  //   select
+  // const onChange = value => {
+  //   console.log(`selected ${value}`);
+  // };
+  // const onSearch = value => {
+  //   console.log('search:', value);
+  // };
+  // date picker
+
+  // chosse garage
+  const [checkedBoxes, setCheckedBoxes] = useState([]);
+
+  const onChangeBox = e => {
+    // const value = e.target.value;
+    // if (e.target.checked) {
+    //   setGarageList([...garageList, value]);
+    // } else {
+    //   setGarageList(garageList.filter(item => item !== value));
+    // }
+    const value = e.target.value;
+    const isChecked = e.target.checked;
+
+    if (isChecked) {
+      setCheckedBoxes([...checkedBoxes, value]);
+    } else {
+      setCheckedBoxes(checkedBoxes.filter(item => item !== value));
+    }
   };
-  const onFinishFailed = () => {
-    message.error('Submit failed!');
+
+  // delete garage
+  const handleDelete = item => {
+    setCheckedBoxes(checkedBoxes.filter(checked => checked !== item));
   };
-  const onFill = () => {
-    form.setFieldsValue({
-      url: 'https://taobao.com/',
+
+  const onSubmit = data => {
+    data.dob = data.dob.format('YYYY-MM-DD');
+    data.garage = checkedBoxes;
+    console.log(data);
+    createOwner(data);
+  };
+
+  // search garage
+  // const [garageList, setGarageList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const garageList = ['Garage ABC', 'TLS', 'AHC', 'CB Garage', 'UCQ'];
+
+  const handleSearch = e => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredGarages =
+    garageList &&
+    garageList.filter(
+      garage => garage.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
+    );
+
+  // const handleSearchGarage = () => {
+
+  //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
+  //     setGarageList(res.data);
+  //   });
+  // };
+
+  // create owner
+
+  const createOwner = data => {
+    console.log({ data });
+    delete data.status;
+    // delete data.garage;
+    axiosInstance.post('users', data).then(res => {
+      console.log(res);
+      console.log(res.data);
     });
   };
 
-  //   select
-  const onChange = value => {
-    console.log(`selected ${value}`);
-  };
-  const onSearch = value => {
-    console.log('search:', value);
-  };
-  // date picker
-
-  //   Checkbox
-  const onChangeBox = e => {
-    console.log(`checked = ${e.target.checked}`);
-  };
   return (
     <div className={styles['create-form']}>
-      <Row gutter={[30, 20]}>
-            <Col className="gutter-row Owner_col" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Name"
-                    rules={[{ required: true, message: 'Please input your name!' }]}
-                    name="Name"
-                ></Form.Item>
-                <Input size="large" placeholder="Enter owner name" />
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Email"
-                    rules={[{ required: true, message: 'Please input your email!' }]}
-                    name="Email"
-                ></Form.Item>
-                <Input size="large" placeholder="Enter owner email" />
-
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Username"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                    name="Username"
-                ></Form.Item>
-                <Input size="large" placeholder="Enter owner username" />
-
-            </Col>
-
-            <Col className="gutter-row Owner_lable" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
-                    name="password"
-                ></Form.Item>
-
-                <Input.Password size="large" placeholder="Enter owner password" />
-
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Phone Number"
-                    rules={[{ required: true, message: 'Please input your phone number!' }]}
-                    name="Phone Number"
-                ></Form.Item>
-                <Input size="large" placeholder="Enter owner phone number" />
-            </Col>
-            <Col className="gutter-row" span={8}>
-
-                <Form.Item className='Owner_require'
-                    label="Gender"
-                    rules={[{ required: true, message: 'Please input your gender!' }]}
-                    name="Gender"
-                ></Form.Item>
-                <Select size="large" className='Owner_select'
-                    placeholder="Select owner gender"
-                    allowClear
-                >
-                    <Option value="Male">Male</Option>
-                    <Option value="Female">Female</Option>
-                    <Option value="Other">Other</Option>
-                </Select>
-            </Col>
-
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="DOB"
-                    rules={[{ required: true, message: 'Please input your DOB!' }]}
-                    name="DOB"
-                ></Form.Item>
-                <DatePicker className='Owner_DOB' size='large'></DatePicker>
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Role"
-                    rules={[{ required: true, message: 'Please select your role!' }]}
-                    name="Role"
-                ></Form.Item>
-                <Select size="large" className='Owner_select'
-                    placeholder="Select a role"
-                    allowClear
-                >
-                    <Option value="Male">User</Option>
-                    <Option value="Female">.....</Option>
-                    <Option value="Other">.....</Option>
-                </Select>
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Status"
-                    rules={[{ required: true, message: 'Please select your Status!' }]}
-                    name="Status"
-                ></Form.Item>
-                <Select size="large" className='Owner_select'
-                    placeholder="Select a Status"
-                    allowClear
-                >
-                    <Option value="Male">Active</Option>
-                    <Option value="Female">.....</Option>
-                    <Option value="Other">.....</Option>
-                </Select>
-            </Col>
-        </Row>
-
-      <div className={styles['choose-container']}>
-        <div className={styles['checkbox-garage']}>
-          <Input size='large' placeholder="Search for garages .." />
-          <div className={styles['checkbox-list']}>
-            <Checkbox style={{ marginLeft: '8px' }} onChange={onChangeBox}>
-              Garage ABC
-            </Checkbox>
-            <Checkbox onChange={onChangeBox}>TLS</Checkbox>
-            <Checkbox onChange={onChangeBox}>AHC</Checkbox>
-            <Checkbox onChange={onChangeBox}>CB Garage</Checkbox>
-            <Checkbox onChange={onChangeBox}>UCQ</Checkbox>
+      <form
+        action=""
+        onSubmit={handleSubmit(onSubmit)}
+        className={styles['form-container']}
+      >
+        <div className={styles['form-row']}>
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              Name <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="fullname"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  style={{ width: '100%' }}
+                  size="large"
+                  placeholder="Enter owner name"
+                />
+              )}
+            />
+            {errors.fullname && (
+              <p style={{ color: 'red' }}>Please enter your name</p>
+            )}
+          </div>
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              Email <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="email"
+              control={control}
+              rules={{ required: true, pattern: /^\S+@\S+$/i }}
+              render={({ field }) => (
+                <Input
+                  size="large"
+                  {...field}
+                  placeholder="Enter owner email"
+                />
+              )}
+            />
+            {errors.email && (
+              <p style={{ color: 'red' }}>Please enter a valid email address</p>
+            )}
+          </div>
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              Username <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="username"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input
+                  size="large"
+                  {...field}
+                  placeholder="Enter owner username"
+                />
+              )}
+            />
+            {errors.username && (
+              <p style={{ color: 'red' }}>Please enter username</p>
+            )}
           </div>
         </div>
-        <div className={styles['list-garage']}>
-          <label htmlFor="">Select garages (2)</label>
-          <div className={styles['pickitem']}>
-            <div className="pickitem-name">Garage ABC</div>
-            <img src={binicon} alt="" />
+        <div className={styles['form-row']}>
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              Password <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="password"
+              control={control}
+              rules={{ required: true, minLength: 6 }}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  style={{ width: '100%' }}
+                  size="large"
+                  placeholder="Enter owner password"
+                />
+              )}
+            />
+            {errors.password && (
+              <p style={{ color: 'red' }}>Please enter a valid password</p>
+            )}
           </div>
-          <div className={styles['pickitem']}>
-            <div className="pickitem-name">TLS</div>
-            <img src={binicon} alt="" />
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              Phone number <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="phoneNumber"
+              control={control}
+              rules={{ required: true, minLength: 10, maxLength: 10 }}
+              render={({ field }) => (
+                <Input
+                  size="large"
+                  {...field}
+                  placeholder="Enter owner phone number"
+                />
+              )}
+            />
+            {errors.phone && (
+              <p style={{ color: 'red' }}>Please enter a valid phonenumber</p>
+            )}
+          </div>
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              Gender <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="gender"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select
+                  size="large"
+                  {...field}
+                  placeholder="Select owner gender"
+                  allowClear
+                >
+                  <Option value="male">male</Option>
+                  <Option value="female">female</Option>
+                  <Option value="Other">Other</Option>
+                </Select>
+              )}
+            />
+            {errors.gender && (
+              <p style={{ color: 'red' }}>Please select gender</p>
+            )}
           </div>
         </div>
-      </div>
+        <div className={styles['form-row']}>
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              DOB <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="dob"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <DatePicker {...field} size="large"></DatePicker>
+              )}
+            />
+            {errors.dob && (
+              <p style={{ color: 'red' }}>Please select date of birth</p>
+            )}
+          </div>
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              Role <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="role"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select
+                  size="large"
+                  placeholder="Select a role"
+                  {...field}
+                  allowClear
+                >
+                  <Option value={1}>1</Option>
+                  <Option value={2}>2</Option>
+                  <Option value={3}>3</Option>
+                </Select>
+              )}
+            />
+            {errors.role && <p style={{ color: 'red' }}>Please select role</p>}
+          </div>
+          <div className={styles['row-item']}>
+            <label htmlFor="" className={styles['title-label']}>
+              Status <span style={{ color: 'red' }}>*</span>{' '}
+            </label>
+            <Controller
+              name="status"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  size="large"
+                  placeholder="Select a Status"
+                  allowClear
+                >
+                  <Option value="Active">Active</Option>
+                  <Option value="Deactive">Deactive</Option>
+                  <Option value="Other">Other</Option>
+                </Select>
+              )}
+            />
+            {errors.status && (
+              <p style={{ color: 'red' }}>Please select status</p>
+            )}
+          </div>
+        </div>
 
-      <hr style={{ width: '100%' }} />
-      <div className={styles['btn-container']}>
-        <Button size='large' type="primary" className={styles['btn-save']}>
-          Save
-        </Button>
-        <Button size='large' type='default' className={styles['btn-cancel']}>Cancel</Button>
-      </div>
+        <div className={styles['choose-container']}>
+          <div className={styles['checkbox-garage']}>
+            <Input
+              size="large"
+              placeholder="Search for garages .."
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            <div className={styles['checkbox-list']}>
+              {filteredGarages.map(garageName => (
+                <Checkbox
+                  key={garageName}
+                  style={{ marginLeft: '8px' }}
+                  onChange={onChangeBox}
+                  value={garageName}
+                  checked={checkedBoxes.includes(garageName)}
+                >
+                  {garageName}
+                </Checkbox>
+              ))}
+            </div>
+          </div>
+          <div className={styles['list-garage']}>
+            <label htmlFor="">Select garages ({checkedBoxes.length})</label>
+            {checkedBoxes.map(item => (
+              <div className={styles['pickitem']} key={item}>
+                <div className="pickitem-name">{item}</div>
+                <img
+                  src={binicon}
+                  alt=""
+                  onClick={() => handleDelete(item)}
+                  style={{ cursor: 'pointer', marginLeft: '5px' }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        <hr style={{ width: '100%' }} />
+        <div className={styles['btn-container']}>
+          <button type="submit" className={styles['btn-save']}>
+            Save
+          </button>
+          <button type="cancel" className={styles['btn-cancel']}>
+            Cancel
+          </button>
+        </div>
+        {/* <button type="submit">Submit</button> */}
+      </form>
     </div>
   );
 }

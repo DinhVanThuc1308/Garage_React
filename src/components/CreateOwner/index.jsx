@@ -14,15 +14,16 @@ function CreateOwner() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: '',
+      fullname: '',
       email: '',
       username: '',
       password: '',
-      phone: '',
+      phoneNumber: '',
       gender: '',
       dob: '',
       role: '',
       status: '',
+      garage: [],
     },
   });
 
@@ -61,6 +62,9 @@ function CreateOwner() {
   };
 
   const onSubmit = data => {
+    data.dob = data.dob.format('YYYY-MM-DD');
+    data.garage = checkedBoxes;
+    console.log(data);
     createOwner(data);
   };
 
@@ -89,6 +93,9 @@ function CreateOwner() {
   // create owner
 
   const createOwner = data => {
+    console.log({ data });
+    delete data.status;
+    // delete data.garage;
     axiosInstance.post('users', data).then(res => {
       console.log(res);
       console.log(res.data);
@@ -108,7 +115,7 @@ function CreateOwner() {
               Name <span style={{ color: 'red' }}>*</span>{' '}
             </label>
             <Controller
-              name="name"
+              name="fullname"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
@@ -120,7 +127,7 @@ function CreateOwner() {
                 />
               )}
             />
-            {errors.name && (
+            {errors.fullname && (
               <p style={{ color: 'red' }}>Please enter your name</p>
             )}
           </div>
@@ -192,7 +199,7 @@ function CreateOwner() {
               Phone number <span style={{ color: 'red' }}>*</span>{' '}
             </label>
             <Controller
-              name="phone"
+              name="phoneNumber"
               control={control}
               rules={{ required: true, minLength: 10, maxLength: 10 }}
               render={({ field }) => (
@@ -222,8 +229,8 @@ function CreateOwner() {
                   placeholder="Select owner gender"
                   allowClear
                 >
-                  <Option value="Male">Male</Option>
-                  <Option value="Female">Female</Option>
+                  <Option value="male">male</Option>
+                  <Option value="female">female</Option>
                   <Option value="Other">Other</Option>
                 </Select>
               )}
@@ -265,9 +272,9 @@ function CreateOwner() {
                   {...field}
                   allowClear
                 >
-                  <Option value="User">User</Option>
-                  <Option value="Admin">Admin</Option>
-                  <Option value="Other">Other</Option>
+                  <Option value={1}>1</Option>
+                  <Option value={2}>2</Option>
+                  <Option value={3}>3</Option>
                 </Select>
               )}
             />
@@ -302,7 +309,12 @@ function CreateOwner() {
 
         <div className={styles['choose-container']}>
           <div className={styles['checkbox-garage']}>
-            <Input size="large" placeholder="Search for garages .." value={searchTerm} onChange={handleSearch} />
+            <Input
+              size="large"
+              placeholder="Search for garages .."
+              value={searchTerm}
+              onChange={handleSearch}
+            />
             <div className={styles['checkbox-list']}>
               {filteredGarages.map(garageName => (
                 <Checkbox

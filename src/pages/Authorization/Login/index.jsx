@@ -28,7 +28,7 @@ export default function Login() {
     axios.post(API, data, {
     }).then((res) => {
       auth.setKey(res.data.jwt)
-      nav('/profile')
+      nav('/view_profile')
     });
   }
 

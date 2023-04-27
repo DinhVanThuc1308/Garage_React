@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './style.css';
 
 function ChangePassword() {
@@ -30,7 +31,7 @@ function ChangePassword() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <p style={{color: 'gray'}}>Now you can create a new Password for your account  </p>
+      <p style={{ color: 'gray' }}>Now you can create a new Password for your account  </p>
       <div>
         <label htmlFor="currentPassword">Current Password:</label>
         <br />
@@ -47,8 +48,8 @@ function ChangePassword() {
         <input type="password" name="confirmPassword" value={confirmPassword} onChange={handleChange} />
       </div>
       <div className="div-btn">
-      <button type="submit">Save</button>
-      <button type="button">Cancel</button>
+        <button type="submit">Save</button>
+        <Link to="/view_profile">Cancel</Link>
       </div>
     </form>
   );

@@ -49,18 +49,17 @@ function App() {
         //     populate: 'owner,services'
         // };
 
-        const { data } = await axiosInstance.get('users',);
+        const data = await axiosInstance.get('users',);
         console.log(data);
-
-        const garages = data.map(garage => ({
-            id: garage.id,
-            name: garage.attributes.name,
-            email: garage.attributes.email,
-            phoneNumber: garage.attributes.phoneNumber,
-            garageOwner: garage.attributes.owner.data.attributes.fullname,
-            status: garage.attributes.status === 'active' ? 'Active' : 'Inactive',
+        const users = data.map(user => ({
+            id: user.id,
+            name: user.fullname,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            status: user.status === 'active' ? 'Active' : 'Inactive',
         }));
-        setData([...garages])
+        setData([...users])
+
     }
 
     useEffect(() => {
@@ -89,11 +88,7 @@ function App() {
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
         },
-        {
-            title: 'Garage owner',
-            dataIndex: 'garageOwner',
-            key: 'garageOwner',
-        },
+
         {
             title: 'Status',
             dataIndex: 'status',

@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Slide_bar from "../../components/Slider_bar/index";
 import axiosInstance from '../../shared/services/http-client.js';
+import { Link } from 'react-router-dom';
+
 
 
 import {
@@ -137,7 +139,7 @@ function Change_pw_page() {
                         </Form.Item>
                         <Form.Item >
                             <Button type="primary" htmlType="submit" style={{ width: '15%', height: '48px', margin: '15px 30px', }}>Save</Button>
-                            <Button style={{ width: '15%', height: '48px', border: "2px solid #8767E1", paddingLeft: "8px" }}>Cancel</Button>
+                            <Link to="/view_profile"><Button style={{ width: '15%', height: '48px', border: "2px solid #8767E1", paddingLeft: "8px" }}>Cancel</Button></Link>
                         </Form.Item>
                     </Form>
                 </div>

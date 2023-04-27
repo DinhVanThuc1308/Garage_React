@@ -37,19 +37,20 @@ function App() {
     const [page, setPage] = useState(1)
 
     const callApi = async () => {
-        const params = {
-            filters: {
-                $or: [
-                    { name: { $contains: search } },
-                    { email: { $contains: search } }
-                ],
-                owner: { id: { $eq: 1 } }
-            },
-            pagination: { page: page, pageSize: 10 },
-            populate: 'owner,services'
-        };
+        // const params = {
+        //     filters: {
+        //         $or: [
+        //             { name: { $contains: search } },
+        //             { email: { $contains: search } }
+        //         ],
+        //         owner: { id: { $eq: 1 } }
+        //     },
+        //     pagination: { page: page, pageSize: 10 },
+        //     populate: 'owner,services'
+        // };
 
-        const { data } = await axiosInstance.get('garages', { params });
+        const { data } = await axiosInstance.get('users',);
+        console.log(data);
 
         const garages = data.map(garage => ({
             id: garage.id,

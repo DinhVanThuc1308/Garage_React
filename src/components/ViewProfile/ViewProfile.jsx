@@ -53,7 +53,7 @@ export default function ViewProfile(props) {
             <hr />
             <div className={styles['buttons']}>
                 <button className={styles['update-btn']}>
-                    <a href='/update-profile'>Update Profile</a>
+                    <Link to="/update">Update Profile</Link>
                 </button>
                 <button className={styles['change-btn']}>
                     <Link to="/change_password">Change Password</Link>

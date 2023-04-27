@@ -37,29 +37,29 @@ function App() {
     const [page, setPage] = useState(1)
 
     const callApi = async () => {
-        const params = {
-            filters: {
-                $or: [
-                    { name: { $contains: search } },
-                    { email: { $contains: search } }
-                ],
-                owner: { id: { $eq: 1 } }
-            },
-            pagination: { page: page, pageSize: 10 },
-            populate: 'owner,services'
-        };
+        // const params = {
+        //     filters: {
+        //         $or: [
+        //             { name: { $contains: search } },
+        //             { email: { $contains: search } }
+        //         ],
+        //         owner: { id: { $eq: 1 } }
+        //     },
+        //     pagination: { page: page, pageSize: 10 },
+        //     populate: 'owner,services'
+        // };
 
-        const { data } = await axiosInstance.get('garages', { params });
-
-        const garages = data.map(garage => ({
-            id: garage.id,
-            name: garage.attributes.name,
-            email: garage.attributes.email,
-            phoneNumber: garage.attributes.phoneNumber,
-            garageOwner: garage.attributes.owner.data.attributes.fullname,
-            status: garage.attributes.status === 'active' ? 'Active' : 'Inactive',
+        const data = await axiosInstance.get('users',);
+        console.log(data);
+        const users = data.map(user => ({
+            id: user.id,
+            name: user.fullname,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            status: user.status === 'active' ? 'Active' : 'Inactive',
         }));
-        setData([...garages])
+        setData([...users])
+
     }
 
     useEffect(() => {
@@ -88,11 +88,7 @@ function App() {
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
         },
-        {
-            title: 'Garage owner',
-            dataIndex: 'garageOwner',
-            key: 'garageOwner',
-        },
+
         {
             title: 'Status',
             dataIndex: 'status',

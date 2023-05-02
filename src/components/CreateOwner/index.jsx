@@ -6,6 +6,7 @@ import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
 import axiosInstance from '../../shared/services/http-client';
 import { useState } from 'react';
+import { message } from 'antd';
 
 function CreateOwner() {
   const {
@@ -36,6 +37,39 @@ function CreateOwner() {
   // };
   // date picker
 
+  // notification
+  const [messageApi, contextHolder] = message.useMessage();
+  const key = 'updatable';
+  const openMessageErr = () => {
+    messageApi.open({
+      key,
+      type: 'loading',
+      content: 'Loading...',
+    });
+    setTimeout(() => {
+      messageApi.open({
+        key,
+        type: 'error',
+        content: 'Fail! Please try again! ',
+        duration: 2,
+      });
+    }, 1000);
+  };
+  const openMessageAuke = () => {
+    messageApi.open({
+      key,
+      type: 'loading',
+      content: 'Loading...',
+    });
+    setTimeout(() => {
+      messageApi.open({
+        key,
+        type: 'success',
+        content: 'Success! You have created a new owner! ',
+        duration: 2,
+      });
+    }, 1000);
+  };
   // chosse garage
   const [checkedBoxes, setCheckedBoxes] = useState([]);
 
@@ -96,14 +130,20 @@ function CreateOwner() {
     console.log({ data });
     delete data.status;
     // delete data.garage;
-    axiosInstance.post('users', data).then(res => {
+    axiosInstance.post('users', data)
+    .then(res => {
+      openMessageAuke();
       console.log(res);
       console.log(res.data);
+    })
+    .catch(err => {
+      openMessageErr();
     });
   };
 
   return (
     <div className={styles['create-form']}>
+      {contextHolder}
       <form
         action=""
         onSubmit={handleSubmit(onSubmit)}

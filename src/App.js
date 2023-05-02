@@ -19,6 +19,7 @@ import GarageOwner from './pages/GarageOwner/index.jsx';
 import { AuthRoutes, GuestRoutes } from './middleware/PrivateRoutes.js';
 import UpdateService_page from './pages/UpdateService_page/index.jsx';
 import Profile_page from './pages/ViewProfile_page/index.jsx';
+import UpdateManagement from './pages/Page_update_management/Page_update_management.jsx';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/garage_owner" element={<GarageOwner />} />
           <Route path="/create_garage" element={<CreateGarage_page />} />
           <Route path="/update_service" element={<UpdateService_page />} />
+          <Route path="/update_management" element={<UpdateManagement />} />
         </Route>
       </Routes>
 

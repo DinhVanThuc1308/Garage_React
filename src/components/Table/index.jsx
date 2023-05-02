@@ -102,7 +102,8 @@ function App() {
 
                     <Link to="/garage_detail"><img src={eye} style={{ width: '14.05px', height: '16.03px' }} /></Link>
                     <Link to="/update_owner"><img src={edit} /></Link>
-                    <a><img src={deleteIcon} /></a>
+
+                    <Link to="/update_management"><img src={deleteIcon} /></Link>
                 </Space>
             ),
         },

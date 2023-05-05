@@ -25,12 +25,13 @@ import UpdateService_page from './pages/UpdateService_page/index.jsx';
 function App() {
   return (
     <div className="App">
-      {/* <Routes>
+      <Routes>
         <Route element={<GuestRoutes />}>
           <Route path="/login" element={<Login />} />
         </Route>
         <Route element={<AuthRoutes />}>
           <Route path="/" element={<Profile_page />} />
+          
           <Route path="/change_password" element={<Change_pw_page />} />
           <Route path="/update" element={<Update_Page />} />
           <Route path="/create_owner" element={<CreateOwner_page />} />
@@ -41,9 +42,9 @@ function App() {
         <Route path="/create_garage" element={<CreateGarage_page />} />
         <Route path="/update_service" element={<UpdateService_page />} />
         </Route>
-      </Routes> */}
+      </Routes>
 
-
+      {/* <Garage_Detail/> */}
       {/* <Update_Profile/> */}
       {/* <Login></Login> */}
       {/* <Page_update_owner></Page_update_owner> */}
@@ -54,7 +55,7 @@ function App() {
       {/* <Update_Page></Update_Page> */}
       {/* <CreateOwner_page></CreateOwner_page> */}
       {/* <ViewProfile_page /> */}
-      <DetailService/>
+      {/* <DetailService/> */}
     </div>
   );
 }

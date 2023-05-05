@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
   async config => {
     // Do something before request is sent
     const token = localStorage.getItem(ACCESS_TOKEN) || '';
-    console.log('token', token);
+    // console.log('token', token);
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -33,4 +33,4 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-export default axiosInstance;
+export default axiosInstance ;

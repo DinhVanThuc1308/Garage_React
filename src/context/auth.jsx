@@ -35,11 +35,14 @@ export const AuthProvider = ({ children }) => {
                     setLogin(true);
                 });
             } catch (err) {
+                console.error("11111111", err);
                 logout();
             } finally {
                 setLoading(false);
             }
         } else {
+            console.error("222");
+
             setLoading(false);
         }
     }, [token]);

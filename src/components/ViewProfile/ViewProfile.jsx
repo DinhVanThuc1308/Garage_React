@@ -2,7 +2,10 @@ import React from 'react'
 import styles from './ViewProfile.module.css';
 import ellipse from './avt2.jpg';
 import { Link } from 'react-router-dom';
-export default function ViewProfile() {
+
+
+export default function ViewProfile(props) {
+
     return (
         <div className={styles['container-view']}>
             <div className={styles['pf-container']}>
@@ -14,12 +17,12 @@ export default function ViewProfile() {
 
                         <div className={styles['title']}>
                             <label htmlFor="">Name</label>
-                            <h1>Ha Nguyen</h1>
+                            <h1>{props.myProp.fullname}</h1>
                         </div>
 
                         <div className={styles['title']}>
                             <label htmlFor="">Phone Number</label>
-                            <h1>0989 223 345</h1>
+                            <h1>{props.myProp.phoneNumber}</h1>
                         </div>
 
                         <div className={styles['title']}>
@@ -32,17 +35,17 @@ export default function ViewProfile() {
 
                         <div className={styles['title']}>
                             <label htmlFor="">Email</label>
-                            <h1>ha.nguyen@gmail.com</h1>
+                            <h1>{props.myProp.email}</h1>
                         </div>
 
                         <div className={styles['title']}>
                             <label htmlFor="">DOB</label>
-                            <h1>25/01/1992</h1>
+                            <h1>{props.myProp.dob}</h1>
                         </div>
 
                         <div className={styles['title']}>
                             <label htmlFor="">Role</label>
-                            <h1>Admin</h1>
+                            <h1>{props.myProp.role.description}</h1>
                         </div>
                     </div>
                 </div>

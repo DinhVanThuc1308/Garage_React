@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Management_input {
+    padding: 20px;
+    font-family: 'Poppins';
+
+}
+
+.Management_require {
+    height: 20px;
+    font-family: 'Poppins';
+}
+
+.Management_select {
+    font-family: 'Poppins';
+    width: 100%;
+}
+
+.Management_DOB {
+    width: 100%;
+    font-family: 'Poppins';
+    align-items: center;
+}

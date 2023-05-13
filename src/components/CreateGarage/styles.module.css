@@ -5,8 +5,47 @@
 }
 
 .create-form {
+    width: 100%;
     padding: 16px;
     background-color: #FFFFFF;
+}
+
+.form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.form-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.form-row-last{
+    width: 81%;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.row-item-last{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.row-item {
+    width: 38%;
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
 }
 
 
@@ -24,14 +63,6 @@
     color: #939393;
 }
 
-.antform-size{
-    font-family: 'Poppins';
-    width: 100%;
-}
-
-.red-require {
-    color: red;
-}
 
 .choose-container {
     width: 100%;
@@ -44,24 +75,6 @@
     border: 1px solid #DDE4EE;
     border-radius: 8px;
     margin-bottom: 0 !important;
-}
-
-.textarea-form {
-    width: 100%;
-    margin-top: 16px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 24px;
-    font-size: 14px;
-}
-
-.description-form {
-    width: 50%;
-}
-
-.policy-form {
-    width: 50%;
 }
 
 .checkbox-garage {
@@ -103,6 +116,24 @@
     justify-content: space-between;
 }
 
+.textarea-form {
+    width: 100%;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+    font-size: 14px;
+}
+
+.description-form {
+    width: 50%;
+}
+
+.policy-form {
+    width: 50%;
+}
+
 .btn-container {
     width: 100%;
     display: flex;
@@ -114,7 +145,7 @@
 
 .btn-save {
     width: 95px;
-    height: 24px;
+    height: 40px;
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 500;
@@ -127,11 +158,13 @@
 
     color: #F1F4F9;
     background: #8767E1;
+    border: 1px solid #F1F4F9;
+    border-radius: 8px;
 }
 
 .btn-cancel {
     width: 95px;
-    height: 24px;
+    height: 40px;
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 500;
@@ -145,6 +178,7 @@
     color: #8767E1;
     background: #F1F4F9;
     border: 1px solid #8767E1;
+    border-radius: 8px;
 }
 
 ::-webkit-scrollbar {

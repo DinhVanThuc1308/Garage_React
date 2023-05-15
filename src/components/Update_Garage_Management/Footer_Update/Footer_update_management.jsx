@@ -1,6 +1,7 @@
 import { Transfer } from 'antd';
 import { useState } from 'react';
-// import './Footer_update_owner.css';
+import './Footer_update_management.css';
+import { Link } from 'react-router-dom';
 
 const mockData = [{ key: '0', title: 'Garage ABC', description: 'description of content1' },
 { key: '1', title: 'TLS', description: 'description of content2' },
@@ -51,28 +52,39 @@ const Footer_update_owner = () => {
 
     return (
         <>
-            <h2>Garage</h2>
-            <Transfer className='Footer_update_owner'
+            <>
+                <h2>Garage</h2>
+                <Transfer className='Footer_update_owner'
 
-                showSearch={{
-                    filterOption: false,
-                    render: (props) => <input {...props} placeholder="Search..." />
-                }}
-                dataSource={filteredData}
-                titles={['Source', 'Target']}
-                targetKeys={targetKeys}
-                selectedKeys={selectedKeys}
-                onChange={handleChange}
-                onSelectChange={handleSelectChange}
-                onScroll={handleScroll}
-                operation={[]}
-                render={(item) => item.title}
-                oneWay
-                style={{
-                    marginBottom: 16,
-                }}
-                onSearch={handleSearch}
-            />
+                    showSearch={{
+                        filterOption: false,
+                        render: (props) => <input {...props} placeholder="Search..." />
+                    }}
+                    dataSource={filteredData}
+                    titles={['Source', 'Target']}
+                    targetKeys={targetKeys}
+                    selectedKeys={selectedKeys}
+                    onChange={handleChange}
+                    onSelectChange={handleSelectChange}
+                    onScroll={handleScroll}
+                    operation={[]}
+                    render={(item) => item.title}
+                    oneWay
+                    style={{
+                        marginBottom: 16,
+                    }}
+                    onSearch={handleSearch}
+                />
+            </>
+            <>
+                {/* tạo 2 button */}
+                <button className='Footer_update_owner_button_save'>Save</button>
+                <Link to="/">
+                    <button className='Footer_update_owner_button'>Cancel</button>
+
+                </Link>
+
+            </>
         </>
     );
 };

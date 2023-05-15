@@ -67,7 +67,7 @@ const Slide_bar = ({ children }) => {
             {
               key: '4',
               icon: <img src={sb_img}></img>,
-              label: 'Garage-services',
+              label: <Link to="/Garage_Service">Garage Service</Link>,
 
             },
           ]}

@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 
-export default function index() {
+function index() {
   return (
     <div className='container-all-detail-service'>
       <div className='container-up-detail-service'>
@@ -54,3 +54,5 @@ export default function index() {
     
   );
 }
+
+export default index;

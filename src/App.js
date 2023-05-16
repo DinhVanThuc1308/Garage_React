@@ -20,6 +20,8 @@ import { AuthRoutes, GuestRoutes } from './middleware/PrivateRoutes.js';
 import UpdateService_page from './pages/UpdateService_page/index.jsx';
 import Profile_page from './pages/ViewProfile_page/index.jsx';
 import UpdateManagement from './pages/Page_update_management/Page_update_management.jsx';
+import GarageService from './pages/Garage_Service_page/index.jsx';
+import DetailService from './pages/DetailService/index.jsx'
 
 function App() {
   return (
@@ -41,9 +43,11 @@ function App() {
           <Route path="/create_garage" element={<CreateGarage_page />} />
           <Route path="/update_service" element={<UpdateService_page />} />
           <Route path="/update_management" element={<UpdateManagement />} />
+          <Route path="/Garage_service" element={<GarageService/>}/>
+          <Route path="/service_detail" element={<DetailService/>}/>
         </Route>
       </Routes>
-
+    
       {/* <Garage_Detail/> */}
       {/* <Update_Profile/> */}
       {/* <Login></Login> */}

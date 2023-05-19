@@ -35,18 +35,44 @@ function App() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('')
 
+    const handleDelete = async (id) => {
+        // delete user
+        await axiosInstance.delete(`users/${id}`);
+        // call api
+        callApi();
+
+
+    }
 
     const callApi = async () => {
 
         const data = await axiosInstance.get('users',);
         console.log(data);
+
         const users = data.map(user => ({
             id: user.id,
             name: user.fullname,
             email: user.email,
             phoneNumber: user.phoneNumber,
             status: user.status === 'active' ? 'Active' : 'Inactive',
+            action: (
+                <Space key={user.id} size="middle">
+                    <Link to="/management_details">
+                        <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
+                    </Link>
+                    <Link to={`/update_management/${user.id}`}>
+                        <img src={edit} />
+                    </Link>
+                    <Button onClick={
+                        () => handleDelete(user.id)
+                    }>
+                        <img src={deleteIcon} />
+                    </Button>
+                </Space>
+            )
         }));
+
+
         setData([...users])
 
     }
@@ -86,15 +112,7 @@ function App() {
         {
             title: 'Action',
             key: 'action',
-            render: () => (
-                <Space size="middle">
-
-                    <Link to="/management_details"><img src={eye} style={{ width: '14.05px', height: '16.03px' }} /></Link>
-                    <Link to="/update_management"><img src={edit} /></Link>
-
-                    <Link to="/create_garage"><img src={deleteIcon} /></Link>
-                </Space>
-            ),
+            dataIndex: 'action',
         },
     ];
 

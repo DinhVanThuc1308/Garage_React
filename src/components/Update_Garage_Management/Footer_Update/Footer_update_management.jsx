@@ -11,6 +11,8 @@ const mockData = [{ key: '0', title: 'Garage ABC', description: 'description of 
 
 const oriTargetKeys = mockData.filter((item) => Number(item.key) % 3 > 1).map((item) => item.key);
 
+
+
 const Footer_update_owner = () => {
     const [targetKeys, setTargetKeys] = useState(oriTargetKeys);
     const [selectedKeys, setSelectedKeys] = useState([]);
@@ -19,6 +21,7 @@ const Footer_update_owner = () => {
     const handleChange = (newTargetKeys) => {
         setTargetKeys(newTargetKeys);
     };
+
 
     const handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
         // If any source items are selected, add them to the target list
@@ -76,15 +79,7 @@ const Footer_update_owner = () => {
                     onSearch={handleSearch}
                 />
             </>
-            <>
-                {/* tạo 2 button */}
-                <button className='Footer_update_owner_button_save'>Save</button>
-                <Link to="/">
-                    <button className='Footer_update_owner_button'>Cancel</button>
 
-                </Link>
-
-            </>
         </>
     );
 };

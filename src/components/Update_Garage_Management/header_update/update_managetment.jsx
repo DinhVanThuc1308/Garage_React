@@ -2,24 +2,56 @@ import { Col, Row } from 'antd';
 
 import React, { useContext, useEffect, useState } from 'react';
 import { Form, Input, Select } from 'antd';
-import { DatePicker } from 'antd';
+import { DatePicker, Button } from 'antd';
 import axiosInstance from '../../../shared/services/http-client.js';
 import TextArea from 'antd/es/input/TextArea.js';
+import { useParams } from 'react-router-dom';
+// import Foter
 
 const { Option } = Select;
 
 function Update_managetment() {
-    const id = 1;
+
+    const { id } = useParams();
+    console.log(id);
     const [management, setManagement] = useState(null);
 
     useEffect(() => {
         const callApi = async () => {
-            const data = await axiosInstance.get(`garages/1`);
+            const data = await axiosInstance.get(`garages/${id}`);
             setManagement(data.data.attributes);
             console.log(management);
         }
         callApi();
     }, [id])
+
+
+    const handleSave = async () => {
+        try {
+            // Gửi request PUT để cập nhật dữ liệu lên server
+            const response = await axiosInstance.put(`garages/${id}`, {
+                // Truyền dữ liệu cần cập nhật vào đây
+                name: management.name,
+                email: management.email,
+                phoneNumber: management.phoneNumber,
+                address: management.address,
+                // ... Các trường dữ liệu khác
+            });
+
+            // Kiểm tra kết quả thành công hay không
+            if (response.status === 200) {
+                console.log('Data saved successfully!');
+                // Xử lý thành công, có thể thêm thông báo hoặc chuyển hướng tùy ý
+            } else {
+                console.log('Data save failed!');
+                // Xử lý khi lưu dữ liệu thất bại
+            }
+        } catch (error) {
+            console.log('Error saving data:', error);
+            // Xử lý khi có lỗi xảy ra
+        }
+    };
+
 
     return (
 
@@ -148,6 +180,8 @@ function Update_managetment() {
                     />
                 </Col>
             </Row>
+            <Button type="primary" onClick={handleSave}>Save</Button>
+
         </>
     );
 }

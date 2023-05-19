@@ -21,7 +21,7 @@ import UpdateService_page from './pages/UpdateService_page/index.jsx';
 import Profile_page from './pages/ViewProfile_page/index.jsx';
 import UpdateManagement from './pages/Page_update_management/Page_update_management.jsx';
 import GarageService from './pages/Garage_Service_page/index.jsx';
-import DetailService from './pages/DetailService/index.jsx'
+import DetailService from './pages/DetailService/index.jsx';
 import GarageManage_page from './pages/garage_manage_page/index.jsx';
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         </Route>
         <Route element={<AuthRoutes />}>
           <Route path="/" element={<Profile_page />} />
-          
+
           <Route path="/change_password" element={<Change_pw_page />} />
           <Route path="/update" element={<Update_Page />} />
           <Route path="/create_owner" element={<CreateOwner_page />} />
@@ -42,13 +42,13 @@ function App() {
           <Route path="/garage_owner" element={<GarageOwner />} />
           <Route path="/create_garage" element={<CreateGarage_page />} />
           <Route path="/update_service" element={<UpdateService_page />} />
-          <Route path="/update_management" element={<UpdateManagement />} />
-          <Route path="/Garage_service" element={<GarageService/>}/>
-          <Route path="/service_detail" element={<DetailService/>}/>
-          <Route path="/Garage_manage" element={<GarageManage_page/>}/>
+          <Route path="/update_management/:id" element={<UpdateManagement />} />
+          <Route path="/Garage_service" element={<GarageService />} />
+          <Route path="/service_detail" element={<DetailService />} />
+          <Route path="/Garage_manage" element={<GarageManage_page />} />
         </Route>
       </Routes>
-    
+
       {/* <Garage_Detail/> */}
       {/* <Update_Profile/> */}
       {/* <Login></Login> */}

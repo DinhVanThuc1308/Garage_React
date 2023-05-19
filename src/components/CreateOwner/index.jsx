@@ -130,15 +130,16 @@ function CreateOwner() {
     console.log({ data });
     delete data.status;
     // delete data.garage;
-    axiosInstance.post('users', data)
-    .then(res => {
-      openMessageAuke();
-      console.log(res);
-      console.log(res.data);
-    })
-    .catch(err => {
-      openMessageErr();
-    });
+    axiosInstance
+      .post(`users`, data)
+      .then(res => {
+        openMessageAuke();
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch(err => {
+        openMessageErr();
+      });
   };
 
   return (

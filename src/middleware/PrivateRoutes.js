@@ -11,7 +11,14 @@ const AuthRoutes = () => {
 const GuestRoutes = () => {
   const isAuth = useContext(AuthContext).checkLogin;
   console.log(isAuth);
-  return isAuth ? <Navigate to="/view_profile" /> : <Outlet />;
+  return isAuth ? (
+    <Navigate
+      to="/garage_owner
+  "
+    />
+  ) : (
+    <Outlet />
+  );
 };
 
 export { AuthRoutes, GuestRoutes };

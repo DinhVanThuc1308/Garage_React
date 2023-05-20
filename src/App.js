@@ -31,7 +31,7 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Route>
         <Route element={<AuthRoutes />}>
-          <Route path="/" element={<Profile_page />} />
+          <Route path="/" element={<GarageOwner />} />
 
           <Route path="/change_password" element={<Change_pw_page />} />
           <Route path="/update" element={<Update_Page />} />

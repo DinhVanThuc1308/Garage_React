@@ -1,88 +1,63 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import "./login.css";
-import {
-  Button,
-  Form,
-  Input,
-} from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { AuthContext } from "../../../context/auth";
 import { useNavigate } from "react-router-dom";
+
 export default function Login() {
-
   const auth = useContext(AuthContext);
-  const nav = useNavigate()
-
+  const nav = useNavigate();
   const API = "https://edison-garage-api.savvycom.xyz/api/auth/local";
-  const handleSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
 
-    const account = {
-      identifier: e.username,
-      password: e.password,
-    };
-
-    getAPI(account);
+  const handleSubmit = async (values) => {
+    try {
+      setLoading(true);
+      const account = {
+        identifier: values.username,
+        password: values.password,
+      };
+      const response = await axios.post(API, account);
+      auth.setKey(response.data.jwt);
+      nav('/');
+    } catch (error) {
+      message.error("Failed to login. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
-
-  function getAPI(data) {
-    axios.post(API, data, {
-    }).then((res) => {
-      auth.setKey(res.data.jwt)
-      nav('/view_profile')
-    });
-  }
 
   const formItemLayout = {
     labelCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 12,
-      },
+      xs: { span: 24 },
+      sm: { span: 12 },
     },
     wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 24,
-      },
+      xs: { span: 24 },
+      sm: { span: 24 },
     },
   };
 
   return (
     <div className="login">
-      {/* <form onSubmit={handleSubmit} > */}
       <div className="header-login" style={{ paddingBottom: '50px' }}>
         <h3>Welcome</h3>
-        <p>login to your account</p>
+        <p>Login to your account</p>
       </div>
       <div className="body-login" >
-        {/* <label>Email:</label>
-          <br />
-          <input type="text" id="email" name="email" placeholder="Email" />
-          <br />
-          <label>Password:</label>
-          <br /> */}
         <Form onFinish={handleSubmit} {...formItemLayout} layout="vertical">
           <Form.Item
             name="username"
-            label="User Name"
+            label="Username"
             rules={[
               {
                 required: true,
-                message: 'Please input your user name!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
+                message: 'Please input your username!',
+              }
             ]}
           >
-
-            <Input name="username" id="username" placeholder="User Name" />
-
+            <Input name="username" placeholder="Username" />
           </Form.Item>
           <Form.Item
             name="password"
@@ -99,24 +74,18 @@ export default function Login() {
             ]}
             hasFeedback
           >
-
-
-            <Input.Password name="password" />
+            <Input.Password name="password" placeholder="Password" />
           </Form.Item>
-
-          <Button type="primary" htmlType="submit" style={{ width: '400px', height: '48px' }} >Login</Button>
-
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ width: '400px', height: '48px' }}
+            loading={loading}
+          >
+            Login
+          </Button>
         </Form>
-
-
       </div>
-
-
     </div>
-
   );
-
-
-
-
 }

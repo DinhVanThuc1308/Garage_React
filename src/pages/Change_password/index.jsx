@@ -7,9 +7,6 @@ import { useNavigate } from "react-router-dom";
 import Slide_bar from "../../components/Slider_bar/index";
 import axiosInstance from '../../shared/services/http-client.js';
 import { Link } from 'react-router-dom';
-
-
-
 import {
     Button,
     Form,
@@ -17,13 +14,10 @@ import {
 } from 'antd';
 import axios from "axios";
 
-
 function Change_pw_page() {
     // const auth = useContext(AuthContext);
-    // const nav = useNavigate()    
+    // const nav = useNavigate()
     const API = "https://edison-garage-api.savvycom.xyz/api/auth/local";
-
-
 
     const handleSubmit = (e) => {
         const data = {
@@ -44,13 +38,12 @@ function Change_pw_page() {
                     backdrop: true,
                     timer: 1000,
                 })
-            }
-            )
+            })
         } catch (error) {
             console.log(error)
-
         }
     };
+
     const formItemLayout = {
         labelCol: {
             xs: {
@@ -69,15 +62,23 @@ function Change_pw_page() {
             },
         },
     };
+
+    const labelStyle = {
+        fontFamily: 'Poppins, sans-serif',
+        fontWeight: 300,
+    };
+
     return (
         <Slide_bar>
             <div className="Change_pw_page">
                 <div className="Change_pw_page_box">
-                    <p style={{ color: 'gray' }}>Now you can create a new Password for your account  </p>
+                    <p style={{ color: 'gray' }}>Now you can create a new Password for your account</p>
                     <Form onFinish={handleSubmit} {...formItemLayout} layout="vertical">
                         <Form.Item
                             name="CurrentPassword"
                             label="Current Password"
+                            style={{ marginBottom: '30px', height: '56px' }}
+                            labelCol={{ style: labelStyle }}
                             rules={[
                                 {
                                     required: true,
@@ -86,19 +87,17 @@ function Change_pw_page() {
                                 {
                                     min: 6,
                                     message: 'Password must be at least 6 characters long',
-
-                                }
+                                },
                             ]}
                             hasFeedback
                         >
-
-
-                            <Input.Password name="CurrentPassword" placeholder="Enter current password" />
+                            <Input.Password placeholder="Enter current password" />
                         </Form.Item>
                         <Form.Item
                             name="NewPassword"
                             label="New Password"
-
+                            style={{ marginBottom: '30px', height: '56px' }}
+                            labelCol={{ style: labelStyle }}
                             rules={[
                                 {
                                     required: true,
@@ -107,46 +106,41 @@ function Change_pw_page() {
                                 {
                                     min: 6,
                                     message: 'Password must be at least 6 characters long',
-
-                                }
+                                },
                             ]}
                             hasFeedback
                         >
-                            <Input.Password name="NewPassword" placeholder="Enter New Password" />
+                            <Input.Password placeholder="Enter New Password" />
                         </Form.Item>
                         <Form.Item
                             name="ConfirmPassword"
                             label="Confirm Password"
+                            style={{ marginBottom: '30px', height: '56px', }}
+                            labelCol={{ style: labelStyle }}
                             dependencies={['password']}
                             hasFeedback
+
+
                             rules={[
                                 {
                                     required: true,
                                     message: 'Please confirm your password!',
                                 },
-                                // ({ getFieldValue }) => ({
-                                //     validator(rule, value) {
-                                //         if (!value || getFieldValue('password') === value) {
-                                //             return Promise.resolve();
-                                //         }
 
-                                //         return Promise.reject('The two passwords that you entered do not match!');
-                                //     },
-                                // }),
                             ]}
                         >
-                            <Input.Password name="ConfirmPassword" placeholder="Enter confirm Password" />
+                            <Input.Password placeholder="Enter confirm Password" />
                         </Form.Item>
-                        <Form.Item >
-                            <Button type="primary" htmlType="submit" style={{ width: '15%', height: '48px', margin: '15px 30px', }}>Save</Button>
-                            <Link to="/view_profile"><Button style={{ width: '15%', height: '48px', border: "2px solid #8767E1", paddingLeft: "8px" }}>Cancel</Button></Link>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" style={{ width: '109px', height: '48px', padding: '12px, 16px, 12px, 16px' }}>Save</Button>
+                            <Link to="/view_profile"><Button style={{ width: '109px', height: '48px', border: "2px solid #8767E1", paddingLeft: "12px, 16px, 12px, 16px", marginLeft: '21px' }}>Cancel</Button></Link>
                         </Form.Item>
                     </Form>
                 </div>
             </div>
         </Slide_bar>
     );
-
 }
 
 export default Change_pw_page;
+

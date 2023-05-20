@@ -11,3 +11,11 @@
     width: 100%;
     height: 58px
 ;}
+
+ 
+    .btn_xoa {
+      border: 'none',
+    }
+    .btn_xoa:hover {
+      background: 'none',
+    }

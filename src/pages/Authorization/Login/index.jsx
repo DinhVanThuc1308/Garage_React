@@ -22,7 +22,7 @@ export default function Login() {
       auth.setKey(response.data.jwt);
       nav('/');
     } catch (error) {
-      message.error("Failed to login. Please try again.");
+      message.error("Sai tài khoản hoặc mật khẩu");
     } finally {
       setLoading(false);
     }
@@ -40,16 +40,23 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
-      <div className="header-login" style={{ paddingBottom: '50px' }}>
-        <h3>Welcome</h3>
-        <p>Login to your account</p>
+    <div className="login" style={{ fontFamily: 'Helvetica' }}>
+      <div className="header-login">
+        <h3 style={{ marginBottom: '20px' }}>Welcome</h3>
+        <p style={{ marginBottom: '30px' }}>Login to your account</p>
       </div>
-      <div className="body-login" >
-        <Form onFinish={handleSubmit} {...formItemLayout} layout="vertical">
+      <div className="body-login">
+        <Form
+          onFinish={handleSubmit}
+          {...formItemLayout}
+          layout="vertical"
+          className="login-form"
+        >
           <Form.Item
+            className="input-username"
             name="username"
-            label="Username"
+            label="Username:"
+            style={{ marginBottom: '30px', height: '56px', }}
             rules={[
               {
                 required: true,
@@ -59,9 +66,11 @@ export default function Login() {
           >
             <Input name="username" placeholder="Username" />
           </Form.Item>
+
+
           <Form.Item
             name="password"
-            label="Password"
+            label="Password:"
             rules={[
               {
                 required: true,
@@ -72,18 +81,22 @@ export default function Login() {
                 message: 'Password must be at least 6 characters long',
               }
             ]}
-            hasFeedback
+
           >
-            <Input.Password name="password" placeholder="Password" />
+            <Input.Password className="input-password" name="password" placeholder="Password" style={{ backgroundColor: '#fff' }} />
+
+
           </Form.Item>
           <Button
             type="primary"
             htmlType="submit"
-            style={{ width: '400px', height: '48px' }}
+            style={{ width: '400px', height: '48px', marginTop: '20px', hover: 'none' }}
             loading={loading}
+            className="custom-button"
           >
             Login
           </Button>
+
         </Form>
       </div>
     </div>

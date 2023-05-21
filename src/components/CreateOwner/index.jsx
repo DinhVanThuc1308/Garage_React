@@ -7,6 +7,7 @@ import { Option } from 'antd/es/mentions';
 import axiosInstance from '../../shared/services/http-client';
 import { useState } from 'react';
 import { message } from 'antd';
+import { useEffect } from 'react';
 
 function CreateOwner() {
   const {
@@ -23,7 +24,7 @@ function CreateOwner() {
       gender: '',
       dob: '',
       role: '',
-      status: '',
+      blocked: undefined,
       garage: [],
     },
   });
@@ -102,20 +103,30 @@ function CreateOwner() {
     createOwner(data);
   };
 
+  //  call api garage list from api and push it to garageList
+
+  useEffect(() => {
+    axiosInstance.get(`garages`).then(res => {
+      setGarageList(res.data);
+    });
+  }, []);
+
   // search garage
   // const [garageList, setGarageList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const garageList = ['Garage ABC', 'TLS', 'AHC', 'CB Garage', 'UCQ'];
+  const [garageList, setGarageList] = useState([]);
+  const [NameObject, setNameObject] = useState([]);
 
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredGarages =
-    garageList &&
-    garageList.filter(
-      garage => garage.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
-    );
+  const filteredGarages = garageList.filter(
+    garage =>
+      garage.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
+  );
+
+  // find garage name include id in checkedBoxes
 
   // const handleSearchGarage = () => {
 
@@ -128,17 +139,18 @@ function CreateOwner() {
 
   const createOwner = data => {
     console.log({ data });
-    delete data.status;
+    // delete data.status;
     // delete data.garage;
-    axiosInstance.post('users', data)
-    .then(res => {
-      openMessageAuke();
-      console.log(res);
-      console.log(res.data);
-    })
-    .catch(err => {
-      openMessageErr();
-    });
+    axiosInstance
+      .post(`users`, data)
+      .then(res => {
+        openMessageAuke();
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch(err => {
+        openMessageErr();
+      });
   };
 
   return (
@@ -269,8 +281,8 @@ function CreateOwner() {
                   placeholder="Select owner gender"
                   allowClear
                 >
-                  <Option value="male">male</Option>
-                  <Option value="female">female</Option>
+                  <Option value="male">Male</Option>
+                  <Option value="female">Female</Option>
                   <Option value="Other">Other</Option>
                 </Select>
               )}
@@ -312,9 +324,8 @@ function CreateOwner() {
                   {...field}
                   allowClear
                 >
-                  <Option value={1}>1</Option>
-                  <Option value={2}>2</Option>
-                  <Option value={3}>3</Option>
+                  <Option value={1}>Admin</Option>
+                  <Option value={2}>User</Option>
                 </Select>
               )}
             />
@@ -325,9 +336,9 @@ function CreateOwner() {
               Status <span style={{ color: 'red' }}>*</span>{' '}
             </label>
             <Controller
-              name="status"
+              name="blocked"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -335,9 +346,8 @@ function CreateOwner() {
                   placeholder="Select a Status"
                   allowClear
                 >
-                  <Option value="Active">Active</Option>
-                  <Option value="Deactive">Deactive</Option>
-                  <Option value="Other">Other</Option>
+                  <Option value={false}>Active</Option>
+                  <Option value={true}>Deactive</Option>
                 </Select>
               )}
             />
@@ -361,27 +371,33 @@ function CreateOwner() {
                   key={garageName}
                   style={{ marginLeft: '8px' }}
                   onChange={onChangeBox}
-                  value={garageName}
-                  checked={checkedBoxes.includes(garageName)}
+                  value={garageName.id}
+                  checked={checkedBoxes.includes(garageName.id)}
                 >
-                  {garageName}
+                  {garageName.attributes.name}
                 </Checkbox>
               ))}
             </div>
           </div>
           <div className={styles['list-garage']}>
             <label htmlFor="">Select garages ({checkedBoxes.length})</label>
-            {checkedBoxes.map(item => (
-              <div className={styles['pickitem']} key={item}>
-                <div className="pickitem-name">{item}</div>
-                <img
-                  src={binicon}
-                  alt=""
-                  onClick={() => handleDelete(item)}
-                  style={{ cursor: 'pointer', marginLeft: '5px' }}
-                />
-              </div>
-            ))}
+            {checkedBoxes.map(item => {
+              const IDObject = garageList.find(obj => obj.id === item);
+              console.log(IDObject);
+              return (
+                <div className={styles['pickitem']} key={item}>
+                  <div className="pickitem-name">
+                    {IDObject.attributes.name}
+                  </div>
+                  <img
+                    src={binicon}
+                    alt=""
+                    onClick={() => handleDelete(item)}
+                    style={{ cursor: 'pointer', marginLeft: '5px' }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         <hr style={{ width: '100%' }} />

@@ -98,11 +98,26 @@ function CreateGarage() {
     setCheckedBoxes(checkedBoxes.filter(checked => checked !== item));
   };
 
-  const onSubmit = data => {
-    data.services = checkedBoxes;
-    console.log(data);
-    createGarage(data);
+  const onSubmit = object => {
+    object.services = checkedBoxes;
+    const data = {
+      name: object.name,
+      address: object.address,
+      status: object.status,
+      phoneNumber: object.phoneNumber,
+      email: object.email,
+      openTime: object.openTime,
+      closeTime: object.closeTime,
+      description: object.description,
+      policy: object.policy,
+      owner: object.owner,
+      services: object.services,
+    };
+    console.log(object, 111);
+    console.log(data, 222);
+    createGarage({ data });
   };
+
 
   // search garage
   // const [garageList, setGarageList] = useState([]);
@@ -303,7 +318,7 @@ function CreateGarage() {
                   {...field}
                   allowClear
                 >
-                  <Option value={1}>1</Option>
+                  <Option value={15}>15</Option>
                   <Option value={2}>2</Option>
                   <Option value={3}>3</Option>
                 </Select>

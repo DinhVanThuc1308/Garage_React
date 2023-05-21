@@ -7,6 +7,7 @@ import { Option } from 'antd/es/mentions';
 import axiosInstance from '../../shared/services/http-client';
 import { useState } from 'react';
 import { message } from 'antd';
+import { useEffect } from 'react';
 
 function CreateOwner() {
   const {
@@ -102,20 +103,28 @@ function CreateOwner() {
     createOwner(data);
   };
 
+  //  call api garage list from api and push it to garageList
+
+  axiosInstance.get(`garages`).then(res => {
+    setGarageList(res.data);
+  });
+
   // search garage
   // const [garageList, setGarageList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const garageList = ['Garage ABC', 'TLS', 'AHC', 'CB Garage', 'UCQ'];
+  const [garageList, setGarageList] = useState([]);
+  const [NameObject, setNameObject] = useState([]);
 
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredGarages =
-    garageList &&
-    garageList.filter(
-      garage => garage.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
-    );
+  const filteredGarages = garageList.filter(
+    garage =>
+      garage.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
+  );
+
+  // find garage name include id in checkedBoxes
 
   // const handleSearchGarage = () => {
 
@@ -362,27 +371,36 @@ function CreateOwner() {
                   key={garageName}
                   style={{ marginLeft: '8px' }}
                   onChange={onChangeBox}
-                  value={garageName}
+                  value={garageName.id}
                   checked={checkedBoxes.includes(garageName)}
                 >
-                  {garageName}
+                  {garageName.attributes.name}
                 </Checkbox>
               ))}
             </div>
           </div>
           <div className={styles['list-garage']}>
             <label htmlFor="">Select garages ({checkedBoxes.length})</label>
-            {checkedBoxes.map(item => (
-              <div className={styles['pickitem']} key={item}>
-                <div className="pickitem-name">{item}</div>
-                <img
-                  src={binicon}
-                  alt=""
-                  onClick={() => handleDelete(item)}
-                  style={{ cursor: 'pointer', marginLeft: '5px' }}
-                />
-              </div>
-            ))}
+            {checkedBoxes.map(item => {
+              const IDObject = garageList.find(obj => obj.id === item);
+              console.log(IDObject);
+              return (
+                <div
+                  className={styles['pickitem']}
+                  key={item}
+                >
+                  <div className="pickitem-name">
+                    {IDObject.attributes.name}
+                  </div>
+                  <img
+                    src={binicon}
+                    alt=""
+                    onClick={() => handleDelete(item)}
+                    style={{ cursor: 'pointer', marginLeft: '5px' }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         <hr style={{ width: '100%' }} />

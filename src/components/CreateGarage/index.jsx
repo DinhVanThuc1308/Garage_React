@@ -118,6 +118,7 @@ function CreateGarage() {
     createGarage({ data });
   };
 
+
   // search garage
   // const [garageList, setGarageList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');

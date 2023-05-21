@@ -24,18 +24,19 @@ const options = [
 ];
 const options2 = [
   {
-    value: 'Status',
-    label: 'Status',
+    value: true,
+    label: 'Active',
   },
   {
-    value: 'active',
-    label: 'done',
+    value: false,
+    label: 'Inactive',
   }
 ];
 
 function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('')
+  const [status, setStatus] = useState('')
 
   const handleDelete = async (id) => {
     // delete user
@@ -48,7 +49,13 @@ function App() {
 
   const callApi = async () => {
 
-    const data = await axiosInstance.get('users',);
+    const data = await axiosInstance.get('users', {
+      params: {
+        'filters[fullname][$contains]': search,
+        'filters[blocked][$eq]': false
+
+      }
+    });
     console.log(data);
 
     const users = data.map(user => ({
@@ -81,7 +88,7 @@ function App() {
 
   useEffect(() => {
     callApi()
-  }, [])
+  }, [search, status])
 
 
   const columns = [
@@ -120,27 +127,25 @@ function App() {
 
   return (
     <div className="div">
-      <Space direction="vertical" size="middle" >
-        <span >
-          <Space.Compact style={{ width: ' 493px' }}>
-            <Select defaultValue="Name" options={options} />
-            <Input placeholder="Search" suffix={<SearchOutlined />}
+      <Space direction="vertical" size="middle" className='UI_search' style={{ paddingBottom: '70px', height: '48px' }}>
+        <span>
+          <Space.Compact style={{ width: '600px' }}>
+            <Select defaultValue="Name" options={options} onClick={() => { callApi() }} style={{ width: '40%', }} />
+            <Input placeholder="Search" suffix={<SearchOutlined />} style={{ width: '60%', }}
               value={search}
-              onChange={
-                (e) => setSearch(e.target.value)
-              }
+              onChange={(e) => setSearch(e.target.value)}
             />
           </Space.Compact>
-          <Button
-            style={{ backgroundColor: '#8767E1', marginLeft: '10px', }}
-            onClick={() => { callApi() }}
-          >Search</Button>
-          <Button style={{ backgroundColor: '#8767E1', marginLeft: '160px', }}>
-            <Link to="/create_garage">Add Owner</Link></Button>
+          {/* vieest ther selec gom 2 trang thai bang antd*/}
+          <Select defaultValue="Status" onChange={(e) => setStatus(e)} options={options2} style={{ marginLeft: '50px', width: '150px' }} />
+          <Button style={{ backgroundColor: '#8767E1', marginLeft: '150px', width: '120px', color: '#fff' }}>
+            <Link to="/create_garage">Add Owner</Link>
+          </Button>
         </span>
       </Space>
       <Table columns={columns} dataSource={data} />
     </div>
+
 
   )
 };

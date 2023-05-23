@@ -115,7 +115,6 @@ function CreateOwner() {
   // const [garageList, setGarageList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [garageList, setGarageList] = useState([]);
-  const [NameObject, setNameObject] = useState([]);
 
   const handleSearch = e => {
     setSearchTerm(e.target.value);

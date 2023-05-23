@@ -8,7 +8,7 @@ function Page_update_management() {
     return (
         <Slide_bar>
             <Update_Managetment></Update_Managetment>
-            <Footer_Managetment></Footer_Managetment>
+            {/* <Footer_Managetment></Footer_Managetment> */}
         </Slide_bar>
     );
 }

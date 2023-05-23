@@ -138,7 +138,7 @@ function App() {
           </Space.Compact>
           {/* vieest ther selec gom 2 trang thai bang antd*/}
           <Select defaultValue="Status" onChange={(e) => setStatus(e)} options={options2} style={{ marginLeft: '50px', width: '150px' }} />
-          <Button style={{ backgroundColor: '#8767E1', marginLeft: '150px', width: '120px', color: '#fff' }}>
+          <Button style={{ backgroundColor: '#8767E1', marginLeft: '150px', width: '120px', color: '#fff ' }}>
             <Link to="/create_garage">Add Owner</Link>
           </Button>
         </span>

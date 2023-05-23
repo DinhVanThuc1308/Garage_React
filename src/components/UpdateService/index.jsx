@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input, message } from 'antd';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../shared/services/http-client';
 import styles from './styles.module.css';
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function UpdateService() {
+  let { id } = useParams();
   const { TextArea } = Input;
   const {
     control,
@@ -19,6 +22,22 @@ export default function UpdateService() {
     },
   });
 
+  const [dataID, setDataID] = useState([]);
+
+  // call api id to get data
+
+  useEffect(() => {
+    async function fetchData() {
+      // You can await here
+      const response = await axiosInstance.get(`garage-services/${id}`);
+
+      setDataID(response.data);
+      console.log(id);
+      // ...
+    }
+    fetchData();
+  }, [id]);
+  console.log(dataID);
   const [messageApi, contextHolder] = message.useMessage();
   const key = 'updatable';
   const openMessageErr = () => {
@@ -52,17 +71,25 @@ export default function UpdateService() {
     }, 1000);
   };
 
-  const onSubmit = data => {
-    console.log(data);
-    updateService(data);
+  const onSubmit = object => {
+    const data = {
+      name: object.name,
+      description: object.description,
+      minPrice: object.minPrice,
+      maxPrice: object.maxPrice,
+    };
+    console.log(111, id);
+    console.log(object);
+    updateService({ data }, id);
   };
 
-  const updateService = data => {
+  const updateService = (data, idNumber) => {
+    console.log(idNumber);
     console.log({ data });
-    delete data.status;
+    // delete data.status;
     // delete data.garage;
     axiosInstance
-      .put('garage-services/:id', data)
+      .put(`garage-services/${idNumber}`, data)
       .then(res => {
         openMessageAuke();
         console.log(res);
@@ -95,7 +122,7 @@ export default function UpdateService() {
                   {...field}
                   style={{ width: '100%' }}
                   size="large"
-                  placeholder="Enter service name"
+                  placeholder={dataID.attributes?.name}
                 />
               )}
             />
@@ -112,7 +139,11 @@ export default function UpdateService() {
               control={control}
               rules={{ required: true, pattern: /^[0-9]*$/ }}
               render={({ field }) => (
-                <Input size="large" {...field} placeholder="Enter min price" />
+                <Input
+                  size="large"
+                  {...field}
+                  placeholder={dataID.attributes?.minPrice}
+                />
               )}
             />
             {errors.minPrice && (
@@ -128,7 +159,11 @@ export default function UpdateService() {
               control={control}
               rules={{ required: true, pattern: /^[0-9]*$/ }}
               render={({ field }) => (
-                <Input size="large" {...field} placeholder="Enter max price" />
+                <Input
+                  size="large"
+                  {...field}
+                  placeholder={dataID.attributes?.maxPrice}
+                />
               )}
             />
             {errors.maxPrice && (

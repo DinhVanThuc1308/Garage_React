@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Col, Row, TimePicker } from 'antd';
 import { Transfer } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Form, Input, Select } from 'antd';
@@ -104,172 +104,174 @@ function Update_managetment() {
     return (
 
 
-
-        <>
-            <Form style={{ width: '100%' }}>
+        <Form style={{ width: '100%' }}>
+            <>
                 <Row gutter={[30, 20]}>
-                    <Col className="  gutter-row Management_col" span={8}>
-
-                        <Form.Item className='Management_require'
+                    <Col className="gutter-row Owner_col" span={8}>
+                        <Form.Item className='Owner_require'
                             label="Name"
                             rules={[{ required: true, message: 'Please input your name!' }]}
                             name="Name"
-                        ></Form.Item>
-                        <Input size="large" placeholder="Enter Management name"
-                            value={management?.name}
-                        />
+                            style={{ marginBottom: '10px' }}
 
+                        ></Form.Item>
+                        <Input size="large" placeholder="Enter owner name" value={management?.name} />
                     </Col>
                     <Col className="gutter-row" span={8}>
-                        <Form.Item className='Management_require'
+                        <Form.Item className='Owner_require'
                             label="Email"
                             rules={[{ required: true, message: 'Please input your email!' }]}
                             name="Email"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
-                        <Input size="large" placeholder="Enter Management email"
-                            value={management?.email}
-                        />
+                        <Input size="large" placeholder="Enter owner email" />
 
                     </Col>
                     <Col className="gutter-row" span={8}>
-                        <Form.Item className='Management_require'
-                            label="Phone Number"
+                        <Form.Item className='Owner_require'
+                            label="PhoneNumber"
                             rules={[{ required: true, message: 'Please input your username!' }]}
                             name="PhoneNumber"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
-                        <Input size="large" placeholder="Enter Management PhoneNumber"
-                            value={management?.phoneNumber}
-                        />
+                        <Input size="large" placeholder="Enter owner PhoneNumber" />
 
                     </Col>
 
-                    <Col className="gutter-row Management_lable" span={8}>
-                        <Form.Item className='Management_require'
-                            label="Address:"
+                    <Col className="gutter-row Owner_lable" span={8}>
+                        <Form.Item className='Owner_require'
+                            label="Address"
                             rules={[{ required: true, message: 'Please input your Address!' }]}
                             name="Address"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
 
-                        <Input size="large" placeholder="Enter Management Address"
-                            value={management?.address}
-                        />
+                        <Input size="large" placeholder="Enter owner Address" />
 
                     </Col>
                     <Col className="gutter-row" span={8}>
-                        <Form.Item className='Management_require'
-                            label="Opentime:"
-                            rules={[{ required: true, message: 'Please input your phone number!' }]}
-                            name="Opentime"
+                        <Form.Item className='Owner_require'
+                            label="OpenTime"
+                            rules={[{ required: true, message: 'Please input your OpenTime!' }]}
+                            name="OpenTime"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
-                        <DatePicker size='large' style={{ width: '100%' }} showTime format="HH:mm"
-                        // value={management?.openTime}
-                        />
+                        <TimePicker size="large" placeholder="Enter owner OpenTime" style={{ width: '100%' }} />
                     </Col>
-                    <Col className="gutter-row" span={8}>
-                        <Form.Item className='Management_require'
-                            label="CloseTime:"
-                            rules={[{ required: true, message: 'Please input your phone number!' }]}
+                    <Col className="gutter-row" span={8} >
+
+                        <Form.Item className='Owner_require'
+                            label="CloseTime"
+                            rules={[{ required: true, message: 'Please input your CloseTime!' }]}
                             name="CloseTime"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
-                        <DatePicker size='large' style={{ width: '100%' }} showTime format="HH:mm" />
+                        <TimePicker size="large" placeholder="Enter owner CloseTime" style={{ width: '100%' }} />
                     </Col>
 
                     <Col className="gutter-row" span={8}>
-                        {/* Tạo 1 ô có label là GarageManagement và input là kiểu lựa chọn Management1 ,Management2.... */}
-                        <Form.Item className='Management_require'
-                            label="GarageOwner"
-                            rules={[{ required: true, message: 'Please select your GarageManagement!' }]}
+                        <Form.Item className='Owner_require'
+                            label="Garage Owner"
+                            rules={[{ required: true, message: 'Please input your Garage Owner!' }]}
                             name="GarageOwner"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
-                        <Select size="large" className='Owner_select'
-                            placeholder="Select a GarageOwner"
-                            allowClear
-                        >
-                            <Option value="1">Owner1</Option>
-                            <Option value="2">Owner2</Option>
-                            <Option value="3">Owner3</Option>
-                        </Select>
+                        <Input size="large" placeholder="Enter owner GarageOwner" />
 
                     </Col>
-
                     <Col className="gutter-row" span={8}>
-                        <Form.Item className='Management_require'
+                        <Form.Item className='Owner_require'
                             label="Status"
                             rules={[{ required: true, message: 'Please select your Status!' }]}
                             name="Status"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
-                        <Select size="large" className='Management_select'
+                        <Select size="large" className='Owner_select'
                             placeholder="Select a Status"
                             allowClear
-                            style={{ width: '100%' }}
+                            style={{ marginBottom: '10px' }}
+
                         >
-                            <Option value="Male">Active</Option>
-                            <Option value="Female">.....</Option>
-                            <Option value="Other">.....</Option>
+                            <Option value="Male">Action</Option>
+                            <Option value="Female">Inaction</Option>
+
                         </Select>
                     </Col>
+
                 </Row>
-                <Row gutter={[30, 20]} >
-                    <Col className="gutter-row Management_lable" span={12}>
-                        <Form.Item
-                            className="Management_require"
+                {/* tạo thêm 1 hàng gồm 2 ô textarea có lable là Description và Policy */}
+                <Row gutter={[30, 20]}>
+                    <Col className="gutter-row" span={12}>
+                        <Form.Item className='Owner_require'
                             label="Description"
-                            rules={[{ required: true, message: 'Please input your description!' }]}
+                            rules={[{ required: true, message: 'Please input your Description!' }]}
                             name="Description"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
-                        <TextArea size="large" placeholder="Enter Management description" style={{ height: 150, }}
-                            value={management?.description}
-                        />
+                        <TextArea rows={8} placeholder="Enter owner Description" style={{ width: '600px' }} />
                     </Col>
-                    <Col className="gutter-row Management_lable" span={12}>
-                        <Form.Item
-                            className="Management_require"
+                    <Col className="gutter-row" span={12}>
+                        <Form.Item className='Owner_require'
                             label="Policy"
-                            rules={[{ required: true, message: 'Please input your policy!' }]}
+                            rules={[{ required: true, message: 'Please input your Policy!' }]}
                             name="Policy"
+                            style={{ marginBottom: '10px' }}
+
                         ></Form.Item>
-                        <TextArea size="large" placeholder="Enter Management policy" style={{ height: 150, }}
-                            value={management?.policy}
-                        />
+                        <TextArea rows={8} placeholder="Enter owner Policy" style={{ width: '600px' }} />
                     </Col>
                 </Row>
 
-                <h2>Garage</h2>
-                <Transfer
-                    className="Footer_update_owner"
-                    showSearch={{
-                        filterOption: false,
-                        render: (props) => <input {...props} placeholder="Search..." />,
-                        style: { width: '100%' }
-                    }}
-                    dataSource={filteredData}
-                    titles={['Source', 'Target']}
-                    targetKeys={targetKeys}
-                    selectedKeys={selectedKeys}
-                    onChange={handleChange}
-                    onSelectChange={handleSelectChange}
-                    onScroll={handleScroll}
-                    operation={[]}
-                    render={(item) => item.title}
-                    oneWay
-                    style={{
-                        marginBottom: 16,
-                    }}
-                    onSearch={handleSearch}
-                />
-                <Button type="primary" onClick={handleSave}>
-                    Save
-                </Button>
-
-            </Form >
 
 
+            </>
+
+            <h2>Garage</h2>
+            <Transfer
+                className="Footer_update_owner"
+                showSearch={{
+                    filterOption: false,
+                    render: (props) => <input {...props} placeholder="Search..." />,
+
+                }}
+                dataSource={filteredData}
+                titles={['Source', 'Target']}
+                targetKeys={targetKeys}
+                selectedKeys={selectedKeys}
+                onChange={handleChange}
+                onSelectChange={handleSelectChange}
+                onScroll={handleScroll}
+                operation={[]}
+                render={(item) => item.title}
+                oneWay
+                style={{
+                    marginBottom: 16,
+                    width: '100%'
+                }}
+                onSearch={handleSearch}
+
+            />
+            <Button type="primary" onClick={handleSave}>
+                Save
+            </Button>
+
+        </Form >
 
 
 
 
 
-        </>
+
+
+
 
 
 

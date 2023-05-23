@@ -121,7 +121,7 @@ hr {
 
     background: #8767E1;
     border-radius: 8px;
-    border-color: #8767E1;
+    border-color: white;
 }
 
 
@@ -158,9 +158,10 @@ hr {
 
     /* Primary/1 */
 
-    color: #F1F4F9;
+    color: white;
     border-radius: 8px;
     border-color: #8767E1;
+    background-color: white;
 
 
 }

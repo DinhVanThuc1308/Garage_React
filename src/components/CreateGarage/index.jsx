@@ -5,7 +5,7 @@ import binicon from './Vector.svg';
 import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
 import axiosInstance from '../../shared/services/http-client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { message } from 'antd';
 
 function CreateGarage() {
@@ -79,9 +79,9 @@ function CreateGarage() {
   const onChangeBox = e => {
     // const value = e.target.value;
     // if (e.target.checked) {
-    //   setGarageList([...garageList, value]);
+    //   setserviceList([...serviceList, value]);
     // } else {
-    //   setGarageList(garageList.filter(item => item !== value));
+    //   setserviceList(serviceList.filter(item => item !== value));
     // }
     const value = e.target.value;
     const isChecked = e.target.checked;
@@ -98,31 +98,66 @@ function CreateGarage() {
     setCheckedBoxes(checkedBoxes.filter(checked => checked !== item));
   };
 
-  const onSubmit = data => {
-    data.services = checkedBoxes;
-    console.log(data);
-    createGarage(data);
+  const onSubmit = object => {
+    object.services = checkedBoxes;
+    const data = {
+      name: object.name,
+      address: object.address,
+      status: object.status,
+      phoneNumber: object.phoneNumber,
+      email: object.email,
+      openTime: object.openTime,
+      closeTime: object.closeTime,
+      description: object.description,
+      policy: object.policy,
+      owner: object.owner,
+      services: object.services,
+    };
+    console.log(object, 111);
+    console.log(data, 222);
+    createGarage({ data });
   };
 
   // search garage
-  // const [garageList, setGarageList] = useState([]);
+  // const [serviceList, setserviceList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const garageList = ['Garage ABC', 'TLS', 'AHC', 'CB Garage', 'UCQ'];
+  const [serviceList, setServiceList] = useState([]);
+  const [ownerList, setOwnerList] = useState([]);
 
+  // Call API userId(owner) list
+  // useEffect(() => {
+  //   axiosInstance.get(`users`).then(res => {
+  //     setOwnerList(res.data);
+  //   });
+  // }, []);
+
+  // Call API garage-service list
+  useEffect(() => {
+    axiosInstance.get(`garage-services`).then(res => {
+      setServiceList(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axiosInstance.get(`users`).then(res => {
+      setOwnerList(res);
+      console.log(res);
+    });
+  }, []);
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredGarages =
-    garageList &&
-    garageList.filter(
-      garage => garage.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
-    );
+  const filteredServices = serviceList.filter(
+    service =>
+      service.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
+  );
 
   // const handleSearchGarage = () => {
 
   //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
-  //     setGarageList(res.data);
+  //     setserviceList(res.data);
   //   });
   // };
 
@@ -303,9 +338,11 @@ function CreateGarage() {
                   {...field}
                   allowClear
                 >
-                  <Option value={1}>1</Option>
-                  <Option value={2}>2</Option>
-                  <Option value={3}>3</Option>
+                  {ownerList.map(owner => (
+                    <Option key={owner} value={owner.id}>
+                      {owner.fullname}
+                    </Option>
+                  ))}
                 </Select>
               )}
             />
@@ -392,37 +429,43 @@ function CreateGarage() {
           <div className={styles['checkbox-garage']}>
             <Input
               size="large"
-              placeholder="Search for garages .."
+              placeholder="Search for service .."
               value={searchTerm}
               onChange={handleSearch}
             />
             <div className={styles['checkbox-list']}>
-              {filteredGarages.map(garageName => (
+              {filteredServices.map(serviceName => (
                 <Checkbox
-                  key={garageName}
+                  key={serviceName}
                   style={{ marginLeft: '8px' }}
                   onChange={onChangeBox}
-                  value={garageName}
-                  checked={checkedBoxes.includes(garageName)}
+                  value={serviceName.id}
+                  checked={checkedBoxes.includes(serviceName.id)}
                 >
-                  {garageName}
+                  {serviceName.attributes.name}
                 </Checkbox>
               ))}
             </div>
           </div>
           <div className={styles['list-garage']}>
-            <label htmlFor="">Select garages ({checkedBoxes.length})</label>
-            {checkedBoxes.map(item => (
-              <div className={styles['pickitem']} key={item}>
-                <div className="pickitem-name">{item}</div>
-                <img
-                  src={binicon}
-                  alt=""
-                  onClick={() => handleDelete(item)}
-                  style={{ cursor: 'pointer', marginLeft: '5px' }}
-                />
-              </div>
-            ))}
+            <label htmlFor="">Select services ({checkedBoxes.length})</label>
+            {checkedBoxes.map(item => {
+              const IDObject = serviceList.find(obj => obj.id === item);
+              console.log(IDObject);
+              return (
+                <div className={styles['pickitem']} key={item}>
+                  <div className="pickitem-name">
+                    {IDObject.attributes.name}
+                  </div>
+                  <img
+                    src={binicon}
+                    alt=""
+                    onClick={() => handleDelete(item)}
+                    style={{ cursor: 'pointer', marginLeft: '5px' }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         <hr style={{ width: '100%' }} />

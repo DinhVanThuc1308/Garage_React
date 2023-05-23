@@ -36,8 +36,8 @@ function App() {
     const [search, setSearch] = useState('')
 
     const handleDelete = async (id) => {
-        // delete user
-        await axiosInstance.delete(`users/${id}`);
+        // delete garage
+        await axiosInstance.delete(`garages/${id}`);
         // call api
         callApi();
 
@@ -46,25 +46,26 @@ function App() {
 
     const callApi = async () => {
 
-        const data = await axiosInstance.get('users',);
-        console.log(data);
+        const data = await axiosInstance.get('garages',);
+        console.log(111, data.data[0]);
 
-        const users = data.map(user => ({
-            id: user.id,
-            name: user.fullname,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            status: user.status === 'active' ? 'Active' : 'Inactive',
+        const garages = data.data.map(garage => ({
+            id: garage.id,
+            name: garage.attributes.name,
+            email: garage.attributes.email,
+            phoneNumber: garage.attributes.phoneNumber,
+            garageOwner: garage.attributes.name,
+            status: garage.status === 'active' ? 'Active' : 'Inactive',
             action: (
-                <Space key={user.id} size="middle">
+                <Space key={garage.id} size="middle">
                     <Link to="/management_details">
                         <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
                     </Link>
-                    <Link to={`/update_management/${user.id}`}>
+                    <Link to={`/update_management/${garage.id}`}>
                         <img src={edit} />
                     </Link>
                     <Button onClick={
-                        () => handleDelete(user.id)
+                        () => handleDelete(garage.id)
                     }>
                         <img src={deleteIcon} />
                     </Button>
@@ -73,7 +74,7 @@ function App() {
         }));
 
 
-        setData([...users])
+        setData([...garages])
 
     }
 
@@ -103,7 +104,12 @@ function App() {
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
         },
-
+        {
+            title: 'Garage Owner',
+            dataIndex: 'garageOwner',
+            key: 'garageOwner',
+        }
+        ,
         {
             title: 'Status',
             dataIndex: 'status',

@@ -52,17 +52,23 @@ export default function UpdateService() {
     }, 1000);
   };
 
-  const onSubmit = data => {
-    console.log(data);
-    updateService(data);
+  const onSubmit = object => {
+    const data = {
+      name: object.name,
+      description: object.description,
+      minPrice: object.minPrice,
+      maxPrice: object.maxPrice,
+    };
+    console.log(object);
+    updateService({ data });
   };
 
   const updateService = data => {
     console.log({ data });
-    delete data.status;
+    // delete data.status;
     // delete data.garage;
     axiosInstance
-      .put('garage-services/:id', data)
+      .put('garage-services/id', data)
       .then(res => {
         openMessageAuke();
         console.log(res);

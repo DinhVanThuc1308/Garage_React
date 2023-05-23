@@ -60,10 +60,10 @@ function App() {
       status: user.status === 'active' ? 'Active' : 'Inactive',
       action: (
         <Space key={user.id} size="middle">
-          <Link to="/management_details">
+          <Link to="/garage_detail">
             <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
           </Link>
-          <Link to={`/update_management/${user.id}`}>
+          <Link to={`/update_owner/${user.id}`}>
             <img src={edit} />
           </Link>
           <Button

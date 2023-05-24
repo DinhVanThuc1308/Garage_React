@@ -4,40 +4,42 @@ import axiosInstance from '../../shared/services/http-client.js';
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-const Garage_Details = () => {
-  const [garage, setGarage] = useState([]);
-
-  useEffect(() => {
-    axiosInstance.get(`garages`)
-      .then(res => {
-        const data = res.data.map(({ id, attributes: { name, email,userName,Dob,phoneNumber,gender,role} }) => ({
-          id,
-          name,
-          email,
-          userName,
-          Dob,
-          phoneNumber,
-          gender,
-          role
-        }));
-        console.log(data);
-        if (data === undefined) {
-          console.log("Dữ liệu trả về từ API là undefined");
-        } else {
-          // Truy xuất đến các thuộc tính hoặc phương thức của đối tượng
-        }
-        setGarage(data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
-
+  const Garage_Details = () => {
+    const [garage, setGarage] = useState([]);
+    const { id } = useParams();
+    useEffect(() => {
+      axiosInstance.get(`users/${id}`)
+        .then(res => {
+          console.log(res); // In dữ liệu API
+          if (res && res.id) {
+            // Tiếp tục xử lý dữ liệu nếu cần thiết
+            const { id, name,username, email, phoneNumber, gender, dob, fullname } = res;
+            const data = {
+              id,
+              fullname,
+              username,
+              email,
+              phoneNumber,
+              gender,
+              dob,
+              fullname
+            };
+            console.log(data); // In dữ liệu đã xử lý (nếu có)
+            setGarage(data);
+          } else {
+            console.log("Dữ liệu trả về từ API không hợp lệ");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }, [id]);
+       
 
 
   return (
     <div>
-      {garage.map((garage) =>
+     
       <div className="container-all-garage-details" key={garage.id}>
         <div className="container-infomation-garage-details">
           <div className="container-infomation-up-garage-details">
@@ -47,7 +49,7 @@ const Garage_Details = () => {
   Name:
  
     <div className="container-infomation-up-1-1-garage-details">
-      <div className="letter1">{garage.name}</div>
+      <div className="letter1">{garage.fullname}</div>
     </div>
  
 </div>
@@ -88,7 +90,7 @@ const Garage_Details = () => {
             <div className="letter">Gender
             
               <div className="container-infomation-up-1-1-garage-details">
-              <div className="letter1">{garage.gender}Femail</div>
+              <div className="letter1">{garage.gender}</div>
               
             </div>
             </div>
@@ -156,7 +158,7 @@ const Garage_Details = () => {
           </div>
         </div>
       </div>
-    )}
+    
     </div>
   )
 }

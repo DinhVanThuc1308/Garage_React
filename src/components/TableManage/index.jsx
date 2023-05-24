@@ -38,24 +38,30 @@ function App() {
 
   const handleDelete = async id => {
 
-    await axiosInstance.delete(`users/${id}`);
+    await axiosInstance.delete(`garages/${id}`);
     callApi();
   };
 
   const callApi = async () => {
-    const data = await axiosInstance.get('users', {
-      params: {
-        'filters[fullname][$contains]': search,
-        'filters[blocked][$eq]': false,
-      },
-    });
-    console.log(data);
-
-    const users = data.map(user => ({
+    const responseData = await axiosInstance.get('garages', {
+        params: {
+            'filters[$or][0][name][$contains]': search,
+            'filters[$or][1][email][$contains]': search,
+            'pagination[page]': 1,
+            'pagination[pageSize]': 10,
+            // 'filters[owner][id][$eq]': 1,
+            
+            populate: 'owner, services'
+          },
+        });
+      
+    console.log(responseData);
+    
+    const users = responseData.data.map(user => ({
       id: user.id,
-      name: user.fullname,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
+      name: user.attributes.name,
+      email: user.attributes.email,
+      phoneNumber: user.attributes.phoneNumber,
       status: user.status === 'active' ? 'Active' : 'Inactive',
       action: (
         <Space key={user.id} size="middle">

@@ -1,11 +1,12 @@
 import { Col, Row, TimePicker } from 'antd';
 import { Transfer } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Select } from 'antd';
-import { DatePicker, Button } from 'antd';
+import { Button } from 'antd';
 import axiosInstance from '../../../shared/services/http-client.js';
 import TextArea from 'antd/es/input/TextArea.js';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
 const mockData = [{ key: '0', title: 'Garage ABC', description: 'description of content1' },
 { key: '1', title: 'TLS', description: 'description of content2' },
 { key: '2', title: 'AHC', description: 'description of content3' },
@@ -43,7 +44,15 @@ function Update_managetment() {
                 email: management.email,
                 phoneNumber: management.phoneNumber,
                 address: management.address,
-                // ... Các trường dữ liệu khác
+                description: management.description,
+                openTime: management.openTime,
+                closeTime: management.closeTime,
+                owner: management.owner,
+                status: management.status,
+                policy: management.policy,
+                description: management.description,
+
+
             });
 
             // Kiểm tra kết quả thành công hay không
@@ -98,13 +107,25 @@ function Update_managetment() {
     const filteredData = mockData.filter((item) =>
         item.title.toLowerCase().includes(searchText.toLowerCase())
     );
-
-
+    const Submit = (object) => {
+        const data = {
+            name: object.Name,
+            email: object.Email,
+            phoneNumber: object.PhoneNumber,
+            address: object.Address,
+            openTime: object.OpenTime,
+            closeTime: object.CloseTime,
+            description: object.Description,
+            policy: object.Policy,
+        }
+        console.log(1111, data);
+        // Submit logic here
+    };
 
     return (
 
 
-        <Form style={{ width: '100%' }}>
+        <Form style={{ width: '100%' }} onFinish={Submit}>
             <>
                 <Row gutter={[30, 20]}>
                     <Col className="gutter-row Owner_col" span={8}>
@@ -125,7 +146,7 @@ function Update_managetment() {
                             style={{ marginBottom: '10px' }}
 
                         ></Form.Item>
-                        <Input size="large" placeholder="Enter owner email" />
+                        <Input size="large" placeholder="Enter owner email" value={management?.email} />
 
                     </Col>
                     <Col className="gutter-row" span={8}>
@@ -136,7 +157,7 @@ function Update_managetment() {
                             style={{ marginBottom: '10px' }}
 
                         ></Form.Item>
-                        <Input size="large" placeholder="Enter owner PhoneNumber" />
+                        <Input size="large" placeholder="Enter owner PhoneNumber" value={management?.phoneNumber} />
 
                     </Col>
 
@@ -149,7 +170,7 @@ function Update_managetment() {
 
                         ></Form.Item>
 
-                        <Input size="large" placeholder="Enter owner Address" />
+                        <Input size="large" placeholder="Enter owner Address" value={management?.address} />
 
                     </Col>
                     <Col className="gutter-row" span={8}>
@@ -160,8 +181,18 @@ function Update_managetment() {
                             style={{ marginBottom: '10px' }}
 
                         ></Form.Item>
-                        <TimePicker size="large" placeholder="Enter owner OpenTime" style={{ width: '100%' }} />
-                    </Col>
+                        <TimePicker
+                            size="large"
+                            placeholder="Enter owner OpenTime"
+                            style={{ width: '100%' }}
+                            value={management && moment(management.openTime, 'HH:mm:ss')}
+                            onChange={(time) => {
+                                setManagement((prevManagement) => ({
+                                    ...prevManagement,
+                                    openTime: time ? time.format('HH:mm:ss') : null,
+                                }));
+                            }}
+                        />                    </Col>
                     <Col className="gutter-row" span={8} >
 
                         <Form.Item className='Owner_require'
@@ -171,7 +202,16 @@ function Update_managetment() {
                             style={{ marginBottom: '10px' }}
 
                         ></Form.Item>
-                        <TimePicker size="large" placeholder="Enter owner CloseTime" style={{ width: '100%' }} />
+                        <TimePicker size="large"
+                            placeholder="Enter owner OpenTime"
+                            style={{ width: '100%' }}
+                            value={management && moment(management.closeTime, 'HH:mm:ss')}
+                            onChange={(time) => {
+                                setManagement((prevManagement) => ({
+                                    ...prevManagement,
+                                    openTime: time ? time.format('HH:mm:ss') : null,
+                                }));
+                            }} />
                     </Col>
 
                     <Col className="gutter-row" span={8}>
@@ -182,7 +222,9 @@ function Update_managetment() {
                             style={{ marginBottom: '10px' }}
 
                         ></Form.Item>
-                        <Input size="large" placeholder="Enter owner GarageOwner" />
+                        <Input size="large" placeholder="Enter owner GarageOwner"
+                            value={management?.owner}
+                        />
 
                     </Col>
                     <Col className="gutter-row" span={8}>
@@ -197,12 +239,13 @@ function Update_managetment() {
                             placeholder="Select a Status"
                             allowClear
                             style={{ marginBottom: '10px' }}
+                            value={management?.status}
 
                         >
                             <Option value="Male">Action</Option>
                             <Option value="Female">Inaction</Option>
 
-                        </Select>
+                        </Select >
                     </Col>
 
                 </Row>
@@ -216,7 +259,7 @@ function Update_managetment() {
                             style={{ marginBottom: '10px' }}
 
                         ></Form.Item>
-                        <TextArea rows={8} placeholder="Enter owner Description" style={{ width: '600px' }} />
+                        <TextArea rows={8} placeholder="Enter owner Description" style={{ width: '600px' }} value={management.description} />
                     </Col>
                     <Col className="gutter-row" span={12}>
                         <Form.Item className='Owner_require'
@@ -226,7 +269,7 @@ function Update_managetment() {
                             style={{ marginBottom: '10px' }}
 
                         ></Form.Item>
-                        <TextArea rows={8} placeholder="Enter owner Policy" style={{ width: '600px' }} />
+                        <TextArea rows={8} placeholder="Enter owner Policy" style={{ width: '600px' }} value={management.policy} />
                     </Col>
                 </Row>
 
@@ -259,7 +302,7 @@ function Update_managetment() {
                 onSearch={handleSearch}
 
             />
-            <Button type="primary" onClick={handleSave}>
+            <Button type="primary" onClick={handleSave} style={{ backgroundColor: '#8767E1', width: '150px', height: 48 }}>
                 Save
             </Button>
 

@@ -22,9 +22,9 @@ export default function UpdateService() {
     },
   });
 
-  const [dataID, setDataID] = useState([]);
-
   // call api id to get data
+
+  const [dataID, setDataID] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -38,6 +38,8 @@ export default function UpdateService() {
     fetchData();
   }, [id]);
   console.log(dataID);
+
+  // Notification
   const [messageApi, contextHolder] = message.useMessage();
   const key = 'updatable';
   const openMessageErr = () => {
@@ -83,6 +85,7 @@ export default function UpdateService() {
     updateService({ data }, id);
   };
 
+  // call api update
   const updateService = (data, idNumber) => {
     console.log(idNumber);
     console.log({ data });

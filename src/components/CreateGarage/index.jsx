@@ -31,15 +31,6 @@ function CreateGarage() {
 
   const { TextArea } = Input;
 
-  //   select
-  // const onChange = value => {
-  //   console.log(`selected ${value}`);
-  // };
-  // const onSearch = value => {
-  //   console.log('search:', value);
-  // };
-  // date picker
-
   // notification
   const [messageApi, contextHolder] = message.useMessage();
   const key = 'updatable';
@@ -119,7 +110,6 @@ function CreateGarage() {
   };
 
   // search garage
-  // const [serviceList, setserviceList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [serviceList, setServiceList] = useState([]);
   const [ownerList, setOwnerList] = useState([]);
@@ -145,6 +135,8 @@ function CreateGarage() {
       console.log(res);
     });
   }, []);
+
+  // Search garage service
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
@@ -161,7 +153,7 @@ function CreateGarage() {
   //   });
   // };
 
-  // create owner
+  // Post data to API
 
   const createGarage = data => {
     console.log(data);

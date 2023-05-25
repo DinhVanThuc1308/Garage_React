@@ -4,10 +4,11 @@ import { Input, Select, DatePicker, Checkbox } from 'antd';
 import binicon from './Vector.svg';
 import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
-import axiosInstance from '../../shared/services/http-client';
+// import axiosInstance from '../../shared/services/http-client';
 import { useState } from 'react';
 import { message } from 'antd';
 import { useEffect } from 'react';
+import createOwnerAPI from '../../shared/api/createOwnerAPI';
 
 function CreateOwner() {
   const {
@@ -28,15 +29,6 @@ function CreateOwner() {
       garage: [],
     },
   });
-
-  //   select
-  // const onChange = value => {
-  //   console.log(`selected ${value}`);
-  // };
-  // const onSearch = value => {
-  //   console.log('search:', value);
-  // };
-  // date picker
 
   // notification
   const [messageApi, contextHolder] = message.useMessage();
@@ -71,6 +63,7 @@ function CreateOwner() {
       });
     }, 1000);
   };
+
   // chosse garage
   const [checkedBoxes, setCheckedBoxes] = useState([]);
 
@@ -106,13 +99,21 @@ function CreateOwner() {
   //  call api garage list from api and push it to garageList
 
   useEffect(() => {
-    axiosInstance.get(`garages`).then(res => {
-      setGarageList(res.data);
-    });
+    // axiosInstance.get(`garages`).then(res => {
+    //   setGarageList(res.data);
+    // });
+    const fetchGarageList = async () => {
+      try {
+        const res = await createOwnerAPI.getGarageList();
+        setGarageList(res.data);
+      } catch (error) {
+        console.log('Failed to fetch garage list: ', error);
+      }
+    };
+    fetchGarageList();
   }, []);
 
   // search garage
-  // const [garageList, setGarageList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [garageList, setGarageList] = useState([]);
 
@@ -136,20 +137,32 @@ function CreateOwner() {
 
   // create owner
 
-  const createOwner = data => {
-    console.log({ data });
-    // delete data.status;
-    // delete data.garage;
-    axiosInstance
-      .post(`users`, data)
-      .then(res => {
-        openMessageAuke();
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch(err => {
-        openMessageErr();
-      });
+  // const createOwner = data => {
+  //   console.log({ data });
+  //   // delete data.status;
+  //   // delete data.garage;
+  //   axiosInstance
+  //     .post(`users`, data)
+  //     .then(res => {
+  //       openMessageAuke();
+  //       console.log(res);
+  //       console.log(res.data);
+  //     })
+  //     .catch(err => {
+  //       openMessageErr();
+  //     });
+  // };
+
+  // Post data to API
+  const createOwner = async data => {
+    try {
+      const res = await createOwnerAPI.postUserData(data);
+      openMessageAuke();
+      console.log(res);
+      console.log(res.data);
+    } catch (error) {
+      openMessageErr();
+    }
   };
 
   return (
@@ -275,8 +288,8 @@ function CreateOwner() {
               rules={{ required: true }}
               render={({ field }) => (
                 <Select
-                  size="large"
                   {...field}
+                  size="large"
                   placeholder="Select owner gender"
                   allowClear
                 >
@@ -318,9 +331,9 @@ function CreateOwner() {
               rules={{ required: true }}
               render={({ field }) => (
                 <Select
+                  {...field}
                   size="large"
                   placeholder="Select a role"
-                  {...field}
                   allowClear
                 >
                   <Option value={1}>Admin</Option>

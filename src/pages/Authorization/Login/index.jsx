@@ -40,10 +40,10 @@ export default function Login() {
   };
 
   return (
-    <div className="login" style={{ fontFamily: 'Helvetica' }}>
+    <div className="login" style={{ fontFamily: 'Poppins', }}>
       <div className="header-login">
-        <h3 style={{ marginBottom: '20px' }}>Welcome</h3>
-        <p style={{ marginBottom: '30px' }}>Login to your account</p>
+        <h3 style={{ marginBottom: '20px', fontWeight: 900 }}>Welcome</h3>
+        <p style={{ marginBottom: '30px', fontFamily: 'Poppins', }}>Login to your account</p>
       </div>
       <div className="body-login">
         <Form
@@ -64,7 +64,7 @@ export default function Login() {
               }
             ]}
           >
-            <Input name="username" placeholder="Username" />
+            <Input size="large" name="username" placeholder="Username" />
           </Form.Item>
 
 

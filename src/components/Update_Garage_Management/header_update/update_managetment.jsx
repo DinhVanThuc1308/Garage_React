@@ -1,284 +1,513 @@
-import { Col, Row, TimePicker } from 'antd';
-import { Transfer } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
-import { Form, Input, Select } from 'antd';
-import { DatePicker, Button } from 'antd';
-import axiosInstance from '../../../shared/services/http-client.js';
-import TextArea from 'antd/es/input/TextArea.js';
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { Input, Select, Checkbox } from 'antd';
+import binicon from './Vector.svg';
+import styles from './styles.module.css';
+import { Option } from 'antd/es/mentions';
+import axiosInstance from '../../../shared/services/http-client';
+import { useState, useEffect } from 'react';
+import { message } from 'antd';
 import { useParams } from 'react-router-dom';
-const mockData = [{ key: '0', title: 'Garage ABC', description: 'description of content1' },
-{ key: '1', title: 'TLS', description: 'description of content2' },
-{ key: '2', title: 'AHC', description: 'description of content3' },
-{ key: '3', title: 'CB Garage', description: 'description of content4' },
-{ key: '4', title: 'UCQ', description: 'description of content5' },];
-
-const oriTargetKeys = mockData.filter((item) => Number(item.key) % 3 > 1).map((item) => item.key);
-
-// import Foter
-
-const { Option } = Select;
 
 function Update_managetment() {
+    let { id } = useParams();
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            name: '',
+            address: '',
+            status: '',
+            phoneNumber: '',
+            email: '',
+            openTime: '',
+            closeTime: '',
+            description: '',
+            policy: '',
+            owner: '',
+            services: [],
+        },
+    });
 
-    const { id } = useParams();
-    console.log(id);
-    const [management, setManagement] = useState(null);
+    const { TextArea } = Input;
+
+    //   select
+    // const onChange = value => {
+    //   console.log(`selected ${value}`);
+    // };
+    // const onSearch = value => {
+    //   console.log('search:', value);
+    // };
+    // date picker
+
+    // notification
+    const [messageApi, contextHolder] = message.useMessage();
+    const key = 'updatable';
+    const openMessageErr = () => {
+        messageApi.open({
+            key,
+            type: 'loading',
+            content: 'Loading...',
+        });
+        setTimeout(() => {
+            messageApi.open({
+                key,
+                type: 'error',
+                content: 'Fail! Please try again! ',
+                duration: 2,
+            });
+        }, 1000);
+    };
+    const openMessageAuke = () => {
+        messageApi.open({
+            key,
+            type: 'loading',
+            content: 'Loading...',
+        });
+        setTimeout(() => {
+            messageApi.open({
+                key,
+                type: 'success',
+                content: 'Success! You have created a new garage! ',
+                duration: 2,
+            });
+        }, 1000);
+    };
+    // choose garage
+    const [checkedBoxes, setCheckedBoxes] = useState([]);
+
+    const onChangeBox = e => {
+        // const value = e.target.value;
+        // if (e.target.checked) {
+        //   setserviceList([...serviceList, value]);
+        // } else {
+        //   setserviceList(serviceList.filter(item => item !== value));
+        // }
+        const value = e.target.value;
+        const isChecked = e.target.checked;
+
+        if (isChecked) {
+            setCheckedBoxes([...checkedBoxes, value]);
+        } else {
+            setCheckedBoxes(checkedBoxes.filter(item => item !== value));
+        }
+    };
+
+    // delete garage
+    const handleDelete = item => {
+        setCheckedBoxes(checkedBoxes.filter(checked => checked !== item));
+    };
+
+    const onSubmit = object => {
+        object.services = checkedBoxes;
+        const data = {
+            name: object.name,
+            address: object.address,
+            status: object.status,
+            phoneNumber: object.phoneNumber,
+            email: object.email,
+            openTime: object.openTime,
+            closeTime: object.closeTime,
+            description: object.description,
+            policy: object.policy,
+            owner: object.owner,
+            services: object.services,
+        };
+        console.log(object, 111);
+        console.log(data, 222);
+        updateGarage({ data }, id);
+    };
+
+    // search garage
+    // const [serviceList, setserviceList] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [serviceList, setServiceList] = useState([]);
+    const [ownerList, setOwnerList] = useState([]);
+
+    // Call API userId(owner) list
+    // useEffect(() => {
+    //     axiosInstance.get(`users`).then(res => {
+    //         setOwnerList(res.data);
+    //     });
+    // }, []);
+
+    // Call API garage-service list
+    useEffect(() => {
+        axiosInstance.get(`garage-services`).then(res => {
+            setServiceList(res.data);
+            console.log(res.data);
+        });
+    }, []);
 
     useEffect(() => {
-        const callApi = async () => {
-            const data = await axiosInstance.get(`garages/${id}`);
-            setManagement(data.data.attributes);
-            console.log(management);
+        axiosInstance.get(`users`).then(res => {
+            setOwnerList(res);
+            console.log(res);
+        });
+    }, []);
+    const handleSearch = e => {
+        setSearchTerm(e.target.value);
+    };
+
+    // call API of managetment
+    const [managetmentList, setManagetmentList] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            // You can await here
+            const response = await axiosInstance.get(`garages/${id}`);
+
+            setManagetmentList(response.data);
+
+            console.log(22222, id);
+
         }
-        callApi();
-    }, [id])
+        fetchData();
+    }, [id]);
+    console.log(managetmentList, 1111);
 
-
-    const handleSave = async () => {
-        try {
-            // Gửi request PUT để cập nhật dữ liệu lên server
-            const response = await axiosInstance.put(`garages/${id}`, {
-                // Truyền dữ liệu cần cập nhật vào đây
-                name: management.name,
-                email: management.email,
-                phoneNumber: management.phoneNumber,
-                address: management.address,
-                // ... Các trường dữ liệu khác
-            });
-
-            // Kiểm tra kết quả thành công hay không
-            if (response.status === 200) {
-                console.log('Data saved successfully!');
-                // Xử lý thành công, có thể thêm thông báo hoặc chuyển hướng tùy ý
-            } else {
-                console.log('Data save failed!');
-                // Xử lý khi lưu dữ liệu thất bại
-            }
-        } catch (error) {
-            console.log('Error saving data:', error);
-            // Xử lý khi có lỗi xảy ra
-        }
-    };
-
-    // footer
-    const [targetKeys, setTargetKeys] = useState(oriTargetKeys);
-    const [selectedKeys, setSelectedKeys] = useState([]);
-    const [searchText, setSearchText] = useState('');
-
-    const handleChange = (newTargetKeys) => {
-        setTargetKeys(newTargetKeys);
-    };
-
-
-    const handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-        // If any source items are selected, add them to the target list
-        if (sourceSelectedKeys.length > 0) {
-            const newTargetKeys = [...targetKeys, ...sourceSelectedKeys];
-            setTargetKeys(newTargetKeys);
-            setSelectedKeys([]);
-        }
-
-        // If any target items are selected, remove them from the target list
-        if (targetSelectedKeys.length > 0) {
-            const newTargetKeys = targetKeys.filter((key) => !targetSelectedKeys.includes(key));
-            setTargetKeys(newTargetKeys);
-            setSelectedKeys([]);
-        }
-    };
-
-    const handleScroll = (direction, e) => {
-        console.log('direction:', direction);
-        console.log('target:', e.target);
-    };
-
-    const handleSearch = (direction, value) => {
-        setSearchText(value);
-    };
-
-    const filteredData = mockData.filter((item) =>
-        item.title.toLowerCase().includes(searchText.toLowerCase())
+    const filteredServices = serviceList.filter(
+        service =>
+            service.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
     );
 
 
+    // const handleSearchGarage = () => {
+
+    //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
+    //     setserviceList(res.data);
+    //   });
+    // };
+
+    // create owner
+
+    const updateGarage = (data, idNumber) => {
+        console.log("heloo")
+        console.log(7777, idNumber);
+
+        // delete data.status;
+        // delete data.garage;
+        axiosInstance
+            .put(`garages/${idNumber}`, data)
+            .then(res => {
+                openMessageAuke();
+                console.log(res);
+                console.log(res.data);
+            })
+            .catch(err => {
+                openMessageErr();
+            });
+    };
 
     return (
+        <div className={styles['create-form']}>
+            {contextHolder}
+            <form
+                action=""
+                onSubmit={handleSubmit(onSubmit)}
+                className={styles['form-container']}
+            >
+                <div className={styles['form-row']}>
+                    <div className={styles['row-item']}>
+                        <label htmlFor="" className={styles['title-label']}>
+                            Name <span style={{ color: 'red' }}>*</span>{' '}
+                        </label>
+                        <Controller
+                            name="name"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Input
+                                    {...field}
+                                    style={{ width: '100%' }}
+                                    size="large"
 
 
-        <Form style={{ width: '100%' }}>
-            <>
-                <Row gutter={[30, 20]}>
-                    <Col className="gutter-row Owner_col" span={8}>
-                        <Form.Item className='Owner_require'
-                            label="Name"
-                            rules={[{ required: true, message: 'Please input your name!' }]}
-                            name="Name"
-                            style={{ marginBottom: '10px' }}
+                                    placeholder={managetmentList.attributes?.name}
 
-                        ></Form.Item>
-                        <Input size="large" placeholder="Enter owner name" value={management?.name} />
-                    </Col>
-                    <Col className="gutter-row" span={8}>
-                        <Form.Item className='Owner_require'
-                            label="Email"
-                            rules={[{ required: true, message: 'Please input your email!' }]}
-                            name="Email"
-                            style={{ marginBottom: '10px' }}
+                                />
+                            )}
+                        />
+                        {errors.name && (
+                            <p style={{ color: 'red' }}>Please enter your name</p>
+                        )}
+                    </div>
+                    <div className={styles['row-item']}>
+                        <label htmlFor="" className={styles['title-label']}>
+                            Email <span style={{ color: 'red' }}>*</span>{' '}
+                        </label>
+                        <Controller
+                            name="email"
+                            control={control}
+                            rules={{ required: true, pattern: /^\S+@\S+$/i }}
+                            render={({ field }) => (
+                                <Input
+                                    size="large"
+                                    {...field}
+                                    placeholder={managetmentList.attributes?.email}
+                                />
+                            )}
+                        />
+                        {errors.email && (
+                            <p style={{ color: 'red' }}>Please enter a valid email address</p>
+                        )}
+                    </div>
+                    <div className={styles['row-item']}>
+                        <label htmlFor="" className={styles['title-label']}>
+                            Phone number <span style={{ color: 'red' }}>*</span>{' '}
+                        </label>
+                        <Controller
+                            name="phoneNumber"
+                            control={control}
+                            rules={{ required: true, minLength: 10, maxLength: 10 }}
+                            render={({ field }) => (
+                                <Input
+                                    size="large"
+                                    {...field}
+                                    placeholder={managetmentList.attributes?.phoneNumber}
+                                />
+                            )}
+                        />
+                        {errors.phone && (
+                            <p style={{ color: 'red' }}>Please enter a valid phonenumber</p>
+                        )}
+                    </div>
+                </div>
+                <div className={styles['form-row']}>
+                    <div className={styles['row-item']}>
+                        <label htmlFor="" className={styles['title-label']}>
+                            Address <span style={{ color: 'red' }}>*</span>{' '}
+                        </label>
+                        <Controller
+                            name="address"
+                            control={control}
+                            rules={{ required: true, minLength: 3 }}
+                            render={({ field }) => (
+                                <Input
+                                    {...field}
+                                    style={{ width: '100%' }}
+                                    size="large"
 
-                        ></Form.Item>
-                        <Input size="large" placeholder="Enter owner email" />
+                                    placeholder={managetmentList.attributes?.address}
+                                />
+                            )}
+                        />
+                        {errors.password && (
+                            <p style={{ color: 'red' }}>Please enter a valid address</p>
+                        )}
+                    </div>
+                    <div className={styles['row-item']}>
+                        <label htmlFor="" className={styles['title-label']}>
+                            Open time <span style={{ color: 'red' }}>*</span>{' '}
+                        </label>
+                        <Controller
+                            name="openTime"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
 
-                    </Col>
-                    <Col className="gutter-row" span={8}>
-                        <Form.Item className='Owner_require'
-                            label="PhoneNumber"
-                            rules={[{ required: true, message: 'Please input your username!' }]}
-                            name="PhoneNumber"
-                            style={{ marginBottom: '10px' }}
+                                <Select
+                                    size="large"
+                                    {...field}
+                                    placeholder={managetmentList.attributes?.openTime}
+                                    allowClear
+                                >
+                                    <Option value="07:00:00">07:00:00</Option>
+                                    <Option value="09:00:00.000">09:00:00.000</Option>
+                                    <Option value="11:00:00">11:00:00</Option>
+                                </Select>
+                            )}
+                        />
+                        {errors.openTime && (
+                            <p style={{ color: 'red' }}>Please select openTime</p>
+                        )}
+                    </div>
+                    <div className={styles['row-item']}>
+                        <label htmlFor="" className={styles['title-label']}>
+                            Close time <span style={{ color: 'red' }}>*</span>{' '}
+                        </label>
+                        <Controller
+                            name="closeTime"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Select
+                                    size="large"
+                                    {...field}
+                                    placeholder={managetmentList.attributes?.openTime}
+                                    allowClear
+                                >
+                                    <Option value="18:00:00">18:00:00</Option>
+                                    <Option value="20:00:00.000">20:00:00.000</Option>
+                                    <Option value="22:00:00">22:00:00</Option>
+                                </Select>
+                            )}
+                        />
+                        {errors.closeTime && (
+                            <p style={{ color: 'red' }}>Please select closeTime</p>
+                        )}
+                    </div>
+                </div>
+                <div className={styles['form-row-last']}>
+                    <div className={styles['row-item-last']}>
+                        <label htmlFor="" className={styles['title-label']}>
+                            Garage owner <span style={{ color: 'red' }}>*</span>{' '}
+                        </label>
+                        <Controller
+                            name="owner"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Select
+                                    size="large"
+                                    placeholder={managetmentList.attributes?.owner}
+                                    {...field}
+                                    allowClear
+                                >
+                                    {ownerList.map(owner => (
+                                        <Option key={owner} value={owner.id}>
+                                            {owner.fullname}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            )}
+                        />
+                        {errors.owner && (
+                            <p style={{ color: 'red' }}>Please select garage owner</p>
+                        )}
+                    </div>
+                    <div className={styles['row-item-last']}>
+                        <label htmlFor="" className={styles['title-label']}>
+                            Status <span style={{ color: 'red' }}>*</span>{' '}
+                        </label>
+                        <Controller
+                            name="status"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Select
+                                    {...field}
+                                    size="large"
+                                    placeholder={managetmentList.attributes?.status}
+                                    allowClear
+                                >
+                                    <Option value="active">active</Option>
+                                    <Option value="inactive">inactive</Option>
 
-                        ></Form.Item>
-                        <Input size="large" placeholder="Enter owner PhoneNumber" />
+                                </Select>
+                            )}
+                        />
+                        {errors.status && (
+                            <p style={{ color: 'red' }}>Please select status</p>
+                        )}
+                    </div>
+                </div>
+                <div className={styles['textarea-form']}>
+                    <div className={styles['description-form']}>
+                        <label htmlFor="">
+                            Description <span className={styles['red-require']}>*</span>
+                        </label>
+                        <br />
+                        <Controller
+                            name="description"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <TextArea
+                                    rows={5}
+                                    placeholder={managetmentList.attributes?.description}
+                                    maxLength={10}
+                                    style={{ width: '100%' }}
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.description && (
+                            <p style={{ color: 'red' }}>Please enter a description</p>
+                        )}
+                    </div>
+                    <div className={styles['policy-form']}>
+                        <label htmlFor="">
+                            Policy <span className={styles['red-require']}>*</span>
+                        </label>
+                        <br />
+                        <Controller
+                            name="policy"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <TextArea
+                                    rows={5}
+                                    placeholder={managetmentList.attributes?.policy}
+                                    maxLength={10}
+                                    style={{ width: '100%' }}
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.policy && (
+                            <p style={{ color: 'red' }}>Please enter a policy</p>
+                        )}
+                    </div>
+                </div>
 
-                    </Col>
-
-                    <Col className="gutter-row Owner_lable" span={8}>
-                        <Form.Item className='Owner_require'
-                            label="Address"
-                            rules={[{ required: true, message: 'Please input your Address!' }]}
-                            name="Address"
-                            style={{ marginBottom: '10px' }}
-
-                        ></Form.Item>
-
-                        <Input size="large" placeholder="Enter owner Address" />
-
-                    </Col>
-                    <Col className="gutter-row" span={8}>
-                        <Form.Item className='Owner_require'
-                            label="OpenTime"
-                            rules={[{ required: true, message: 'Please input your OpenTime!' }]}
-                            name="OpenTime"
-                            style={{ marginBottom: '10px' }}
-
-                        ></Form.Item>
-                        <TimePicker size="large" placeholder="Enter owner OpenTime" style={{ width: '100%' }} />
-                    </Col>
-                    <Col className="gutter-row" span={8} >
-
-                        <Form.Item className='Owner_require'
-                            label="CloseTime"
-                            rules={[{ required: true, message: 'Please input your CloseTime!' }]}
-                            name="CloseTime"
-                            style={{ marginBottom: '10px' }}
-
-                        ></Form.Item>
-                        <TimePicker size="large" placeholder="Enter owner CloseTime" style={{ width: '100%' }} />
-                    </Col>
-
-                    <Col className="gutter-row" span={8}>
-                        <Form.Item className='Owner_require'
-                            label="Garage Owner"
-                            rules={[{ required: true, message: 'Please input your Garage Owner!' }]}
-                            name="GarageOwner"
-                            style={{ marginBottom: '10px' }}
-
-                        ></Form.Item>
-                        <Input size="large" placeholder="Enter owner GarageOwner" />
-
-                    </Col>
-                    <Col className="gutter-row" span={8}>
-                        <Form.Item className='Owner_require'
-                            label="Status"
-                            rules={[{ required: true, message: 'Please select your Status!' }]}
-                            name="Status"
-                            style={{ marginBottom: '10px' }}
-
-                        ></Form.Item>
-                        <Select size="large" className='Owner_select'
-                            placeholder="Select a Status"
-                            allowClear
-                            style={{ marginBottom: '10px' }}
-
-                        >
-                            <Option value="Male">Action</Option>
-                            <Option value="Female">Inaction</Option>
-
-                        </Select>
-                    </Col>
-
-                </Row>
-                {/* tạo thêm 1 hàng gồm 2 ô textarea có lable là Description và Policy */}
-                <Row gutter={[30, 20]}>
-                    <Col className="gutter-row" span={12}>
-                        <Form.Item className='Owner_require'
-                            label="Description"
-                            rules={[{ required: true, message: 'Please input your Description!' }]}
-                            name="Description"
-                            style={{ marginBottom: '10px' }}
-
-                        ></Form.Item>
-                        <TextArea rows={8} placeholder="Enter owner Description" style={{ width: '600px' }} />
-                    </Col>
-                    <Col className="gutter-row" span={12}>
-                        <Form.Item className='Owner_require'
-                            label="Policy"
-                            rules={[{ required: true, message: 'Please input your Policy!' }]}
-                            name="Policy"
-                            style={{ marginBottom: '10px' }}
-
-                        ></Form.Item>
-                        <TextArea rows={8} placeholder="Enter owner Policy" style={{ width: '600px' }} />
-                    </Col>
-                </Row>
-
-
-
-            </>
-
-            <h2>Garage</h2>
-            <Transfer
-                className="Footer_update_owner"
-                showSearch={{
-                    filterOption: false,
-                    render: (props) => <input {...props} placeholder="Search..." />,
-
-                }}
-                dataSource={filteredData}
-                titles={['Source', 'Target']}
-                targetKeys={targetKeys}
-                selectedKeys={selectedKeys}
-                onChange={handleChange}
-                onSelectChange={handleSelectChange}
-                onScroll={handleScroll}
-                operation={[]}
-                render={(item) => item.title}
-                oneWay
-                style={{
-                    marginBottom: 16,
-                    width: '100%'
-                }}
-                onSearch={handleSearch}
-
-            />
-            <Button type="primary" onClick={handleSave}>
-                Save
-            </Button>
-
-        </Form >
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <div className={styles['choose-container']}>
+                    <div className={styles['checkbox-garage']}>
+                        <Input
+                            size="large"
+                            placeholder="Search for service .."
+                            value={searchTerm}
+                            onChange={handleSearch}
+                        />
+                        <div className={styles['checkbox-list']}>
+                            {filteredServices.map(serviceName => (
+                                <Checkbox
+                                    key={serviceName}
+                                    style={{ marginLeft: '8px' }}
+                                    onChange={onChangeBox}
+                                    value={serviceName.id}
+                                    checked={checkedBoxes.includes(serviceName.id)}
+                                >
+                                    {serviceName.attributes.name}
+                                </Checkbox>
+                            ))}
+                        </div>
+                    </div>
+                    <div className={styles['list-garage']}>
+                        <label htmlFor="">Select services ({checkedBoxes.length})</label>
+                        {checkedBoxes.map(item => {
+                            const IDObject = serviceList.find(obj => obj.id === item);
+                            console.log(IDObject);
+                            return (
+                                <div className={styles['pickitem']} key={item}>
+                                    <div className="pickitem-name">
+                                        {IDObject.attributes.name}
+                                    </div>
+                                    <img
+                                        src={binicon}
+                                        alt=""
+                                        onClick={() => handleDelete(item)}
+                                        style={{ cursor: 'pointer', marginLeft: '5px' }}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+                <hr style={{ width: '100%' }} />
+                <div className={styles['btn-container']}>
+                    <button type="submit" className={styles['btn-save']}>
+                        Save
+                    </button>
+                    <button type="cancel" className={styles['btn-cancel']}>
+                        Cancel
+                    </button>
+                </div>
+                {/* <button type="submit">Submit</button> */}
+            </form>
+        </div>
     );
 }
 
 export default Update_managetment;
-

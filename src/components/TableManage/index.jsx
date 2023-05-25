@@ -44,19 +44,19 @@ function App() {
 
   const callApi = async () => {
     const responseData = await axiosInstance.get('garages', {
-        params: {
-            'filters[$or][0][name][$contains]': search,
-            'filters[$or][1][email][$contains]': search,
-            'pagination[page]': 1,
-            'pagination[pageSize]': 10,
-            // 'filters[owner][id][$eq]': 1,
-            
-            populate: 'owner, services'
-          },
-        });
-      
+      params: {
+        'filters[$or][0][name][$contains]': search,
+        'filters[$or][1][email][$contains]': search,
+        'pagination[page]': 1,
+        'pagination[pageSize]': 10,
+        // 'filters[owner][id][$eq]': 1,
+
+        populate: 'owner, services'
+      },
+    });
+
     console.log(responseData);
-    
+
     const users = responseData.data.map(user => ({
       id: user.id,
       name: user.attributes.name,
@@ -88,6 +88,8 @@ function App() {
   useEffect(() => {
     callApi();
   }, [search, status]);
+
+
 
   const columns = [
     {

@@ -45,7 +45,8 @@ function App() {
   const callApi = async () => {
     const responseData = await axiosInstance.get('garage-services', {
       params: {
-        
+
+
       },
     });
 
@@ -56,7 +57,7 @@ function App() {
       name: user.attributes.name,
       description: user.attributes.description,
       maxPrice: user.attributes.maxPrice,
-      minPrice:user.attributes.minPrice,
+      minPrice: user.attributes.minPrice,
       status: user.status === 'active' ? 'Active' : 'Inactive',
       action: (
         <Space key={user.id} size="middle">
@@ -106,7 +107,7 @@ function App() {
       dataIndex: 'minPrice',
       key: 'minPrice',
     },
-    
+
     {
       title: 'Max price',
       dataIndex: 'maxPrice',
@@ -126,6 +127,7 @@ function App() {
         size="middle"
         className="UI_search"
         style={{ paddingBottom: '70px', height: '48px' }}
+
       >
         <span>
           <Space.Compact style={{ width: '600px' }}>
@@ -136,6 +138,7 @@ function App() {
                 callApi();
               }}
               style={{ width: '40%' }}
+              size='large'
             />
             <Input
               placeholder="Search"
@@ -143,6 +146,7 @@ function App() {
               style={{ width: '60%' }}
               value={search}
               onChange={e => setSearch(e.target.value)}
+              size='large'
             />
           </Space.Compact>
           <Select

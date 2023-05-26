@@ -22,11 +22,11 @@ const options = [
 ];
 const options2 = [
   {
-    value: true,
+    value: false,
     label: 'Active',
   },
   {
-    value: false,
+    value: true,
     label: 'Inactive',
   },
 ];
@@ -34,7 +34,10 @@ const options2 = [
 function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState(false);
+  const [IDsearch, setIDsearch] = useState([])
+  const [searchType, setSearchType] = useState('Name');
+  const [IDSearch, setIDSearch] = useState('');
 
   const handleDelete = async id => {
     // delete user
@@ -44,13 +47,16 @@ function App() {
   };
 
   const callApi = async () => {
+
     const data = await axiosInstance.get('users', {
       params: {
         'filters[fullname][$contains]': search,
-        'filters[blocked][$eq]': false,
+        'filters[blocked][$eq]': status,
+        ' filters[id][$contains]': IDsearch,
       },
+
     });
-    console.log(data);
+
 
     const users = data.map(user => ({
       id: user.id,
@@ -132,6 +138,7 @@ function App() {
               options={options}
               onClick={() => {
                 callApi();
+
               }}
               style={{ width: '40%' }}
               size='large'
@@ -141,6 +148,7 @@ function App() {
               placeholder="Search"
               suffix={<SearchOutlined />}
               style={{ width: '60%' }}
+
               value={search}
               onChange={e => setSearch(e.target.value)}
               size='large'

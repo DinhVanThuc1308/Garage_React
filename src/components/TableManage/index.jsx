@@ -47,6 +47,7 @@ function App() {
       params: {
         'filters[$or][0][name][$contains]': search,
         'filters[$or][1][email][$contains]': search,
+
         'pagination[page]': 1,
         'pagination[pageSize]': 10,
         // 'filters[owner][id][$eq]': 1,
@@ -66,8 +67,9 @@ function App() {
       status: user.status === 'active' ? 'Active' : 'Inactive',
       action: (
         <Space key={user.id} size="middle">
-          <Link to="/manage_details">
+          <Link to="/Garage_manager_details">
             <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
+
           </Link>
           <Link to={`/update_management/${user.id}`}>
             <img src={edit} />
@@ -136,9 +138,10 @@ function App() {
         size="middle"
         className="UI_search"
         style={{ paddingBottom: '70px', height: '48px' }}
+
       >
         <span>
-          <Space.Compact style={{ width: '600px' }}>
+          <Space.Compact style={{ width: '600px' }} size='large'>
             <Select
               defaultValue="Name"
               options={options}
@@ -146,6 +149,7 @@ function App() {
                 callApi();
               }}
               style={{ width: '40%' }}
+              size='large'
             />
             <Input
               placeholder="Search"
@@ -153,6 +157,7 @@ function App() {
               style={{ width: '60%' }}
               value={search}
               onChange={e => setSearch(e.target.value)}
+              size='large'
             />
           </Space.Compact>
           <Select
@@ -160,6 +165,7 @@ function App() {
             onChange={e => setStatus(e)}
             options={options2}
             style={{ marginLeft: '50px', width: '150px' }}
+            size='large'
           />
           <Button
             style={{
@@ -167,14 +173,14 @@ function App() {
               marginLeft: '150px',
               width: '120px',
               color: '#fff',
+
             }}
+            size='large'
           >
             <Link to="/create_garage">Add Garages</Link>
           </Button>
 
-          <Button>
-            <Link to="/Garage_manager_details">garage_details</Link>
-          </Button>
+
         </span>
       </Space>
       <Table columns={columns} dataSource={data} />

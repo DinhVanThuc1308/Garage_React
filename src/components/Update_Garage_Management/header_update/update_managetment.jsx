@@ -8,6 +8,7 @@ import axiosInstance from '../../../shared/services/http-client';
 import { useState, useEffect } from 'react';
 import { message } from 'antd';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 function Update_managetment() {
     let { id } = useParams();
@@ -500,9 +501,11 @@ function Update_managetment() {
                     <button type="submit" className={styles['btn-save']}>
                         Save
                     </button>
-                    <button type="cancel" className={styles['btn-cancel']}>
-                        Cancel
-                    </button>
+                    <Link to='/Garage_manage'>
+                        <button type="cancel" className={styles['btn-cancel']}>
+                            Cancel
+                        </button>
+                    </Link>
                 </div>
                 {/* <button type="submit">Submit</button> */}
             </form>

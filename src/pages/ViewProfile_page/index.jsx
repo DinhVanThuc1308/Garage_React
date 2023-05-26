@@ -26,6 +26,7 @@ function ViewProfile_page() {
       <div className="ViewProfile_page">
         <Slide_bar>
           <ViewProfile myProp={res}></ViewProfile>
+
         </Slide_bar>
       </div>
     );

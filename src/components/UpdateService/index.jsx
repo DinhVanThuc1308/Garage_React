@@ -5,6 +5,7 @@ import axiosInstance from '../../shared/services/http-client';
 import styles from './styles.module.css';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import updateServiceAPI from '../../shared/api/updateServiceAPI';
 
 export default function UpdateService() {
   let { id } = useParams();
@@ -22,14 +23,14 @@ export default function UpdateService() {
     },
   });
 
-  const [dataID, setDataID] = useState([]);
-
   // call api id to get data
+
+  const [dataID, setDataID] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       // You can await here
-      const response = await axiosInstance.get(`garage-services/${id}`);
+      const response = await updateServiceAPI.getDataFromId(id);
 
       setDataID(response.data);
       console.log(id);
@@ -38,6 +39,8 @@ export default function UpdateService() {
     fetchData();
   }, [id]);
   console.log(dataID);
+
+  // Notification
   const [messageApi, contextHolder] = message.useMessage();
   const key = 'updatable';
   const openMessageErr = () => {
@@ -83,21 +86,33 @@ export default function UpdateService() {
     updateService({ data }, id);
   };
 
-  const updateService = (data, idNumber) => {
-    console.log(idNumber);
-    console.log({ data });
-    // delete data.status;
-    // delete data.garage;
-    axiosInstance
-      .put(`garage-services/${idNumber}`, data)
-      .then(res => {
-        openMessageAuke();
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch(err => {
-        openMessageErr();
-      });
+  // call api update
+  // const updateService = (data, idNumber) => {
+  //   console.log(idNumber);
+  //   console.log({ data });
+  //   // delete data.status;
+  //   // delete data.garage;
+  //   axiosInstance
+  //     .put(`garage-services/${idNumber}`, data)
+  //     .then(res => {
+  //       openMessageAuke();
+  //       console.log(res);
+  //       console.log(res.data);
+  //     })
+  //     .catch(err => {
+  //       openMessageErr();
+  //     });
+  // };
+
+  const updateService = async (data, idNumber) => {
+    try {
+      const res = await updateServiceAPI.updateServiceData(idNumber, data);
+      openMessageAuke();
+      console.log(res);
+      console.log(res.data);
+    } catch (error) {
+      openMessageErr();
+    }
   };
 
   return (
@@ -184,7 +199,6 @@ export default function UpdateService() {
               <TextArea
                 rows={5}
                 placeholder="Enter a description"
-                maxLength={10}
                 style={{ width: '100%' }}
                 {...field}
               />

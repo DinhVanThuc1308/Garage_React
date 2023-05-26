@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { message } from 'antd';
 import { useEffect } from 'react';
 import createOwnerAPI from '../../shared/api/createOwnerAPI';
+import { Link } from 'react-router-dom';
 
 function CreateOwner() {
   const {
@@ -328,7 +329,7 @@ function CreateOwner() {
             <Controller
               name="role"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -417,9 +418,11 @@ function CreateOwner() {
           <button type="submit" className={styles['btn-save']}>
             Save
           </button>
-          <button type="cancel" className={styles['btn-cancel']}>
-            Cancel
-          </button>
+          <Link to="/garage_owner">
+            <button type="cancel" className={styles['btn-cancel']}>
+              Cancel
+            </button>
+          </Link>
         </div>
         {/* <button type="submit">Submit</button> */}
       </form>

@@ -26,7 +26,7 @@ function ViewProfile_page() {
       <div className="ViewProfile_page">
         <Slide_bar>
           <ViewProfile myProp={res}></ViewProfile>
-          <Button
+          {/* <Button
             type="primary"
             onClick={() => {
               auth.logout();
@@ -34,7 +34,7 @@ function ViewProfile_page() {
             }}
           >
             Logout
-          </Button>
+          </Button> */}
         </Slide_bar>
       </div>
     );

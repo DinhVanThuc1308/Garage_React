@@ -126,7 +126,7 @@ function App() {
         style={{ paddingBottom: '70px', height: '48px' }}
       >
         <span>
-          <Space.Compact style={{ width: '600px' }}>
+          <Space.Compact style={{ width: '600px' }} size='large'>
             <Select
               defaultValue="Name"
               options={options}
@@ -134,6 +134,8 @@ function App() {
                 callApi();
               }}
               style={{ width: '40%' }}
+              size='large'
+
             />
             <Input
               placeholder="Search"
@@ -141,6 +143,7 @@ function App() {
               style={{ width: '60%' }}
               value={search}
               onChange={e => setSearch(e.target.value)}
+              size='large'
             />
           </Space.Compact>
           {/* vieest ther selec gom 2 trang thai bang antd*/}
@@ -149,6 +152,8 @@ function App() {
             onChange={e => setStatus(e)}
             options={options2}
             style={{ marginLeft: '50px', width: '150px' }}
+            size='large'
+
           />
           <Button
             style={{
@@ -156,7 +161,11 @@ function App() {
               marginLeft: '150px',
               width: '120px',
               color: '#fff',
+              height: '42px',
+
+
             }}
+
           >
             <Link to="/create_owner">Add Owner</Link>
           </Button>

@@ -23,6 +23,7 @@ import UpdateManagement from './pages/Page_update_management/Page_update_managem
 import GarageService from './pages/Garage_Service_page/index.jsx';
 import DetailService from './pages/DetailService/index.jsx';
 import GarageManage_page from './pages/garage_manage_page/index.jsx';
+import CreateService from './pages/CreateService/index.jsx';
 function App() {
   return (
     <div className="App">
@@ -46,6 +47,7 @@ function App() {
           <Route path="/Garage_service" element={<GarageService />} />
           <Route path="/service_detail" element={<DetailService />} />
           <Route path="/Garage_manage" element={<GarageManage_page />} />
+          <Route path="/create_service" element={<CreateService />} />
         </Route>
       </Routes>
 

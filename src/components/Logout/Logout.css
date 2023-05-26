@@ -11,8 +11,8 @@
 }
 
 .Logout_UI {
-    width: 300px;
-    height: 150px;
+    width: 150px;
+    height: 100px;
     background-color: white;
     border-radius: 5px;
     box-shadow: 3px 3px 3px 3px #D3D3D3;
@@ -27,13 +27,16 @@
 
     display: flex;
     align-items: center;
-    gap: 10px;
+    border: none;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    /* margin-left: -38px; */
+    z-index: 0;
+    /* margin-right: 12px; */
     border-radius: 5px;
-    margin: 15px 15px 0px 15px;
-    position: relative;
     height: 50px;
-    box-shadow: 2px 2px 2px 2px #D3D3D3;
-
 
 }
 
@@ -55,22 +58,22 @@
     /* Paragraph 3/Medium */
     font-family: 'Poppins';
     font-style: normal;
-    font-weight: 500;
+    /* font-weight: 500; */
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: 5px;
+    margin-left: 10px;
 
 }
 
 .logout_item2 {
-    /* display: flex; */
-    align-items: center;
-    margin: 15px 15px 0px 15px;
-    border-radius: 5px;
-    /* padding: 0; */
-    position: relative;
-    margin-bottom: 20px;
-    height: 40px;
     display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    /* margin: 15px 15px 0px 15px; */
+    position: relative;
+    height: 50px;
+    box-shadow: 2px 2px 2px 2px #D3D3D3;
 
 }
 
@@ -87,9 +90,9 @@
 .item2_text {
     font-family: 'Poppins';
     font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
-    margin-left: 12px;
+    /* font-weight: 400; */
+    font-size: 16px;
+    /* margin-left: 12px; */
 }
 
 
@@ -101,16 +104,16 @@
     height: 100%;
     width: 100%;
     text-align: center;
-    margin-left: -38px;
+    /* margin-left: -38px; */
     z-index: 0;
-    margin-right: 12px;
+    /* margin-right: 12px; */
     border-radius: 5px;
 }
 
 .Logout_text {
     font-family: 'Poppins';
-    font-size: large;
-    margin-left: 50px;
+    font-size: 16px;
+    margin-left: 10px;
 }
 
 .Logout_button:hover {

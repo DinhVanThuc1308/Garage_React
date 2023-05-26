@@ -5,7 +5,6 @@ import styles from './styles.module.css';
 import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import updateServiceAPI from '../../shared/api/updateServiceAPI';
-import { Link } from 'react-router-dom';
 
 export default function UpdateService() {
   let { id } = useParams();

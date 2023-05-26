@@ -5,8 +5,10 @@ import axiosInstance from '../../shared/services/http-client';
 import styles from './styles.module.css';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import CreateServiceAPI from '../../shared/api/createServiceAPI';
+import { Link } from 'react-router-dom'
 
-export default function UpdateService() {
+export default function CreateService() {
     let { id } = useParams();
     const { TextArea } = Input;
     const {
@@ -22,22 +24,12 @@ export default function UpdateService() {
         },
     });
 
-    const [dataID, setDataID] = useState([]);
+
 
     // call api id to get data
 
-    useEffect(() => {
-        async function fetchData() {
-            // You can await here
-            const response = await axiosInstance.get(`garage-services/${id}`);
 
-            setDataID(response.data);
-            console.log(id);
-            // ...
-        }
-        fetchData();
-    }, [id]);
-    console.log(dataID);
+
     const [messageApi, contextHolder] = message.useMessage();
     const key = 'updatable';
     const openMessageErr = () => {
@@ -82,6 +74,17 @@ export default function UpdateService() {
         console.log(888, object);
         createService({ data });
     };
+    // const createService = async data => {
+    //     try {
+    //         const response = await CreateServiceAPI.createService(data);
+    //         console.log(response);
+    //         openMessageAuke();
+
+    //     }
+    //     catch (error) {
+    //         openMessageErr();
+    //     }
+    // }
 
     const createService = data => {
         console.log(999, data);
@@ -120,7 +123,7 @@ export default function UpdateService() {
                                     {...field}
                                     style={{ width: '100%' }}
                                     size="large"
-                                    placeholder={dataID.attributes?.name}
+
                                 />
                             )}
                         />
@@ -140,7 +143,6 @@ export default function UpdateService() {
                                 <Input
                                     size="large"
                                     {...field}
-                                    placeholder={dataID.attributes?.minPrice}
                                 />
                             )}
                         />
@@ -160,7 +162,6 @@ export default function UpdateService() {
                                 <Input
                                     size="large"
                                     {...field}
-                                    placeholder={dataID.attributes?.maxPrice}
                                 />
                             )}
                         />
@@ -197,11 +198,14 @@ export default function UpdateService() {
                     <button type="submit" className={styles['btn-save']}>
                         Save
                     </button>
-                    <button type="cancel" className={styles['btn-cancel']}>
-                        Cancel
-                    </button>
+                    <Link to="/Garage_service">
+                        <button type="cancel" className={styles['btn-cancel']} >
+                            Cancel
+                        </button>
+                    </Link>
                 </div>
             </form>
         </div>
     );
 }
+

@@ -7,6 +7,7 @@ import { Option } from 'antd/es/mentions';
 import axiosInstance from '../../shared/services/http-client';
 import { useState, useEffect } from 'react';
 import { message } from 'antd';
+import createGarageAPI from '../../shared/api/createGarageAPI';
 
 function CreateGarage() {
   const {
@@ -123,17 +124,35 @@ function CreateGarage() {
 
   // Call API garage-service list
   useEffect(() => {
-    axiosInstance.get(`garage-services`).then(res => {
-      setServiceList(res.data);
-      console.log(res.data);
-    });
+    // axiosInstance.get(`garage-services`).then(res => {
+    //   setServiceList(res.data);
+    //   console.log(res.data);
+    // });
+    const fetchGarageServiceList = async () => {
+      try {
+        const res = await createGarageAPI.getGarageServiceList();
+        setServiceList(res.data);
+      } catch (error) {
+        console.log('Failed to fetch garage service list: ', error);
+      }
+    };
+    fetchGarageServiceList();
   }, []);
 
   useEffect(() => {
-    axiosInstance.get(`users`).then(res => {
-      setOwnerList(res);
-      console.log(res);
-    });
+    // axiosInstance.get(`users`).then(res => {
+    //   setOwnerList(res);
+    //   console.log(res);
+    // });
+    const fetchOwnerList = async () => {
+      try {
+        const res = await createGarageAPI.getOwnerList();
+        setOwnerList(res);
+      } catch (error) {
+        console.log('Failed to fetch owner list: ', error);
+      }
+    };
+    fetchOwnerList();
   }, []);
 
   // Search garage service
@@ -155,19 +174,30 @@ function CreateGarage() {
 
   // Post data to API
 
-  const createGarage = data => {
-    console.log(data);
-    // delete data.garage;
-    axiosInstance
-      .post('garages', data)
-      .then(res => {
-        openMessageAuke();
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch(err => {
-        openMessageErr();
-      });
+  // const createGarage = data => {
+  //   console.log(data);
+  //   // delete data.garage;
+  //   axiosInstance
+  //     .post('garages', data)
+  //     .then(res => {
+  //       openMessageAuke();
+  //       console.log(res);
+  //       console.log(res.data);
+  //     })
+  //     .catch(err => {
+  //       openMessageErr();
+  //     });
+  // };
+
+  const createGarage = async data => {
+    try {
+      const res = await createGarageAPI.postGarageData(data);
+      openMessageAuke();
+      console.log(res);
+      console.log(res.data);
+    } catch (error) {
+      openMessageErr();
+    }
   };
 
   return (
@@ -279,7 +309,7 @@ function CreateGarage() {
                   allowClear
                 >
                   <Option value="07:00:00">07:00:00</Option>
-                  <Option value="09:00:00.000">09:00:00.000</Option>
+                  <Option value="09:00:00">09:00:00</Option>
                   <Option value="11:00:00">11:00:00</Option>
                 </Select>
               )}
@@ -304,7 +334,7 @@ function CreateGarage() {
                   allowClear
                 >
                   <Option value="18:00:00">18:00:00</Option>
-                  <Option value="20:00:00.000">20:00:00.000</Option>
+                  <Option value="20:00:00">20:00:00</Option>
                   <Option value="22:00:00">22:00:00</Option>
                 </Select>
               )}

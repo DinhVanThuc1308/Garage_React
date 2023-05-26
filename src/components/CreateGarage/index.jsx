@@ -4,11 +4,10 @@ import { Input, Select, Checkbox } from 'antd';
 import binicon from './Vector.svg';
 import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
-import axiosInstance from '../../shared/services/http-client';
 import { useState, useEffect } from 'react';
 import { message } from 'antd';
 import createGarageAPI from '../../shared/api/createGarageAPI';
-
+import { Link } from 'react-router-dom';
 function CreateGarage() {
   const {
     control,
@@ -495,11 +494,12 @@ function CreateGarage() {
           <button type="submit" className={styles['btn-save']}>
             Save
           </button>
-          <button type="cancel" className={styles['btn-cancel']}>
-            Cancel
-          </button>
+          <Link to="/Garage_manage">
+            <button type="cancel" className={styles['btn-cancel']}>
+              Cancel
+            </button>
+          </Link>
         </div>
-        {/* <button type="submit">Submit</button> */}
       </form>
     </div>
   );

@@ -26,15 +26,7 @@ function ViewProfile_page() {
       <div className="ViewProfile_page">
         <Slide_bar>
           <ViewProfile myProp={res}></ViewProfile>
-          {/* <Button
-            type="primary"
-            onClick={() => {
-              auth.logout();
-              nav('/');
-            }}
-          >
-            Logout
-          </Button> */}
+
         </Slide_bar>
       </div>
     );

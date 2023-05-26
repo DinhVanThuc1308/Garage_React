@@ -17,20 +17,11 @@
     border-radius: 5px;
     box-shadow: 3px 3px 3px 3px #D3D3D3;
     margin-top: -8px;
-    right: 80px;
-    top: 80px;
     position: absolute;
+    right: 20px;
+    top: 20px;
 }
 
-@keyframes containerUp {
-    from {
-        transform: scale(0);
-    }
-
-    to {
-        transform: scale(1);
-    }
-}
 
 .logout_item1 {
 
@@ -90,6 +81,7 @@
     background-color: #D3D3D3;
     border-radius: 50%;
     border: 5px solid #D3D3D3;
+    z-index: 1;
 }
 
 .item2_text {
@@ -97,9 +89,31 @@
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
+    margin-left: 12px;
 }
 
-.logout_item2:hover {
+
+.Logout_button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-left: -38px;
+    z-index: 0;
+    margin-right: 12px;
+    border-radius: 5px;
+}
+
+.Logout_text {
+    font-family: 'Poppins';
+    font-size: large;
+    margin-left: 50px;
+}
+
+.Logout_button:hover {
     background-color: #f5f5f5;
     cursor: pointer;
 }

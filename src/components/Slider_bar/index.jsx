@@ -22,6 +22,8 @@ import Icon from './asset/img/Vector.png';
 import Logout from '../Logout/Logout';
 import { Link } from "react-router-dom";
 
+import { useLocation } from 'react-router-dom';
+
 // View Profile
 import ViewProfile from '../ViewProfile/ViewProfile';
 
@@ -29,9 +31,27 @@ const { Header, Sider, Content } = Layout;
 //props. chi
 const Slide_bar = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState('1');
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const location = useLocation();
+
+  React.useEffect(() => {
+    switch (location.pathname) {
+      case '/garage_owner':
+        setSelectedMenu('1');
+        break;
+      case '/Garage_manage':
+        setSelectedMenu('2');
+        break;
+      case '/Garage_service':
+        setSelectedMenu('4');
+        break;
+      default:
+    }
+  }, [location.pathname]);
   return (
     <Layout>
       <Sider
@@ -47,7 +67,9 @@ const Slide_bar = ({ children }) => {
           className="sb_item"
           theme="light"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={[]}
+          selectedKeys={[selectedMenu]}
+          onSelect={({ key }) => setSelectedMenu(key)}
           items={[
 
             {
@@ -60,9 +82,8 @@ const Slide_bar = ({ children }) => {
               icon: <img src={sb_img}></img>,
               label: <Link to="/Garage_manage">Garage</Link>,
             },
-
             {
-              key: '3',
+              key: '4',
               icon: <img src={sb_img}></img>,
               label: <Link to="/Garage_service">Garage-services</Link>,
 
@@ -107,7 +128,7 @@ const Slide_bar = ({ children }) => {
             margin: '24px 16px',
             padding: 24,
             minHeight: 280,
-            // background: colorBgContainer,
+            background: selectedMenu === '2' || selectedMenu === '3' || selectedMenu === '4' ? '#e6e6e6' : colorBgContainer,
           }}
         >
           {children}

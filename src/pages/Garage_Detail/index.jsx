@@ -8,7 +8,6 @@ function Garage_detail_page() {
             <Slide_bar>
                 <Garage_detail></Garage_detail>
             </Slide_bar>
-
         </div>
     );
 

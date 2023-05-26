@@ -62,6 +62,7 @@ function App() {
       name: user.attributes.name,
       email: user.attributes.email,
       phoneNumber: user.attributes.phoneNumber,
+      ownerName: user.attributes.owner.data.attributes.fullname,
       status: user.status === 'active' ? 'Active' : 'Inactive',
       action: (
         <Space key={user.id} size="middle">
@@ -111,7 +112,11 @@ function App() {
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
     },
-
+    {
+      title: 'Garage Owner',
+      dataIndex: 'ownerName',
+      key: 'ownerName',
+    },
     {
       title: 'Status',
       dataIndex: 'status',

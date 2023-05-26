@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 export default function ViewProfile(props) {
+    const { id, fullname, phoneNumber, email, dob, role } = props.myProp;
 
     return (
         <div className={styles['container-view']}>
@@ -53,7 +54,7 @@ export default function ViewProfile(props) {
             <hr />
             <div className={styles['buttons']}>
                 <button className={styles['update-btn']}>
-                    <Link to="/update">Update Profile</Link>
+                    <Link to={`/update/${id}`}>Update Profile</Link>
                 </button>
                 <button className={styles['change-btn']}>
                     <Link to="/change_password">Change Password</Link>

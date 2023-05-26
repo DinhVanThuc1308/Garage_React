@@ -35,7 +35,7 @@ function App() {
           <Route path="/" element={<GarageOwner />} />
 
           <Route path="/change_password" element={<Change_pw_page />} />
-          <Route path="/update" element={<Update_Page />} />
+          <Route path="/update/:id" element={<Update_Page />} />
           <Route path="/create_owner" element={<CreateOwner_page />} />
           <Route path="/view_profile" element={<ViewProfile_page />} />
           <Route path="/garage_detail/:id" element={<Garage_Detail />} />
@@ -45,7 +45,7 @@ function App() {
           <Route path="/update_service/:id" element={<UpdateService_page />} />
           <Route path="/update_management/:id" element={<UpdateManagement />} />
           <Route path="/Garage_service" element={<GarageService />} />
-          <Route path="/service_detail" element={<DetailService />} />
+          <Route path="/service_detail/:id" element={<DetailService />} />
           <Route path="/Garage_manage" element={<GarageManage_page />} />
           <Route path="/create_service" element={<CreateService />} />
         </Route>

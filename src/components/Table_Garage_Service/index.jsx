@@ -5,10 +5,10 @@ import deleteIcon from '../Table/assets/Icon/Vector.png';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../shared/services/http-client.js';
-import { useParams } from 'react-router-dom';
 
 import { Button, Input, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+
 
 const options = [
   {
@@ -22,35 +22,69 @@ const options = [
 ];
 const options2 = [
   {
-    value: 'Status',
-    label: 'Status',
+    value: true,
+    label: 'Active',
   },
   {
-    value: 'active',
-    label: 'done',
+    value: false,
+    label: 'Inactive',
   },
 ];
 
 function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('');
+
+  const handleDelete = async id => {
+
+    await axiosInstance.delete(`garage-services/${id}`);
+    callApi();
+  };
 
   const callApi = async () => {
-    const data = await axiosInstance.get('users');
-    console.log(data);
-    const users = data.map(user => ({
+    const responseData = await axiosInstance.get('garage-services', {
+      params: {
+        
+      },
+    });
+
+    console.log(responseData);
+
+    const users = responseData.data.map(user => ({
       id: user.id,
-      name: user.fullname,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
+      name: user.attributes.name,
+      description: user.attributes.description,
+      maxPrice: user.attributes.maxPrice,
+      minPrice:user.attributes.minPrice,
       status: user.status === 'active' ? 'Active' : 'Inactive',
+      action: (
+        <Space key={user.id} size="middle">
+          <Link to={`/service_detail/${user.id}`}>
+            <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
+          </Link>
+          <Link to={`/update_service/${user.id}`}>
+            <img src={edit} />
+          </Link>
+          <Button
+            style={{ border: 'none' }}
+            className="btn_xoa"
+            onClick={() => handleDelete(user.id)}
+          >
+            <img src={deleteIcon} />
+          </Button>
+        </Space>
+      ),
     }));
+
     setData([...users]);
   };
 
   useEffect(() => {
     callApi();
-  }, []);
+  }, [search, status]);
+
+
 
   const columns = [
     {
@@ -63,67 +97,69 @@ function App() {
       key: 'name',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
     },
     {
-      title: 'Phone number',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
+      title: 'Min price',
+      dataIndex: 'minPrice',
+      key: 'minPrice',
     },
-
+    
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
+      title: 'Max price',
+      dataIndex: 'maxPrice',
+      key: 'maxPrice',
     },
     {
       title: 'Action',
       key: 'action',
-      render: () => (
-        <Space size="middle">
-          <Link to="/service_detail">
-            <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
-          </Link>
-          <Link to="/update_service">
-            <img src={edit} />
-          </Link>
-
-          <Link to="/create_service">
-            <img src={deleteIcon} />
-          </Link>
-        </Space>
-      ),
+      dataIndex: 'action',
     },
   ];
 
   return (
     <div className="div">
-      <Space direction="vertical" size="middle">
+      <Space
+        direction="vertical"
+        size="middle"
+        className="UI_search"
+        style={{ paddingBottom: '70px', height: '48px' }}
+      >
         <span>
-          <Space.Compact style={{ width: ' 493px' }}>
-            <Select defaultValue="Name" options={options} />
+          <Space.Compact style={{ width: '600px' }}>
+            <Select
+              defaultValue="Name"
+              options={options}
+              onClick={() => {
+                callApi();
+              }}
+              style={{ width: '40%' }}
+            />
             <Input
               placeholder="Search"
               suffix={<SearchOutlined />}
+              style={{ width: '60%' }}
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
           </Space.Compact>
+          <Select
+            defaultValue="Status"
+            onChange={e => setStatus(e)}
+            options={options2}
+            style={{ marginLeft: '50px', width: '150px' }}
+          />
           <Button
-            style={{ backgroundColor: '#8767E1', marginLeft: '10px' }}
-            onClick={() => {
-              callApi();
+            style={{
+              backgroundColor: '#8767E1',
+              marginLeft: '150px',
+              width: '120px',
+              color: '#fff',
             }}
           >
-            Search
-          </Button>
-          <Button style={{ backgroundColor: '#8767E1', marginLeft: '160px' }}>
-            <Link to="/create_service">Add service</Link>
-          </Button>
-          <Button style={{ backgroundColor: '#8767E1', marginLeft: '10px' }}>
-            <Link to="/update_service/2">Update Service</Link>
+            <Link to="/create_service">Add Service</Link>
           </Button>
         </span>
       </Space>

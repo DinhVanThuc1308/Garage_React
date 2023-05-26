@@ -166,6 +166,10 @@ function App() {
           >
             <Link to="/create_garage">Add Garages</Link>
           </Button>
+
+          <Button>
+            <Link to="/Garage_manager_details">garage_details</Link>
+          </Button>
         </span>
       </Space>
       <Table columns={columns} dataSource={data} />

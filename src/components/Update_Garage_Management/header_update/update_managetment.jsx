@@ -502,13 +502,16 @@ function Update_managetment() {
                         Save
                     </button>
                     <Link to='/Garage_manage'>
-                        <button type="cancel" className={styles['btn-cancel']}>
+                        <button type="button" className={styles['btn-cancel']}>
                             Cancel
                         </button>
                     </Link>
+
                 </div>
+
                 {/* <button type="submit">Submit</button> */}
             </form>
+
         </div>
     );
 }

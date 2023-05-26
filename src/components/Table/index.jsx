@@ -35,10 +35,8 @@ function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState(false);
-  const [IDsearch, setIDsearch] = useState([])
-  const [searchType, setSearchType] = useState('Name');
-  const [IDSearch, setIDSearch] = useState('');
-
+  const [TypeSearch, setTypeSearch] = useState('Name')
+  console.log(1111, TypeSearch);
   const handleDelete = async id => {
     // delete user
     await axiosInstance.delete(`users/${id}`);
@@ -47,16 +45,24 @@ function App() {
   };
 
   const callApi = async () => {
+    let params = {
+      'filters[blocked][$eq]': status,
+
+    };
+    if (TypeSearch === 'Name') {
+      params['filters[fullname][$contains]'] = search;
+    }
+    else if (TypeSearch === 'ID') {
+      params['filters[id][$contains]'] = search
+    }
+
+
 
     const data = await axiosInstance.get('users', {
-      params: {
-        'filters[fullname][$contains]': search,
-        'filters[blocked][$eq]': status,
-        ' filters[id][$contains]': IDsearch,
-      },
-
+      params: params,
     });
 
+    console.log(data);
 
     const users = data.map(user => ({
       id: user.id,
@@ -135,10 +141,10 @@ function App() {
           <Space.Compact style={{ width: '600px' }} size='large'>
             <Select
               defaultValue="Name"
+              onChange={value => setTypeSearch(value)}
               options={options}
               onClick={() => {
                 callApi();
-
               }}
               style={{ width: '40%' }}
               size='large'

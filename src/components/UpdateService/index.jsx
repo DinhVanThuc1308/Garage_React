@@ -3,7 +3,7 @@ import { Input, message } from 'antd';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../shared/services/http-client';
 import styles from './styles.module.css';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import updateServiceAPI from '../../shared/api/updateServiceAPI';
 
@@ -213,9 +213,11 @@ export default function UpdateService() {
           <button type="submit" className={styles['btn-save']}>
             Save
           </button>
-          <button type="cancel" className={styles['btn-cancel']}>
-            Cancel
-          </button>
+          <Link to='/Garage_service'>
+            <button type="cancel" className={styles['btn-cancel']}>
+              Cancel
+            </button>
+          </Link>
         </div>
       </form>
     </div>

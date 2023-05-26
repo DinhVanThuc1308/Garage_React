@@ -62,7 +62,7 @@ function App() {
       name: user.attributes.name,
       email: user.attributes.email,
       phoneNumber: user.attributes.phoneNumber,
-      ownerName: user.attributes.owner.data.attributes.fullname,
+      ownerName: user.attributes.owner.data?.attributes?.fullname,
       status: user.status === 'active' ? 'Active' : 'Inactive',
       action: (
         <Space key={user.id} size="middle">
@@ -170,6 +170,10 @@ function App() {
             }}
           >
             <Link to="/create_garage">Add Garages</Link>
+          </Button>
+
+          <Button>
+            <Link to="/Garage_manager_details">garage_details</Link>
           </Button>
         </span>
       </Space>

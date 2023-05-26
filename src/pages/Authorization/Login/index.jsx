@@ -1,17 +1,17 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
-import "./login.css";
+import React, { useContext, useState } from 'react';
+import axios from 'axios';
+import './login.css';
 import { Button, Form, Input, message } from 'antd';
-import { AuthContext } from "../../../context/auth";
-import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../../../context/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const auth = useContext(AuthContext);
   const nav = useNavigate();
-  const API = "https://edison-garage-api.savvycom.xyz/api/auth/local";
+  const API = 'https://edison-garage-api.savvycom.xyz/api/auth/local';
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async values => {
     try {
       setLoading(true);
       const account = {
@@ -22,7 +22,7 @@ export default function Login() {
       auth.setKey(response.data.jwt);
       nav('/');
     } catch (error) {
-      message.error("Sai tài khoản hoặc mật khẩu");
+      message.error(error.response.data.error.message);
     } finally {
       setLoading(false);
     }
@@ -40,10 +40,12 @@ export default function Login() {
   };
 
   return (
-    <div className="login" style={{ fontFamily: 'Poppins', }}>
+    <div className="login" style={{ fontFamily: 'Poppins' }}>
       <div className="header-login">
         <h3 style={{ marginBottom: '20px', fontWeight: 900 }}>Welcome</h3>
-        <p style={{ marginBottom: '30px', fontFamily: 'Poppins', }}>Login to your account</p>
+        <p style={{ marginBottom: '30px', fontFamily: 'Poppins' }}>
+          Login to your account
+        </p>
       </div>
       <div className="body-login">
         <Form
@@ -56,17 +58,16 @@ export default function Login() {
             className="input-username"
             name="username"
             label="Username:"
-            style={{ marginBottom: '30px', height: '56px', }}
+            style={{ marginBottom: '30px', height: '56px' }}
             rules={[
               {
                 required: true,
                 message: 'Please input your username!',
-              }
+              },
             ]}
           >
             <Input size="large" name="username" placeholder="Username" />
           </Form.Item>
-
 
           <Form.Item
             name="password"
@@ -79,24 +80,30 @@ export default function Login() {
               {
                 min: 6,
                 message: 'Password must be at least 6 characters long',
-              }
+              },
             ]}
-
           >
-            <Input.Password className="input-password" name="password" placeholder="Password" style={{ backgroundColor: '#fff' }} />
-
-
+            <Input.Password
+              className="input-password"
+              name="password"
+              placeholder="Password"
+              style={{ backgroundColor: '#fff' }}
+            />
           </Form.Item>
           <Button
             type="primary"
             htmlType="submit"
-            style={{ width: '400px', height: '48px', marginTop: '20px', hover: 'none' }}
+            style={{
+              width: '400px',
+              height: '48px',
+              marginTop: '20px',
+              hover: 'none',
+            }}
             loading={loading}
             className="custom-button"
           >
             Login
           </Button>
-
         </Form>
       </div>
     </div>

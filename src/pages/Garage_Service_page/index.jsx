@@ -9,7 +9,7 @@ function GarageService_page() {
 
             <Slide_bar>
                 <div style={{ backgroundColor: "#fff", padding: 16, borderRadius: 12 }}>
-                    
+
                     <div style={{ padding: '30px' }}></div>
                     <TableService></TableService>
                 </div>

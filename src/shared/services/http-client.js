@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ACCESS_TOKEN } from '../constants';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://edison-garage-api.savvycom.xyz/api',
+  baseURL: 'http://localhost:1337/api',
   headers: {
     Accept: 'applications/json',
     'Content-Type': 'application/json',
@@ -33,4 +33,4 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-export default axiosInstance ;
+export default axiosInstance;

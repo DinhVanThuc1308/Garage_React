@@ -1,4 +1,4 @@
-import { Space, Table } from 'antd';
+import { Space, Table, Modal } from 'antd';
 import eye from '../Table/assets/Icon/eye.png';
 import edit from '../Table/assets/Icon/Edit.png';
 import deleteIcon from '../Table/assets/Icon/Vector.png';
@@ -9,45 +9,46 @@ import axiosInstance from '../../shared/services/http-client.js';
 import { Button, Input, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
+const { confirm } = Modal;
 
-const options = [
-  {
-    value: 'Name',
-    label: 'Name',
-  },
-  {
-    value: 'ID',
-    label: 'ID',
-  },
-];
-const options2 = [
-  {
-    value: true,
-    label: 'Active',
-  },
-  {
-    value: false,
-    label: 'Inactive',
-  },
-];
+
 
 function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('');
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [deletingItemId, setDeletingItemId] = useState(null);
 
-  const handleDelete = async id => {
 
-    await axiosInstance.delete(`garage-services/${id}`);
+
+  const handleDelete = async (id) => {
+    setDeletingItemId(id);
+    setConfirmModalVisible(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    await axiosInstance.delete(`users/${deletingItemId}`);
+    setDeletingItemId(null);
+    setConfirmModalVisible(false);
     callApi();
   };
 
+  const handleCancelDelete = () => {
+    setDeletingItemId(null);
+    setConfirmModalVisible(false);
+  };
+
+
   const callApi = async () => {
+    let params = {
+
+    };
+    params['filters[name][$contains]'] = search;
     const responseData = await axiosInstance.get('garage-services', {
-      params: {
+      params:
 
+        params,
 
-      },
     });
 
     console.log(responseData);
@@ -58,7 +59,7 @@ function App() {
       description: user.attributes.description,
       maxPrice: user.attributes.maxPrice,
       minPrice: user.attributes.minPrice,
-      status: user.status === 'active' ? 'Active' : 'Inactive',
+
       action: (
         <Space key={user.id} size="middle">
           <Link to={`/service_detail/${user.id}`}>
@@ -67,13 +68,14 @@ function App() {
           <Link to={`/update_service/${user.id}`}>
             <img src={edit} />
           </Link>
-          <Button
-            style={{ border: 'none' }}
+          <button
+            style={{ border: 'none', backgroundColor: '#fff' }}
             className="btn_xoa"
             onClick={() => handleDelete(user.id)}
           >
             <img src={deleteIcon} />
-          </Button>
+          </button>
+
         </Space>
       ),
     }));
@@ -83,9 +85,7 @@ function App() {
 
   useEffect(() => {
     callApi();
-  }, [search, status]);
-
-
+  }, [search,]);
 
   const columns = [
     {
@@ -107,7 +107,6 @@ function App() {
       dataIndex: 'minPrice',
       key: 'minPrice',
     },
-
     {
       title: 'Max price',
       dataIndex: 'maxPrice',
@@ -121,55 +120,59 @@ function App() {
   ];
 
   return (
+
     <div className="div">
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h1 style={{ fontFamily: 'Poppins', fontSize: 25 }}>All Garage Service</h1>
+        <Button
+          style={{
+            backgroundColor: '#8767E1',
+            width: '120px',
+            color: '#fff',
+            height: '42px',
+            margin: '0 20px',
+          }}
+          className="custom-button"
+        >
+          <Link to="/create_service">Add Service</Link>
+        </Button>
+      </div>
       <Space
         direction="vertical"
         size="middle"
         className="UI_search"
-        style={{ paddingBottom: '70px', height: '48px' }}
 
+
+        style={{ paddingBottom: '70px', height: '48px' }}
       >
         <span>
-          <Space.Compact style={{ width: '600px' }}>
-            <Select
-              defaultValue="Name"
-              options={options}
-              onClick={() => {
-                callApi();
-              }}
-              style={{ width: '40%' }}
-              size='large'
-            />
+          <Space.Compact style={{ width: '300px' }} size="large">
+
             <Input
               placeholder="Search"
               suffix={<SearchOutlined />}
-              style={{ width: '60%' }}
+              style={{ width: '100%' }}
               value={search}
               onChange={e => setSearch(e.target.value)}
-              size='large'
+              size="large"
             />
           </Space.Compact>
-          <Select
-            defaultValue="Status"
-            onChange={e => setStatus(e)}
-            options={options2}
-            style={{ marginLeft: '50px', width: '150px' }}
-          />
-          <Button
-            style={{
-              backgroundColor: '#8767E1',
-              marginLeft: '150px',
-              width: '120px',
-              color: '#fff',
-            }}
-          >
-            <Link to="/create_service">Add Service</Link>
-          </Button>
+
+
         </span>
       </Space>
       <Table columns={columns} dataSource={data} />
+      <Modal
+        visible={confirmModalVisible}
+        onOk={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        okText="Confirm"
+        cancelText="Cancel"
+        centered
+      >
+        <p>Are you sure you want to delete this item?</p>
+      </Modal>
     </div>
   );
 }
-
 export default App;

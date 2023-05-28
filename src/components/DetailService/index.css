@@ -309,3 +309,12 @@ flex: none;
 order: 0;
 flex-grow: 0;
 }
+.letter-button{
+    transform: scale(1.0);
+    border:none
+
+}
+.letter-button{
+    transform: scale(1.0);
+    cursor: pointer;
+}

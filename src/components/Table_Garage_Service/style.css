@@ -15,7 +15,7 @@
     transform: scale(1.0);
   }
   .btn_xoa:hover{
-    
+    transform: scale(1.0);
     cursor: pointer;
   }
 

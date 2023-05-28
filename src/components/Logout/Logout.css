@@ -108,7 +108,12 @@
     z-index: 0;
     /* margin-right: 12px; */
     border-radius: 5px;
+    ;
 }
+.logout_item1:hover{
+    transform: scale(1.0);
+  
+  }
 
 .Logout_text {
     font-family: 'Poppins';
@@ -119,4 +124,5 @@
 .Logout_button:hover {
     background-color: #f5f5f5;
     cursor: pointer;
+    transform: scale(1.0);
 }

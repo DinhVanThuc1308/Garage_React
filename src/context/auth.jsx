@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [login, setLogin] = useState(false);
     const [token, setToken] = useState(localStorage.getItem(ACCESS_TOKEN) || '');
     const [loading, setLoading] = useState(true);
-    const api = "https://edison-garage-api.savvycom.xyz/api/users/me";
+    const api = "http://localhost:1337/api/users/me";
 
     const setKey = (token) => {
         // save token to local storage

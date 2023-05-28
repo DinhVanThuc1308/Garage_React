@@ -1,4 +1,4 @@
-import { Space, Table } from 'antd';
+import { Space, Table, Modal } from 'antd';
 import eye from '../Table/assets/Icon/eye.png';
 import edit from '../Table/assets/Icon/Edit.png';
 import deleteIcon from '../Table/assets/Icon/Vector.png';
@@ -22,11 +22,15 @@ const options = [
 ];
 const options2 = [
   {
-    value: true,
-    label: 'Active',
+    value: 'All',
+    label: 'All',
   },
   {
     value: false,
+    label: 'Active',
+  },
+  {
+    value: true,
     label: 'Inactive',
   },
 ];
@@ -35,11 +39,26 @@ function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [deletingItemId, setDeletingItemId] = useState(null);
 
-  const handleDelete = async id => {
 
-    await axiosInstance.delete(`garages/${id}`);
+
+  const handleDelete = async (id) => {
+    setDeletingItemId(id);
+    setConfirmModalVisible(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    await axiosInstance.delete(`users/${deletingItemId}`);
+    setDeletingItemId(null);
+    setConfirmModalVisible(false);
     callApi();
+  };
+
+  const handleCancelDelete = () => {
+    setDeletingItemId(null);
+    setConfirmModalVisible(false);
   };
 
   const callApi = async () => {
@@ -74,13 +93,13 @@ function App() {
           <Link to={`/update_management/${user.id}`}>
             <img src={edit} />
           </Link>
-          <Button
-            style={{ border: 'none' }}
+          <button
+            style={{ border: 'none', backgroundColor: '#fff' }}
             className="btn_xoa"
             onClick={() => handleDelete(user.id)}
           >
             <img src={deleteIcon} />
-          </Button>
+          </button>
         </Space>
       ),
     }));
@@ -132,59 +151,75 @@ function App() {
   ];
 
   return (
-    <div className="div">
-      <Space
-        direction="vertical"
-        size="middle"
-        className="UI_search"
-        style={{ paddingBottom: '70px', height: '48px' }}
+    <>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h1 style={{ fontFamily: 'Poppins', fontSize: 20 }}>All Garages </h1>
+        <Button
+          style={{
+            backgroundColor: '#8767E1',
+            width: '120px',
+            color: '#fff',
+            height: '42px',
+            margin: '0 20px',
+          }}
+          className="custom-button"
+        >
+          <Link to="/create_owner">Add Garages</Link>
+        </Button>
+      </div>
+      <div className="div">
+        <Space
+          direction="vertical"
+          size="middle"
+          className="UI_search"
+          style={{ paddingBottom: '70px', height: '48px' }}
 
-      >
-        <span>
-          <Space.Compact style={{ width: '600px' }} size='large'>
+        >
+          <span>
+            <Space.Compact style={{ width: '500px' }} size='large'>
+              <Select
+                defaultValue="Name"
+                options={options}
+                onClick={() => {
+                  callApi();
+                }}
+                style={{ width: '30%' }}
+                size='large'
+              />
+              <Input
+                placeholder="Search"
+                suffix={<SearchOutlined />}
+                style={{ width: '70%' }}
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                size='large'
+              />
+            </Space.Compact>
             <Select
-              defaultValue="Name"
-              options={options}
-              onClick={() => {
-                callApi();
-              }}
-              style={{ width: '40%' }}
+              defaultValue="Status"
+              onChange={e => setStatus(e)}
+              options={options2}
+              style={{ marginLeft: '10px', width: '150px' }}
               size='large'
             />
-            <Input
-              placeholder="Search"
-              suffix={<SearchOutlined />}
-              style={{ width: '60%' }}
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              size='large'
-            />
-          </Space.Compact>
-          <Select
-            defaultValue="Status"
-            onChange={e => setStatus(e)}
-            options={options2}
-            style={{ marginLeft: '50px', width: '150px' }}
-            size='large'
-          />
-          <Button
-            style={{
-              backgroundColor: '#8767E1',
-              marginLeft: '150px',
-              width: '120px',
-              color: '#fff',
-
-            }}
-            size='large'
-          >
-            <Link to="/create_garage">Add Garages</Link>
-          </Button>
 
 
-        </span>
-      </Space>
-      <Table columns={columns} dataSource={data} />
-    </div>
+
+          </span>
+        </Space>
+        <Table columns={columns} dataSource={data} />
+        <Modal
+          visible={confirmModalVisible}
+          onOk={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+          okText="Confirm"
+          cancelText="Cancel"
+          centered
+        >
+          <p>Are you sure you want to delete this item?</p>
+        </Modal>
+      </div>
+    </>
   );
 }
 

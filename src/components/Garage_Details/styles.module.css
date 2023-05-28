@@ -196,3 +196,10 @@
 ::-webkit-scrollbar-thumb:hover {
     background-color: #555;
 }
+.btn-cancel:hover{
+    transform:scale(1.0);
+    cursor: pointer;
+}
+.btn-save:hover{
+    transform:scale(1.0);
+}

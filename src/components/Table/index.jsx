@@ -159,7 +159,7 @@ function App() {
   return (
     <div style={{ marginTop: 0 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1 style={{ fontFamily: 'Poppins', fontSize: 25 }}>All Garage Owner</h1>
+        <h1 style={{ fontFamily: 'Poppins', fontSize: 20 }}>All Garage Owner</h1>
         <Button
           style={{
             backgroundColor: '#8767E1',

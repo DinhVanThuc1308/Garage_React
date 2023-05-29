@@ -183,6 +183,15 @@
     border: 1px solid #8767E1;
     border-radius: 8px;
 }
+.btn-cancel:hover{
+    transform: scale(1.0);
+    cursor: pointer;
+
+}
+.btn-save:hover{
+    transform: scale(1.0);
+
+}
 
 ::-webkit-scrollbar {
     width: 5px;

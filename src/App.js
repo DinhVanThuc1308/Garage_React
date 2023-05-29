@@ -49,7 +49,10 @@ function App() {
           <Route path="/service_detail/:id" element={<DetailService />} />
           <Route path="/Garage_manage" element={<GarageManage_page />} />
           <Route path="/create_service" element={<CreateService />} />
-          <Route path='/Garage_manager_details' element={<Page_manager_details />} />
+          <Route
+            path="/Garage_manager_details/:id"
+            element={<Page_manager_details />}
+          />
         </Route>
       </Routes>
 

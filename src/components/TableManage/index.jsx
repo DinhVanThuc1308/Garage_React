@@ -86,7 +86,7 @@ function App() {
       status: user.status === 'active' ? 'Active' : 'Inactive',
       action: (
         <Space key={user.id} size="middle">
-          <Link to="/Garage_manager_details">
+          <Link to={`/Garage_manager_details/${user.id}`}>
             <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
 
           </Link>
@@ -164,7 +164,7 @@ function App() {
           }}
           className="custom-button"
         >
-          <Link to="/create_owner">Add Garages</Link>
+          <Link to="/create_garage">Add Garages</Link>
         </Button>
       </div>
       <div className="div">

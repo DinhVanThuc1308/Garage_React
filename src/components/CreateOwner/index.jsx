@@ -10,8 +10,10 @@ import { message } from 'antd';
 import { useEffect } from 'react';
 import createOwnerAPI from '../../shared/api/createOwnerAPI';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function CreateOwner() {
+  const nav = useNavigate();
   const {
     control,
     handleSubmit,
@@ -63,6 +65,10 @@ function CreateOwner() {
         duration: 2,
       });
     }, 1000);
+
+    setTimeout(() => {
+      nav('/garage_owner');
+    }, 2000);
   };
 
   // chosse garage
@@ -168,8 +174,17 @@ function CreateOwner() {
 
   return (
     <>
-      <div style={{ width: '100%', backgroundColor: '#f8f5f5', padding: '10px' }}>
-        <h3 style={{ fontFamily: 'Poppins', fontSize: 20 }}><span style={{ fontFamily: 'Poppins', fontSize: "23", color: '#cacaca' }} >All Garages Owner &gt;</span>  Add a new owner </h3>
+      <div
+        style={{ width: '100%', backgroundColor: '#f8f5f5', padding: '10px' }}
+      >
+        <h3 style={{ fontFamily: 'Poppins', fontSize: 20 }}>
+          <span
+            style={{ fontFamily: 'Poppins', fontSize: '23', color: '#cacaca' }}
+          >
+            All Garages Owner &gt;
+          </span>{' '}
+          Add a new owner{' '}
+        </h3>
       </div>
       <div className={styles['create-form']}>
         {contextHolder}
@@ -217,7 +232,9 @@ function CreateOwner() {
                 )}
               />
               {errors.email && (
-                <p style={{ color: 'red' }}>Please enter a valid email address</p>
+                <p style={{ color: 'red' }}>
+                  Please enter a valid email address
+                </p>
               )}
             </div>
             <div className={styles['row-item']}>
@@ -346,7 +363,9 @@ function CreateOwner() {
                   </Select>
                 )}
               />
-              {errors.role && <p style={{ color: 'red' }}>Please select role</p>}
+              {errors.role && (
+                <p style={{ color: 'red' }}>Please select role</p>
+              )}
             </div>
             <div className={styles['row-item']}>
               <label htmlFor="" className={styles['title-label']}>

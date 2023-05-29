@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { Input, message } from 'antd';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import styles from './styles.module.css';
 import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import updateServiceAPI from '../../shared/api/updateServiceAPI';
+import { useNavigate } from 'react-router-dom';
 
 export default function UpdateService() {
+  const nav = useNavigate();
   let { id } = useParams();
   const { TextArea } = Input;
   const {
@@ -82,6 +84,10 @@ export default function UpdateService() {
         duration: 2,
       });
     }, 1000);
+
+    setTimeout(() => {
+      nav('/Garage_service');
+    }, 2000);
   };
 
   const onSubmit = object => {

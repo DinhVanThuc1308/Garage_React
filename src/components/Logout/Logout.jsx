@@ -11,7 +11,7 @@ function Logout() {
   const auth = useContext(AuthContext);
   const nav = useNavigate();
   return (
-    <div className="container">
+    <div className="container" style={{ zIndex: 1 }}>
       <div className="Logout_UI">
         {/* <div className="logout_item1"></div> */}
         <button

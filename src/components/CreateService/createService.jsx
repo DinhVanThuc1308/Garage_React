@@ -189,7 +189,7 @@ export default function CreateService() {
                                 <TextArea
                                     rows={5}
                                     placeholder="Enter a description"
-                                    maxLength={10}
+
                                     style={{ width: '100%' }}
                                     {...field}
                                 />

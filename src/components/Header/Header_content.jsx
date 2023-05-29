@@ -21,7 +21,7 @@ function Header_content() {
             </div>
 
             {showLogout && <Logout style={{
-                position: 'absolute',
+
             }} />}
         </div>
     );

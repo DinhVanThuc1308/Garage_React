@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layout, Menu, DatePicker, Upload, Button, message,PhonePicker } from 'antd';
+import { Layout, Menu, DatePicker, Upload, Button, message, PhonePicker } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header_avt from '../Header/asset/img/avt2.jpg';
 import Icon from '../Slider_bar/asset/img/Vector.png';
 import './style.css';
@@ -102,112 +102,124 @@ const Update_Profile = () => {
     }
   };
   return (
-    <div className="full_container_updateProfile">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="full_container_updateProfile_header">
-          <div className="container_updateProfile_avt">
-            <div className="container_updateProfile_avt_1">
-            <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://edison-garage-api.savvycom.xyz/api/upload"
-                beforeUpload={(file) => {
-                  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-                  if (!isJpgOrPng) {
-                    message.error('You can only upload JPG/PNG file!');
-                  }
-                  const isLt2M = file.size / 1024 / 1024 < 2;
-                  if (!isLt2M) {
-                    message.error('Image must be smaller than 2MB!');
-                  }
-                  return isJpgOrPng && isLt2M;
-                }}
-                onChange={handleAvatarChange}
-              >
-                {avatar ? (
-                  <img src={avatar} alt="avatar" style={{ width: '100%' }} />
-                ) : (
-                  <div>
-                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                    <div className="ant-upload-text">Upload</div>
-                  </div>
-                )}
-              </Upload>
-              <div className="container_updateProfile_avt_1_icon"></div>
-            </div>
-          </div>
+    <>
 
-          <div className="container_updateProfile_inf">
-            <div className="container_updateProfile_inf_input">
-              <div>Name</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                defaultValue={userData.fullname}
-                {...register('name')}
-              />
-            </div>
+      <div style={{ width: '100%', backgroundColor: '#f8f5f5', padding: '10px' }}>
+        <h3 style={{ fontFamily: 'Poppins', fontSize: 24, fontWeight: '700' }}>Update Profile</h3>
+      </div>
 
-            <div className="container_updateProfile_inf_input">
-              <div>Email</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                defaultValue={userData.email}
-                {...register('email')}
-              />
-            </div>
-
-            <div className="container_updateProfile_inf_input">
-              <div>Username</div>
-              <input className="container_updateProfile_inf_input_text" value={userData.username} disabled />
-            </div>
-
-            <div className="container_updateProfile_inf_input_1">
-              <div>
-                <div>Dob</div>
-                <DatePicker className="container_updateProfile_inf_input_dob_phone" 
-                value={moment(dob)} onChange={setDob}
-                {...register('dob')} />
+      <div className="full_container_updateProfile">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="full_container_updateProfile_header">
+            <div className="container_updateProfile_avt">
+              <div className="container_updateProfile_avt_1">
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  action="https://edison-garage-api.savvycom.xyz/api/upload"
+                  beforeUpload={(file) => {
+                    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+                    if (!isJpgOrPng) {
+                      message.error('You can only upload JPG/PNG file!');
+                    }
+                    const isLt2M = file.size / 1024 / 1024 < 2;
+                    if (!isLt2M) {
+                      message.error('Image must be smaller than 2MB!');
+                    }
+                    return isJpgOrPng && isLt2M;
+                  }}
+                  onChange={handleAvatarChange}
+                >
+                  {avatar ? (
+                    <img src={avatar} alt="avatar" style={{ width: '100%' }} />
+                  ) : (
+                    <div>
+                      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                      <div className="ant-upload-text">Upload</div>
+                    </div>
+                  )}
+                </Upload>
+                <div className="container_updateProfile_avt_1_icon"></div>
               </div>
-              <div>
-                <div>Phone</div>
+            </div>
+
+            <div className="container_updateProfile_inf">
+              <div className="container_updateProfile_inf_input">
+                <div>Name</div>
                 <input
-                  className="container_updateProfile_inf_input_dob_phone"
-                  defaultValue={userData.phoneNumber}
-                  {...register('phoneNumber')}
+                  className="container_updateProfile_inf_input_text"
+                  defaultValue={userData.fullname}
+                  {...register('name')}
                 />
               </div>
-            </div>
 
-            <div className="container_updateProfile_inf_input">
-              <div>Address</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                value="Cau Giay, Ha Noi"
-                {...register('address')}
-              />
-            </div>
+              <div className="container_updateProfile_inf_input">
+                <div>Email</div>
+                <input
+                  className="container_updateProfile_inf_input_text"
+                  defaultValue={userData.email}
+                  {...register('email')}
+                />
+              </div>
 
-            <div className="container_updateProfile_inf_input">
-              <div>Role</div>
-              <input className="container_updateProfile_inf_input_text" value="Admin" disabled />
+              <div className="container_updateProfile_inf_input">
+                <div>Username</div>
+                <input className="container_updateProfile_inf_input_text" value={userData.username} disabled />
+              </div>
+
+              <div className="container_updateProfile_inf_input_1">
+                <div>
+                  <div>Dob</div>
+                  <DatePicker className="container_updateProfile_inf_input_dob_phone"
+                    value={moment(dob)} onChange={setDob}
+                    {...register('dob')} />
+                </div>
+                <div>
+                  <div>Phone</div>
+                  <input
+                    className="container_updateProfile_inf_input_dob_phone"
+                    defaultValue={userData.phoneNumber}
+                    {...register('phoneNumber')}
+                  />
+                </div>
+              </div>
+
+              <div className="container_updateProfile_inf_input">
+                <div>Address</div>
+                <input
+                  className="container_updateProfile_inf_input_text"
+                  value="Cau Giay, Ha Noi"
+                  {...register('address')}
+                />
+              </div>
+
+              <div className="container_updateProfile_inf_input">
+                <div>Role</div>
+                <input className="container_updateProfile_inf_input_text" value="Admin" disabled />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="full_container_updateProfile_footer">
-          <div className="line"></div>
-          <div className="container.container_updateProfile_button">
-            <button className="button_update" style={{ backgroundColor: '#8767E1' }} type="submit">
-              Save
-            </button>
-            <button className="button_update" style={{ color: '#8767E1' }}>
-              <Link to="/view_profile">Cancel</Link>
-            </button>
+          <div className="full_container_updateProfile_footer">
+            <div className="line"></div>
+            <div className="container.container_updateProfile_button">
+              <button className="button_update" style={{ backgroundColor: '#8767E1' }} type="submit">
+                Save
+              </button>
+              <button className="button_update" style={{ color: '#8767E1' }}>
+                <Link to="/view_profile">Cancel</Link>
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+
+
+
+
+    </>
+
   );
 };
 

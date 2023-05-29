@@ -294,3 +294,7 @@ flex-grow: 0;
   border-radius: 8px;
   margin: 10px;
 }
+.button_update:hover{
+  transform: scale(1.0);
+  cursor: pointer;
+}

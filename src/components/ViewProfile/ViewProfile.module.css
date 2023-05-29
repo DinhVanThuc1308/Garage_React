@@ -185,3 +185,11 @@ hr {
 
     color: #8767E1;
 }
+.update-btn:hover{
+    transform: scale(1.0);
+    cursor: pointer;
+}
+.change-btn:hover{
+    transform: scale(1.0);
+    cursor: pointer;
+}

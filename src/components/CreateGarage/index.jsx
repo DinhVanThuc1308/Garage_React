@@ -393,9 +393,8 @@ function CreateGarage() {
                   placeholder="Select a Status"
                   allowClear
                 >
-                  <Option value="active">active</Option>
-                  <Option value="deactive">deactive</Option>
-                  <Option value="other">Other</Option>
+                  <Option value="active">Active</Option>
+                  <Option value="inactive">Inactive</Option>
                 </Select>
               )}
             />

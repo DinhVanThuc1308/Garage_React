@@ -383,7 +383,7 @@ function CreateOwner() {
                     allowClear
                   >
                     <Option value={false}>Active</Option>
-                    <Option value={true}>Deactive</Option>
+                    <Option value={true}>Inactive</Option>
                   </Select>
                 )}
               />

@@ -40,7 +40,7 @@ function App() {
           <Route path="/create_owner" element={<CreateOwner_page />} />
           <Route path="/view_profile" element={<ViewProfile_page />} />
           <Route path="/garage_detail/:id" element={<Garage_Detail />} />
-          <Route path="/update_owner" element={<Page_update_owner />} />
+          <Route path="/update_owner/:id" element={<Page_update_owner />} />
           <Route path="/garage_owner" element={<GarageOwner />} />
           <Route path="/create_garage" element={<CreateGarage_page />} />
           <Route path="/update_service/:id" element={<UpdateService_page />} />

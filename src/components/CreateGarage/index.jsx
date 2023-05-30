@@ -383,7 +383,7 @@ function CreateGarage() {
                   rows={5}
                   placeholder="Enter a description"
                   maxLength={10}
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', fontSize: '16px' }}
                   {...field}
                 />
               )}
@@ -406,7 +406,7 @@ function CreateGarage() {
                   rows={5}
                   placeholder="Enter a policy"
                   maxLength={10}
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', fontSize: '16px' }}
                   {...field}
                 />
               )}
@@ -447,7 +447,7 @@ function CreateGarage() {
               return (
                 <div className={styles['pickitem']} key={item}>
                   <div className="pickitem-name">
-                    {IDObject.attributes.name}
+                    {IDObject.attributes?.name}
                   </div>
                   <img
                     src={binicon}

@@ -15,8 +15,8 @@ const options = [
     label: 'Name',
   },
   {
-    value: 'ID',
-    label: 'ID',
+    value: 'Email',
+    label: 'Email',
   },
 ];
 const options2 = [
@@ -40,6 +40,7 @@ function App() {
   const [status, setStatus] = useState('');
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [deletingItemId, setDeletingItemId] = useState(null);
+  const [searchBy, setSearchBy] = useState('Name');
 
   const handleDelete = async id => {
     setDeletingItemId(id);
@@ -59,18 +60,19 @@ function App() {
   };
 
   const callApi = async () => {
-    const responseData = await axiosInstance.get('garages', {
-      params: {
-        'filters[$or][0][name][$contains]': search,
-        'filters[$or][1][email][$contains]': search,
+    const filters = {
+      'pagination[page]': 1,
+      'pagination[pageSize]': 10,
+      // 'filters[owner][id][$eq]': 1,
+      populate: 'owner, services',
+    };
+    if (searchBy === 'Name') {
+      filters['filters[name][$contains]'] = search;
+    } else if (searchBy === 'Email') {
+      filters['filters[email][$contains]'] = search;
+    }
+    const responseData = await axiosInstance.get('garages', { params: filters });
 
-        'pagination[page]': 1,
-        'pagination[pageSize]': 10,
-        // 'filters[owner][id][$eq]': 1,
-
-        populate: 'owner, services',
-      },
-    });
 
     console.log(responseData);
 
@@ -172,6 +174,7 @@ function App() {
             <Space.Compact style={{ width: '500px' }} size="large">
               <Select
                 defaultValue="Name"
+                onChange={value => setSearchBy(value)}
                 options={options}
                 onClick={() => {
                   callApi();

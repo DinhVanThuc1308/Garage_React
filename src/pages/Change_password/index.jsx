@@ -17,7 +17,7 @@ import axios from "axios";
 function Change_pw_page() {
     // const auth = useContext(AuthContext);
     // const nav = useNavigate()
-    const API = "https://edison-garage-api.savvycom.xyz/api/auth/local";
+    const API = "http://localhost:1337/api/auth/change-password";
 
     const handleSubmit = (e) => {
         const data = {
@@ -91,7 +91,7 @@ function Change_pw_page() {
                             ]}
                             hasFeedback
                         >
-                            <Input.Password placeholder="Enter current password" />
+                            <Input.Password size="large" placeholder="Enter current password" />
                         </Form.Item>
                         <Form.Item
                             name="NewPassword"
@@ -110,7 +110,7 @@ function Change_pw_page() {
                             ]}
                             hasFeedback
                         >
-                            <Input.Password placeholder="Enter New Password" />
+                            <Input.Password size="large" placeholder="Enter New Password" />
                         </Form.Item>
                         <Form.Item
                             name="ConfirmPassword"
@@ -129,11 +129,12 @@ function Change_pw_page() {
 
                             ]}
                         >
-                            <Input.Password placeholder="Enter confirm Password" />
+                            <Input.Password size="large" placeholder="Enter confirm Password" />
                         </Form.Item>
+                        <br />
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" style={{ width: '109px', height: '48px', padding: '12px, 16px, 12px, 16px' }}>Save</Button>
-                            <Link to="/view_profile"><Button style={{ width: '109px', height: '48px', border: "2px solid #8767E1", paddingLeft: "12px, 16px, 12px, 16px", marginLeft: '21px' }}>Cancel</Button></Link>
+                            <Button className="CPW_save" type="primary" htmlType="submit" style={{ width: '109px', height: '48px', padding: '12px, 16px, 12px, 16px' }}>Save</Button>
+                            <Link to="/view_profile"><Button className="CPW_cancel" style={{ width: '109px', height: '48px', border: "2px solid #8767E1", paddingLeft: "12px, 16px, 12px, 16px", marginLeft: '21px' }}>Cancel</Button></Link>
                         </Form.Item>
                     </Form>
                 </div>

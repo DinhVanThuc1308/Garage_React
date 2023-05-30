@@ -46,8 +46,8 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 0px;
-    width: 78px;
-    height: 42px;
+    width: 150px;
+    height: 50px;
     /* Inside auto layout */
     flex: none;
     order: 1;

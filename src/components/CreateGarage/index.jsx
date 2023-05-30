@@ -75,12 +75,6 @@ function CreateGarage() {
   const [checkedBoxes, setCheckedBoxes] = useState([]);
 
   const onChangeBox = e => {
-    // const value = e.target.value;
-    // if (e.target.checked) {
-    //   setserviceList([...serviceList, value]);
-    // } else {
-    //   setserviceList(serviceList.filter(item => item !== value));
-    // }
     const value = e.target.value;
     const isChecked = e.target.checked;
 
@@ -118,38 +112,35 @@ function CreateGarage() {
 
   // search garage
   const [searchTerm, setSearchTerm] = useState('');
-  const [serviceList, setServiceList] = useState([]);
   const [ownerList, setOwnerList] = useState([]);
-
-  // Call API userId(owner) list
-  // useEffect(() => {
-  //   axiosInstance.get(`users`).then(res => {
-  //     setOwnerList(res.data);
-  //   });
-  // }, []);
+  const [filteredServices, setFilteredServices] = useState([]);
 
   // Call API garage-service list
   useEffect(() => {
-    // axiosInstance.get(`garage-services`).then(res => {
-    //   setServiceList(res.data);
-    //   console.log(res.data);
-    // });
     const fetchGarageServiceList = async () => {
       try {
-        const res = await createGarageAPI.getGarageServiceList();
-        setServiceList(res.data);
+        let params = {};
+        params['filters[name][$contains]'] = searchTerm;
+        const res = await createGarageAPI.getGarageServiceList(params);
+        setFilteredServices(res.data);
       } catch (error) {
         console.log('Failed to fetch garage service list: ', error);
       }
     };
-    fetchGarageServiceList();
-  }, []);
+
+    // Set up a timeout variable
+    const debounceTimer = setTimeout(() => {
+      console.log(`Searching for "${searchTerm}"...`);
+      // Call your search function here
+      fetchGarageServiceList();
+    }, 500);
+
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(debounceTimer);
+  }, [searchTerm]);
+  console.log('service', filteredServices);
 
   useEffect(() => {
-    // axiosInstance.get(`users`).then(res => {
-    //   setOwnerList(res);
-    //   console.log(res);
-    // });
     const fetchOwnerList = async () => {
       try {
         const res = await createGarageAPI.getOwnerList();
@@ -162,38 +153,12 @@ function CreateGarage() {
   }, []);
 
   // Search garage service
+
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredServices = serviceList.filter(
-    service =>
-      service.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
-  );
-
-  // const handleSearchGarage = () => {
-
-  //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
-  //     setserviceList(res.data);
-  //   });
-  // };
-
   // Post data to API
-
-  // const createGarage = data => {
-  //   console.log(data);
-  //   // delete data.garage;
-  //   axiosInstance
-  //     .post('garages', data)
-  //     .then(res => {
-  //       openMessageAuke();
-  //       console.log(res);
-  //       console.log(res.data);
-  //     })
-  //     .catch(err => {
-  //       openMessageErr();
-  //     });
-  // };
 
   const createGarage = async data => {
     try {
@@ -395,7 +360,6 @@ function CreateGarage() {
                 >
                   <Option value="active">Active</Option>
                   <Option value="inactive">Inactive</Option>
-
                 </Select>
               )}
             />
@@ -470,7 +434,7 @@ function CreateGarage() {
                   value={serviceName.id}
                   checked={checkedBoxes.includes(serviceName.id)}
                 >
-                  {serviceName.attributes.name}
+                  {serviceName.attributes?.name}
                 </Checkbox>
               ))}
             </div>
@@ -478,7 +442,7 @@ function CreateGarage() {
           <div className={styles['list-garage']}>
             <label htmlFor="">Select services ({checkedBoxes.length})</label>
             {checkedBoxes.map(item => {
-              const IDObject = serviceList.find(obj => obj.id === item);
+              const IDObject = filteredServices.find(obj => obj.id === item);
               console.log(IDObject);
               return (
                 <div className={styles['pickitem']} key={item}>

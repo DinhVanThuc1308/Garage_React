@@ -1,17 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Input, message } from 'antd';
 import { useForm, Controller } from 'react-hook-form';
-import axiosInstance from '../../shared/services/http-client';
 import styles from './styles.module.css';
-import { useParams } from 'react-router-dom';
-import { useState } from 'react';
 import CreateServiceAPI from '../../shared/api/createServiceAPI';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreateService() {
   const nav = useNavigate();
-  let { id } = useParams();
   const { TextArea } = Input;
   const {
     control,
@@ -55,7 +51,7 @@ export default function CreateService() {
       messageApi.open({
         key,
         type: 'success',
-        content: 'Success! You have created a new owner! ',
+        content: 'Success! You have created a new service! ',
         duration: 2,
       });
     }, 1000);
@@ -76,30 +72,14 @@ export default function CreateService() {
     console.log(888, object);
     createService({ data });
   };
-  // const createService = async data => {
-  //     try {
-  //         const response = await CreateServiceAPI.createService(data);
-  //         console.log(response);
-  //         openMessageAuke();
-
-  //     }
-  //     catch (error) {
-  //         openMessageErr();
-  //     }
-  // }
-
-  const createService = data => {
-    console.log(999, data);
-    axiosInstance
-      .post('garage-services', data)
-      .then(res => {
-        openMessageAuke();
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch(err => {
-        openMessageErr();
-      });
+  const createService = async data => {
+    try {
+      const response = await CreateServiceAPI.postService(data);
+      console.log(response);
+      openMessageAuke();
+    } catch (error) {
+      openMessageErr();
+    }
   };
 
   return (

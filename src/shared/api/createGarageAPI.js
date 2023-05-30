@@ -1,9 +1,9 @@
 import axiosInstance from '../services/http-client';
 
 const createGarageAPI = {
-  getGarageServiceList: () => {
+  getGarageServiceList: params => {
     const url = 'garage-services';
-    return axiosInstance.get(url);
+    return axiosInstance.get(url, { params });
   },
 
   getOwnerList: () => {

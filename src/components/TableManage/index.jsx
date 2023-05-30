@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../shared/services/http-client.js';
 
 import { Button, Input, Select } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { InteractionFilled, SearchOutlined } from '@ant-design/icons';
 
 const options = [
   {
@@ -25,11 +25,11 @@ const options2 = [
     label: 'All',
   },
   {
-    value: 'Inactive',
+    value: 'Active',
     label: 'Active',
   },
   {
-    value: 'Active',
+    value: 'Inactive',
     label: 'Inactive',
   },
 ];
@@ -41,6 +41,10 @@ function App() {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [deletingItemId, setDeletingItemId] = useState(null);
   const [searchBy, setSearchBy] = useState('Name');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalItems, setTotalItems] = useState(0);
+
 
   const handleDelete = async id => {
     setDeletingItemId(id);
@@ -54,6 +58,7 @@ function App() {
     callApi();
   };
 
+
   const handleCancelDelete = () => {
     setDeletingItemId(null);
     setConfirmModalVisible(false);
@@ -62,45 +67,38 @@ function App() {
 
   const callApi = async () => {
     const filters = {
-      'pagination[page]': 1,
-      'pagination[pageSize]': 10,
-      // 'filters[owner][id][$eq]': 1,
+      'pagination[page]': currentPage,
+      'pagination[pageSize]': pageSize,
       populate: 'owner, services',
     };
     if (searchBy === 'Name') {
       filters['filters[name][$contains]'] = search;
     } else if (searchBy === 'Email') {
       filters['filters[email][$contains]'] = search;
-    };
-    if (status === 'All') {
-      filters['filters[status][$eq]=active&filters[status][$eq]=inactive'] = status;
     }
-    else if (status === 'Inactive') {
-      filters['filters[status][$contains]'] = status;
+    if (status === 'Inactive') {
+      filters['filters[status][$eq]'] = 'inactive';
+    } else if (status === 'Active') {
+      filters['filters[status][$eq]'] = 'active';
     }
-    else if (status === 'Active') {
-      filters['filters[status][$contains]'] = status;
-    }
-
 
     const responseData = await axiosInstance.get('garages', { params: filters });
 
-
     console.log(responseData);
 
-    const users = responseData.data.map(user => ({
+    const users = responseData.data.map((user) => ({
       id: user.id,
       name: user.attributes.name,
       email: user.attributes.email,
       phoneNumber: user.attributes.phoneNumber,
       ownerName: user.attributes.owner.data?.attributes?.fullname,
-      status: user.status === 'active' ? 'Active' : 'Inactive',
+      status: user.attributes.status,
       action: (
         <Space key={user.id} size="middle">
-          <Link to={`/Garage_manager_details/${user.id}`}>
+          <Link to={`/GarageManage/details/${user.id}`}>
             <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
           </Link>
-          <Link to={`/update_management/${user.id}`}>
+          <Link to={`/GarageManage/update/${user.id}`}>
             <img src={edit} />
           </Link>
           <button
@@ -115,7 +113,9 @@ function App() {
     }));
 
     setData([...users]);
+    setTotalItems(responseData.meta.pagination.total);
   };
+
 
   useEffect(() => {
     callApi();
@@ -172,7 +172,7 @@ function App() {
           }}
           className="custom-button"
         >
-          <Link to="/create_garage">Add Garages</Link>
+          <Link to="/GarageManage/create">Add Garages</Link>
         </Button>
       </div>
       <div className="div">
@@ -204,6 +204,7 @@ function App() {
               />
             </Space.Compact>
             <Select
+              defaultValue='All'
               onChange={value => setStatus(value)}
               options={options2}
               style={{ marginLeft: '10px', width: '150px' }}
@@ -211,7 +212,19 @@ function App() {
             />
           </span>
         </Space>
-        <Table columns={columns} dataSource={data} />
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={{
+            current: currentPage,
+            pageSize: pageSize,
+            total: totalItems,
+            onChange: (page, pageSize) => {
+              setCurrentPage(page);
+              setPageSize(pageSize);
+            },
+          }}
+        />
         <Modal
           visible={confirmModalVisible}
           onOk={handleConfirmDelete}

@@ -100,10 +100,10 @@ function App() {
       status: user.blocked === true ? 'Inactive' : 'Active',
       action: (
         <Space key={user.id} size="middle">
-          <Link to={`/garage_detail/${user.id}`}>
+          <Link to={`/GarageOwner/detail/${user.id}`}>
             <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
           </Link>
-          <Link to={`/update_owner/${user.id}`}>
+          <Link to={`/GarageOwner/update/${user.id}`}>
             <img src={edit} />
           </Link>
           <button
@@ -170,7 +170,7 @@ function App() {
           }}
           className="custom-button"
         >
-          <Link to="/create_owner">Add Owner</Link>
+          <Link to="/GarageOwner/create">Add Owner</Link>
         </Button>
       </div>
       <div className="div">

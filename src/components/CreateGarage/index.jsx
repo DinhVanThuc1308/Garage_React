@@ -501,7 +501,7 @@ function CreateGarage() {
           <button type="submit" className={styles['btn-save']}>
             Save
           </button>
-          <Link to="/Garage_manage">
+          <Link to="/GarageManage">
             <button type="cancel" className={styles['btn-cancel']}>
               Cancel
             </button>

@@ -5,7 +5,6 @@ import Update_Profile from '../Update_Profile';
 import SearchAndFilter from '../SearchAndFilter';
 
 // Create Owner
-import CreateOwner from '../CreateOwner';
 import { Breadcrumb } from 'antd';
 
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -25,7 +24,6 @@ import { Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
 // View Profile
-import ViewProfile from '../ViewProfile/ViewProfile';
 
 const { Header, Sider, Content } = Layout;
 //props. chi

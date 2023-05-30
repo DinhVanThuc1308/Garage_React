@@ -268,7 +268,7 @@ function CreateOwner() {
                 control={control}
                 rules={{ required: true, minLength: 6 }}
                 render={({ field }) => (
-                  <Input
+                  <Input.Password
                     {...field}
                     style={{ width: '100%' }}
                     size="large"

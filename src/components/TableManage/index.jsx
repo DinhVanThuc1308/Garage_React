@@ -25,11 +25,11 @@ const options2 = [
     label: 'All',
   },
   {
-    value: false,
+    value: 'Inactive',
     label: 'Active',
   },
   {
-    value: true,
+    value: 'Active',
     label: 'Inactive',
   },
 ];
@@ -59,6 +59,7 @@ function App() {
     setConfirmModalVisible(false);
   };
 
+
   const callApi = async () => {
     const filters = {
       'pagination[page]': 1,
@@ -70,7 +71,18 @@ function App() {
       filters['filters[name][$contains]'] = search;
     } else if (searchBy === 'Email') {
       filters['filters[email][$contains]'] = search;
+    };
+    if (status === 'All') {
+      filters['filters[status][$eq]=active&filters[status][$eq]=inactive'] = status;
     }
+    else if (status === 'Inactive') {
+      filters['filters[status][$contains]'] = status;
+    }
+    else if (status === 'Active') {
+      filters['filters[status][$contains]'] = status;
+    }
+
+
     const responseData = await axiosInstance.get('garages', { params: filters });
 
 
@@ -192,8 +204,7 @@ function App() {
               />
             </Space.Compact>
             <Select
-              defaultValue="Status"
-              onChange={e => setStatus(e)}
+              onChange={value => setStatus(value)}
               options={options2}
               style={{ marginLeft: '10px', width: '150px' }}
               size="large"

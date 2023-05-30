@@ -441,7 +441,7 @@ function CreateOwner() {
             <button type="submit" className={styles['btn-save']}>
               Save
             </button>
-            <Link to="/garage_owner">
+            <Link to="/">
               <button type="cancel" className={styles['btn-cancel']}>
                 Cancel
               </button>

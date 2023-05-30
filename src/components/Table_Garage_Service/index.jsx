@@ -62,10 +62,10 @@ function App() {
 
       action: (
         <Space key={user.id} size="middle">
-          <Link to={`/service_detail/${user.id}`}>
+          <Link to={`/GarageService/details/${user.id}`}>
             <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
           </Link>
-          <Link to={`/update_service/${user.id}`}>
+          <Link to={`/GarageService/update/${user.id}`}>
             <img src={edit} />
           </Link>
           <button
@@ -134,7 +134,7 @@ function App() {
           }}
           className="custom-button"
         >
-          <Link to="/create_service">Add Service</Link>
+          <Link to="/GarageService/Create">Add Service</Link>
         </Button>
       </div>
       <Space

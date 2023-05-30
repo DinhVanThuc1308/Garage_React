@@ -205,7 +205,7 @@ function GarageManagerDetails() {
                                 Update
                             </button>
                         </Link>
-                        <Link to="/Garage_manage">
+                        <Link to="/GarageManage">
                             <button type="button" className={styles['btn-cancel']}>
                                 Cancel
                             </button>

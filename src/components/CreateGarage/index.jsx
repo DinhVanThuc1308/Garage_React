@@ -395,6 +395,7 @@ function CreateGarage() {
                 >
                   <Option value="active">Active</Option>
                   <Option value="inactive">Inactive</Option>
+
                 </Select>
               )}
             />

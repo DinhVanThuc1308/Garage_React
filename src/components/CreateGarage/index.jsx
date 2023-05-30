@@ -8,7 +8,10 @@ import { useState, useEffect } from 'react';
 import { message } from 'antd';
 import createGarageAPI from '../../shared/api/createGarageAPI';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 function CreateGarage() {
+  const nav = useNavigate();
   const {
     control,
     handleSubmit,
@@ -63,6 +66,10 @@ function CreateGarage() {
         duration: 2,
       });
     }, 1000);
+
+    setTimeout(() => {
+      nav('/Garage_manage');
+    }, 2000);
   };
   // choose garage
   const [checkedBoxes, setCheckedBoxes] = useState([]);

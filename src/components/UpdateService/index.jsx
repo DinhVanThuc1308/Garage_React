@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
 import { Input, message } from 'antd';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import styles from './styles.module.css';
 import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import updateServiceAPI from '../../shared/api/updateServiceAPI';
+import { useNavigate } from 'react-router-dom';
 
 export default function UpdateService() {
+  const nav = useNavigate();
   let { id } = useParams();
   const { TextArea } = Input;
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     defaultValues: {
       name: '',
@@ -25,6 +28,7 @@ export default function UpdateService() {
   // call api id to get data
 
   const [dataID, setDataID] = useState([]);
+  const [minPrice, setMinPrice] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -32,11 +36,20 @@ export default function UpdateService() {
       const response = await updateServiceAPI.getDataFromId(id);
 
       setDataID(response.data);
+      setMinPrice(response.data.attributes.minPrice);
       console.log(id);
+      console.log(11, response.data.attributes.name);
+      setValue('name', response.data.attributes.name);
+      setValue('minPrice', response.data.attributes.minPrice);
+      setValue('maxPrice', response.data.attributes.maxPrice);
+      setValue('description', response.data.attributes.description);
+
       // ...
     }
     fetchData();
   }, [id]);
+
+  console.log(dataID);
   console.log(dataID);
 
   // Notification
@@ -71,6 +84,10 @@ export default function UpdateService() {
         duration: 2,
       });
     }, 1000);
+
+    setTimeout(() => {
+      nav('/Garage_service');
+    }, 2000);
   };
 
   const onSubmit = object => {
@@ -85,24 +102,6 @@ export default function UpdateService() {
     updateService({ data }, id);
   };
 
-  // call api update
-  // const updateService = (data, idNumber) => {
-  //   console.log(idNumber);
-  //   console.log({ data });
-  //   // delete data.status;
-  //   // delete data.garage;
-  //   axiosInstance
-  //     .put(`garage-services/${idNumber}`, data)
-  //     .then(res => {
-  //       openMessageAuke();
-  //       console.log(res);
-  //       console.log(res.data);
-  //     })
-  //     .catch(err => {
-  //       openMessageErr();
-  //     });
-  // };
-
   const updateService = async (data, idNumber) => {
     try {
       const res = await updateServiceAPI.updateServiceData(idNumber, data);
@@ -116,8 +115,17 @@ export default function UpdateService() {
 
   return (
     <>
-      <div style={{ width: '100%', backgroundColor: '#f8f5f5', padding: '10px' }}>
-        <h3 style={{ fontFamily: 'Poppins', fontSize: 20 }}><span style={{ fontFamily: 'Poppins', fontSize: "23", color: '#cacaca' }} >All Services  &gt;</span>  {dataID.attributes?.name}   </h3>
+      <div
+        style={{ width: '100%', backgroundColor: '#f8f5f5', padding: '10px' }}
+      >
+        <h3 style={{ fontFamily: 'Poppins', fontSize: 20 }}>
+          <span
+            style={{ fontFamily: 'Poppins', fontSize: '23', color: '#cacaca' }}
+          >
+            All Services &gt;
+          </span>{' '}
+          {dataID.attributes?.name}{' '}
+        </h3>
       </div>
       <div className={styles['update-form']}>
         {contextHolder}
@@ -140,7 +148,7 @@ export default function UpdateService() {
                     {...field}
                     style={{ width: '100%' }}
                     size="large"
-                    placeholder={dataID.attributes?.name}
+                    placeholder="Enter service name"
                   />
                 )}
               />
@@ -160,7 +168,7 @@ export default function UpdateService() {
                   <Input
                     size="large"
                     {...field}
-                    placeholder={dataID.attributes?.minPrice}
+                    placeholder="Enter min price"
                   />
                 )}
               />
@@ -180,7 +188,7 @@ export default function UpdateService() {
                   <Input
                     size="large"
                     {...field}
-                    placeholder={dataID.attributes?.maxPrice}
+                    placeholder="Enter max price"
                   />
                 )}
               />

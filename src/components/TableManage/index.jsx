@@ -9,7 +9,6 @@ import axiosInstance from '../../shared/services/http-client.js';
 import { Button, Input, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-
 const options = [
   {
     value: 'Name',
@@ -42,9 +41,7 @@ function App() {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [deletingItemId, setDeletingItemId] = useState(null);
 
-
-
-  const handleDelete = async (id) => {
+  const handleDelete = async id => {
     setDeletingItemId(id);
     setConfirmModalVisible(true);
   };
@@ -71,7 +68,7 @@ function App() {
         'pagination[pageSize]': 10,
         // 'filters[owner][id][$eq]': 1,
 
-        populate: 'owner, services'
+        populate: 'owner, services',
       },
     });
 
@@ -88,7 +85,6 @@ function App() {
         <Space key={user.id} size="middle">
           <Link to={`/Garage_manager_details/${user.id}`}>
             <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
-
           </Link>
           <Link to={`/update_management/${user.id}`}>
             <img src={edit} />
@@ -110,8 +106,6 @@ function App() {
   useEffect(() => {
     callApi();
   }, [search, status]);
-
-
 
   const columns = [
     {
@@ -173,10 +167,9 @@ function App() {
           size="middle"
           className="UI_search"
           style={{ paddingBottom: '70px', height: '48px' }}
-
         >
           <span>
-            <Space.Compact style={{ width: '500px' }} size='large'>
+            <Space.Compact style={{ width: '500px' }} size="large">
               <Select
                 defaultValue="Name"
                 options={options}
@@ -184,7 +177,7 @@ function App() {
                   callApi();
                 }}
                 style={{ width: '30%' }}
-                size='large'
+                size="large"
               />
               <Input
                 placeholder="Search"
@@ -192,7 +185,7 @@ function App() {
                 style={{ width: '70%' }}
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                size='large'
+                size="large"
               />
             </Space.Compact>
             <Select
@@ -200,11 +193,8 @@ function App() {
               onChange={e => setStatus(e)}
               options={options2}
               style={{ marginLeft: '10px', width: '150px' }}
-              size='large'
+              size="large"
             />
-
-
-
           </span>
         </Space>
         <Table columns={columns} dataSource={data} />

@@ -219,7 +219,7 @@ flex-grow: 0;
     line-height: 24px;
     
     margin-bottom: 20px;
-    padding: 16px;
+    padding: 0px;
   
     border-radius: 8px;
   }
@@ -297,4 +297,11 @@ flex-grow: 0;
 .button_update:hover{
   transform: scale(1.0);
   cursor: pointer;
+}
+
+.container_updateProfile_inf_input_dob_phone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
 }

@@ -29,10 +29,10 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route element={<GuestRoutes />}>
+        {/* <Route element={<GuestRoutes />}>
           <Route path="/login" element={<Login />} />
         </Route>
-        <Route element={<AuthRoutes />}>
+        <Route element={<AuthRoutes />}> */}
           <Route path="/" element={<GarageOwner />} />
 
           <Route path="/change_password" element={<Change_pw_page />} />
@@ -53,8 +53,10 @@ function App() {
             path="/Garage_manager_details/:id"
             element={<Page_manager_details />}
           />
-        </Route>
+        {/* </Route> */}
       </Routes>
+
+      {/* <Update_Page/> */}
 
       {/* <Garage_Detail/> */}
       {/* <Update_Profile/> */}

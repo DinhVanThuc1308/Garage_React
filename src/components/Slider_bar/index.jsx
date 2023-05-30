@@ -126,7 +126,7 @@ const Slide_bar = ({ children }) => {
         <Content
           style={{
             margin: '24px 16px',
-            padding: 24,
+            // padding: 24,
             minHeight: 280,
             background: selectedMenu === '2' || selectedMenu === '3' || selectedMenu === '4' ? '#e6e6e6' : colorBgContainer,
           }}

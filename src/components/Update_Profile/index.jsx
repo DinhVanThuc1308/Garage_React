@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layout, Menu, DatePicker, Upload, Button, message,PhonePicker } from 'antd';
+import { Layout, Menu, DatePicker, Upload, Button, message, PhonePicker } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header_avt from '../Header/asset/img/avt2.jpg';
 import Icon from '../Slider_bar/asset/img/Vector.png';
 import './style.css';
@@ -131,21 +131,21 @@ const Update_Profile = () => {
                 className="avatar-uploader"
                 showUploadList={false}
                 action="https://edison-garage-api.savvycom.xyz/api/upload"
-                // beforeUpload={(file) => {
-                //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-                //   if (!isJpgOrPng) {
-                //     message.error('You can only upload JPG/PNG file!');
-                //   }
-                //   const isLt2M = file.size / 1024 / 1024 < 2;
-                //   if (!isLt2M) {
-                //     message.error('Image must be smaller than 2MB!');
-                //   }
-                //   return isJpgOrPng && isLt2M;
-                // }}
+                beforeUpload={(file) => {
+                  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+                  if (!isJpgOrPng) {
+                    message.error('You can only upload JPG/PNG file!');
+                  }
+                  const isLt2M = file.size / 1024 / 1024 < 2;
+                  if (!isLt2M) {
+                    message.error('Image must be smaller than 2MB!');
+                  }
+                  return isJpgOrPng && isLt2M;
+                }}
                 onChange={handleAvatarChange}
               >
                 {avatar ? (
-                  <img src={avatar} url={"https://edison-garage-api.savvycom.xyz/"+avatar} alt="avatar" style={{ width: '100%' }} />
+                  <img src={avatar} alt="avatar" style={{ width: '100%' }} />
                 ) : (
                   <div>
                     {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -157,36 +157,35 @@ const Update_Profile = () => {
             </div>
           </div>
 
-          <div className="container_updateProfile_inf">
-            <div className="container_updateProfile_inf_input">
-              <div>Name</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                defaultValue={userData.fullname}
-                {...register('name')}
-              />
-            </div>
+            <div className="container_updateProfile_inf">
+              <div className="container_updateProfile_inf_input">
+                <div>Name</div>
+                <input
+                  className="container_updateProfile_inf_input_text"
+                  defaultValue={userData.fullname}
+                  {...register('name')}
+                />
+              </div>
 
-            <div className="container_updateProfile_inf_input">
-              <div>Email</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                defaultValue={userData.email}
-                {...register('email')}
-              />
-            </div>
+              <div className="container_updateProfile_inf_input">
+                <div>Email</div>
+                <input
+                  className="container_updateProfile_inf_input_text"
+                  defaultValue={userData.email}
+                  {...register('email')}
+                />
+              </div>
 
-            <div className="container_updateProfile_inf_input">
-              <div>Username</div>
-              <input className="container_updateProfile_inf_input_text" value={userData.username} disabled />
-            </div>
+              <div className="container_updateProfile_inf_input">
+                <div>Username</div>
+                <input className="container_updateProfile_inf_input_text" value={userData.username} disabled />
+              </div>
 
             <div className="container_updateProfile_inf_input_1">
               <div>
                 <div>Dob</div>
-                <DatePicker className="container_updateProfile_inf_input_dob_phone" inputStyle={inputStyle}
-                value={dayjs(dob)} onChange={setDob}
-                
+                <DatePicker className="container_updateProfile_inf_input_dob_phone" 
+                value={moment(dob)} onChange={setDob}
                 {...register('dob')} />
               </div>
               <div>
@@ -199,14 +198,14 @@ const Update_Profile = () => {
               </div>
             </div>
 
-            <div className="container_updateProfile_inf_input">
-              <div>Address</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                value="Cau Giay, Ha Noi"
-                {...register('address')}
-              />
-            </div>
+              <div className="container_updateProfile_inf_input">
+                <div>Address</div>
+                <input
+                  className="container_updateProfile_inf_input_text"
+                  value="Cau Giay, Ha Noi"
+                  {...register('address')}
+                />
+              </div>
 
             <div className="container_updateProfile_inf_input">
               <div>Role</div>
@@ -218,10 +217,10 @@ const Update_Profile = () => {
           <div className="line"></div>
           <div className="container.container_updateProfile_button">
             <button className="button_update" style={{ backgroundColor: '#8767E1' }} type="submit">
-            <Link to="/view_profile" style={{color: 'white'}}>Save</Link>
+              Save
             </button>
-            <button className="button_update" style={{ color: 'purple' }}>
-              <Link to="/view_profile" style={{color: '#8767E1'}}>Cancel</Link>
+            <button className="button_update" style={{ color: '#8767E1' }}>
+              <Link to="/view_profile">Cancel</Link>
             </button>
           </div>
         </div>

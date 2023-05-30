@@ -298,3 +298,7 @@ flex-grow: 0;
   flex-direction: column;
   justify-content: center;
 }
+.button_update:hover{
+  transform: scale(1.0);
+  cursor: pointer;
+}

@@ -7,7 +7,7 @@ import { Breadcrumb } from 'antd';
 
 export default function CreateGarage_page() {
   return (
-    <div>
+    <div >
       <Slide_bar>
         <CreateGarage></CreateGarage>
       </Slide_bar>

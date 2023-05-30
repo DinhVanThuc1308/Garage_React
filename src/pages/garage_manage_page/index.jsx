@@ -11,7 +11,7 @@ function GarageManage_page() {
 
                 <div style={{ backgroundColor: "#fff", padding: 16, borderRadius: 12 }}>
 
-                    <div style={{ padding: '30px' }}></div>
+
                     <Tablemanage />
                 </div>
             </Slide_bar>

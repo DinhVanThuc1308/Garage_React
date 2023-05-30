@@ -3,14 +3,14 @@ import Slide_bar from '../../components/Slider_bar';
 import ViewProfile from '../../components/ViewProfile/ViewProfile';
 import axiosInstance from '../../shared/services/http-client';
 import { useState } from 'react';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/auth';
-import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+// import { useContext } from 'react';
+// import { AuthContext } from '../../context/auth';
+// import { useNavigate } from 'react-router-dom';
+// import { Button } from 'antd';
 
 function ViewProfile_page() {
-  const auth = useContext(AuthContext);
-  const nav = useNavigate();
+  // const auth = useContext(AuthContext);
+  // const nav = useNavigate();
 
   const [res, setRes] = useState(null);
 

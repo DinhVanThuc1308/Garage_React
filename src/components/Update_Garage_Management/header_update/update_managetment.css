@@ -102,3 +102,10 @@ h2 {
     margin-top: 10px;
     cursor: pointer;
 }
+.btn-cancel:hover{
+    transform:scale(1.0);
+    cursor: pointer;
+}
+.btn-save:hover{
+    transform:scale(1.0);
+}

@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
   const auth = useContext(AuthContext);
   const nav = useNavigate();
-  const API = 'http://localhost:1337/api';
+  const API = 'http://localhost:1337/api/auth/local';
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async values => {

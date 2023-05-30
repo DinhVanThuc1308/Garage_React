@@ -10,7 +10,7 @@ const Garage_Details = () => {
   const { id } = useParams();
   useEffect(() => {
     axiosInstance
-      .get(`users/${id}`)
+      .get(`users/${id}?populate=garages`)
       .then(res => {
         console.log(res); // In dữ liệu API
         if (res && res.id) {

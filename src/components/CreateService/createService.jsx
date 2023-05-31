@@ -57,7 +57,7 @@ export default function CreateService() {
     }, 1000);
 
     setTimeout(() => {
-      nav('/Garage_service');
+      nav('/GarageService');
     }, 2000);
   };
 

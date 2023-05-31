@@ -28,7 +28,7 @@ function CreateOwner() {
       dob: '',
       role: '',
       blocked: undefined,
-      garage: [],
+      garages: [],
     },
   });
 
@@ -66,7 +66,7 @@ function CreateOwner() {
     }, 1000);
 
     setTimeout(() => {
-      nav('/garage_owner');
+      nav('/');
     }, 2000);
   };
 
@@ -77,13 +77,12 @@ function CreateOwner() {
 
   const onSubmit = data => {
     data.dob = data.dob.format('YYYY-MM-DD');
-    data.garage = checkedBoxes;
+    data.garages = checkedBoxes;
     console.log(data);
     createOwner(data);
   };
 
   //  call api garage list from api and push it to garageList
-  const [garageList, setGarageList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredGarages, setFilteredGarages] = useState([]);
   useEffect(() => {

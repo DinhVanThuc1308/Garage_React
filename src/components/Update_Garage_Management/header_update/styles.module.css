@@ -8,7 +8,7 @@
     width: 100%;
     padding: 16px;
     background-color: #fff;
-    border-radius:15px ;
+    border-radius: 15px;
 
 }
 
@@ -30,14 +30,14 @@
     gap: 16px;
 }
 
-.form-row-last{
+.form-row-last {
     width: 81%;
     display: flex;
     flex-direction: row;
     gap: 16px;
 }
 
-.row-item-last{
+.row-item-last {
     width: 40%;
     display: flex;
     flex-direction: column;
@@ -78,6 +78,8 @@
     border: 1px solid #DDE4EE;
     border-radius: 8px;
     margin-bottom: 0 !important;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .checkbox-garage {
@@ -103,6 +105,10 @@
     scroll-behavior: smooth;
 }
 
+.red-require {
+    color: red;
+}
+
 .list-garage {
     width: 50%;
     padding: 10px;
@@ -126,14 +132,17 @@
     flex-direction: row;
     align-items: flex-start;
     gap: 24px;
-    font-size: 14px;
+    font-size: 16px;
+    color: #939393;
 }
 
 .description-form {
+    font-size: 16px;
     width: 50%;
 }
 
 .policy-form {
+    font-size: 16px;
     width: 50%;
 }
 
@@ -183,12 +192,14 @@
     border: 1px solid #8767E1;
     border-radius: 8px;
 }
-.btn-cancel:hover{
+
+.btn-cancel:hover {
     transform: scale(1.0);
     cursor: pointer;
 
 }
-.btn-save:hover{
+
+.btn-save:hover {
     transform: scale(1.0);
 
 }

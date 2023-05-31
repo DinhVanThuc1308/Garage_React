@@ -4,12 +4,12 @@ import { Input, Select, Checkbox } from 'antd';
 import binicon from './Vector.svg';
 import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
-import axiosInstance from '../../../shared/services/http-client';
 import { useState, useEffect } from 'react';
 import { message } from 'antd';
 import { useParams } from 'react-router-dom';
 
 import { Link, useNavigate } from 'react-router-dom';
+import updateGarageAPI from '../../../shared/api/updateGarageAPI';
 
 function Update_managetment() {
   const nav = useNavigate();
@@ -77,24 +77,16 @@ function Update_managetment() {
   const [checkedBoxes, setCheckedBoxes] = useState([]);
 
   const onChangeBox = e => {
-    // // make checkBoxs empty
-    // setCheckedBoxes([]);
-
-    // console.log('before', checkedBoxes);
     const value = e.target.value;
     const isChecked = e.target.checked;
-
-    // console.log(55, value);
-    // console.log(66, isChecked);
-    // setCheckedBoxes([...new Set(checkedBoxes)]);
 
     if (isChecked) {
       setCheckedBoxes([...checkedBoxes, value]);
       console.log(66, e.target.value);
     } else {
       // remove item from array
+
       setCheckedBoxes(checkedBoxes.filter(item => item !== value));
-      //   setCheckedBoxes(checkedBoxes.filter(item => item !== value));
     }
   };
 
@@ -126,36 +118,47 @@ function Update_managetment() {
   };
 
   // search garage
-  // const [serviceList, setserviceList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [serviceList, setServiceList] = useState([]);
   const [ownerList, setOwnerList] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
+
+  // Call API service list
+
+  useEffect(() => {
+    const fetchGarageServiceList = async () => {
+      try {
+        let params = {};
+        params['filters[name][$contains]'] = searchTerm;
+        const res = await updateGarageAPI.getGarageServiceList(params);
+        setFilteredServices(res.data);
+      } catch (error) {
+        console.log('Failed to fetch garage service list: ', error);
+      }
+    };
+
+    // Set up a timeout variable
+    const debounceTimer = setTimeout(() => {
+      console.log(`Searching for "${searchTerm}"...`);
+      // Call your search function here
+      fetchGarageServiceList();
+    }, 500);
+
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(debounceTimer);
+  }, [searchTerm]);
+  console.log('service', filteredServices);
 
   // Call API userId(owner) list
-  // useEffect(() => {
-  //     axiosInstance.get(`users`).then(res => {
-  //         setOwnerList(res.data);
-  //     });
-  // }, []);
 
-  // Call API garage-service list
   useEffect(() => {
-    axiosInstance.get(`garage-services`).then(res => {
-      setServiceList(res.data);
-      console.log(res.data);
-    });
-    axiosInstance.get(`users`).then(res => {
-      setOwnerList(res);
-      console.log(res);
-    });
+    const fetchGarageOwnerList = async () => {
+      const response = await updateGarageAPI.getOwnerList();
+      setOwnerList(response);
+    };
+    fetchGarageOwnerList();
   }, []);
 
-  // useEffect(() => {
-  //   axiosInstance.get(`users`).then(res => {
-  //     setOwnerList(res);
-  //     console.log(res);
-  //   });
-  // }, []);
+  console.log('ownerList', ownerList);
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
@@ -165,9 +168,20 @@ function Update_managetment() {
   useEffect(() => {
     async function fetchData() {
       // You can await here
-      const response = await axiosInstance.get(
-        `garages/${id}?populate=owner&populate=services`
+      let existID = id;
+      let params = {
+        populate: ['owner', 'services'],
+      };
+
+      const response = await updateGarageAPI.getExistingGarageData(
+        existID,
+        params
       );
+
+      // const response = await axiosInstance.get(
+      //   `garages/${id}?populate=owner&populate=services`
+      // );
+      console.log('response', response);
 
       setManagetmentList(response.data);
       const arr = response.data.attributes?.services.data;
@@ -183,55 +197,24 @@ function Update_managetment() {
       setValue('description', response.data.attributes?.description);
       setValue('policy', response.data.attributes?.policy);
       setValue('owner', response.data.attributes?.owner.data.id);
-      // existService.forEach(element => {
-      //   setCheckedBoxes([...checkedBoxes, element.id]);
-      //   console.log(23, checkedBoxes);
-      // });
 
       console.log('id', id);
     }
     fetchData();
-  }, [id]);
+  }, [id, setValue]);
   console.log('manage List', managetmentList);
 
-  console.log(checkedBoxes);
-  //   setCheckedBoxes([
-  //     ...checkedBoxes,
-  //     managetmentList.attributes?.services.data.map(item => item.attributes?.name),
-  //   ]);
+  // update garage
 
-  //   {
-  //     existService.map(item => {
-  //       setCheckedBoxes([...checkedBoxes, item.id]);
-  //     });
-  //     console.log(checkedBoxes, 1111222);
-  //   }
-
-  const filteredServices = serviceList.filter(
-    service =>
-      service.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
-  );
-
-  // const handleSearchGarage = () => {
-
-  //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
-  //     setserviceList(res.data);
-  //   });
-  // };
-
-  // create owner
-
-  const updateGarage = (data, idNumber) => {
-    axiosInstance
-      .put(`garages/${idNumber}`, data)
-      .then(res => {
-        openMessageAuke();
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch(err => {
-        openMessageErr();
-      });
+  const updateGarage = async (data, idNumber) => {
+    try {
+      const res = await updateGarageAPI.updateGarageData(idNumber, data);
+      console.log(res);
+      openMessageAuke();
+    } catch (error) {
+      console.log('Failed to update garage: ', error);
+      openMessageErr();
+    }
   };
 
   return (
@@ -269,7 +252,7 @@ function Update_managetment() {
                     {...field}
                     style={{ width: '100%' }}
                     size="large"
-                    placeholder={managetmentList.attributes?.name}
+                    placeholder="Enter garage name"
                   />
                 )}
               />
@@ -289,7 +272,7 @@ function Update_managetment() {
                   <Input
                     size="large"
                     {...field}
-                    placeholder={managetmentList.attributes?.email}
+                    placeholder="Enter email address"
                   />
                 )}
               />
@@ -311,7 +294,7 @@ function Update_managetment() {
                   <Input
                     size="large"
                     {...field}
-                    placeholder={managetmentList.attributes?.phoneNumber}
+                    placeholder="Enter phone number"
                   />
                 )}
               />
@@ -334,7 +317,7 @@ function Update_managetment() {
                     {...field}
                     style={{ width: '100%' }}
                     size="large"
-                    placeholder={managetmentList.attributes?.address}
+                    placeholder="Enter address"
                   />
                 )}
               />
@@ -354,7 +337,7 @@ function Update_managetment() {
                   <Select
                     size="large"
                     {...field}
-                    placeholder={managetmentList.attributes?.openTime}
+                    placeholder="Select open time"
                     allowClear
                   >
                     <Option value="07:00:00">07:00:00</Option>
@@ -379,7 +362,7 @@ function Update_managetment() {
                   <Select
                     size="large"
                     {...field}
-                    placeholder={managetmentList.attributes?.openTime}
+                    placeholder="Select close time"
                     allowClear
                   >
                     <Option value="18:00:00">18:00:00</Option>
@@ -405,7 +388,7 @@ function Update_managetment() {
                 render={({ field }) => (
                   <Select
                     size="large"
-                    placeholder={managetmentList.attributes?.owner}
+                    placeholder="Select garage owner"
                     {...field}
                     allowClear
                   >
@@ -433,7 +416,7 @@ function Update_managetment() {
                   <Select
                     {...field}
                     size="large"
-                    placeholder={managetmentList.attributes?.status}
+                    placeholder="Select status"
                     allowClear
                   >
                     <Option value="active">Active</Option>
@@ -459,7 +442,7 @@ function Update_managetment() {
                 render={({ field }) => (
                   <TextArea
                     rows={5}
-                    placeholder={managetmentList.attributes?.description}
+                    placeholder="Enter description"
                     maxLength={10}
                     style={{ width: '100%' }}
                     {...field}
@@ -482,7 +465,7 @@ function Update_managetment() {
                 render={({ field }) => (
                   <TextArea
                     rows={5}
-                    placeholder={managetmentList.attributes?.policy}
+                    placeholder="Enter policy"
                     maxLength={10}
                     style={{ width: '100%' }}
                     {...field}
@@ -520,12 +503,16 @@ function Update_managetment() {
             <div className={styles['list-garage']}>
               <label htmlFor="">Select services ({checkedBoxes.length})</label>
               {checkedBoxes.map(item => {
-                const IDObject = serviceList.find(obj => obj.id === item);
+                const IDObject = filteredServices.find(obj => obj.id === item);
+                if (!IDObject) {
+                  console.error(`IDObject with id ${item} is undefined`);
+                  return null;
+                }
                 console.log(IDObject);
                 return (
                   <div className={styles['pickitem']} key={item}>
                     <div className="pickitem-name">
-                      {IDObject.attributes.name}
+                      {IDObject.attributes?.name}
                     </div>
                     <img
                       src={binicon}

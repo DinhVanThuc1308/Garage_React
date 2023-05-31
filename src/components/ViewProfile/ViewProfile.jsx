@@ -1,12 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './ViewProfile.module.css';
-import ellipse from './avt2.jpg';
 import { Link } from 'react-router-dom';
+import viewProfileAPI from '../../shared/api/viewProfileAPI';
+import { useState } from 'react';
 
 export default function ViewProfile(props) {
-  const { id, fullname, phoneNumber, email, dob, role } = props.myProp;
+  // Call API to get user info
+  const [userInfo, setUserInfo] = useState([]);
+  const [avatar, setAvatar] = useState('');
 
-  const useravt = 'http://localhost:1337/uploads/small_9_4e818cdf78.jpg';
+  useEffect(() => {
+    const fetchInfo = async () => {
+      let params = {
+        populate: 'role,avatar',
+      };
+
+      try {
+        const response = await viewProfileAPI.getMyInfo(params);
+        setAvatar(response.avatar.formats.small.url);
+        setUserInfo(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchInfo();
+  }, []);
+  console.log('userInfo', userInfo);
+
+  const host = 'http://localhost:1337';
+  const linkAvatar = host + avatar;
+  console.log('linkAvatar', linkAvatar);
+
+  const id = userInfo.id;
 
   return (
     <>
@@ -20,18 +45,18 @@ export default function ViewProfile(props) {
       <div className={styles['container-view']}>
         <div className={styles['pf-container']}>
           <div className={styles['avatar']}>
-            <img className={styles['img_view_profile']} src={useravt} />
+            <img className={styles['img_view_profile']} src={linkAvatar} />
           </div>
           <div className={styles['info-wrapper']}>
             <div className={styles['info-left']}>
               <div className={styles['title']}>
                 <label htmlFor="">Name</label>
-                <h1>{props.myProp.fullname}</h1>
+                <h1>{userInfo.fullname}</h1>
               </div>
 
               <div className={styles['title']}>
                 <label htmlFor="">Phone Number</label>
-                <h1>{props.myProp.phoneNumber}</h1>
+                <h1>{userInfo.phoneNumber}</h1>
               </div>
 
               <div className={styles['title']}>
@@ -42,17 +67,17 @@ export default function ViewProfile(props) {
             <div className={styles['info-right']}>
               <div className={styles['title']}>
                 <label htmlFor="">Email</label>
-                <h1>{props.myProp.email}</h1>
+                <h1>{userInfo.email}</h1>
               </div>
 
               <div className={styles['title']}>
                 <label htmlFor="">DOB</label>
-                <h1>{props.myProp.dob}</h1>
+                <h1>{userInfo.dob}</h1>
               </div>
 
               <div className={styles['title']}>
                 <label htmlFor="">Role</label>
-                <h1>{props.myProp.role.description}</h1>
+                <h1>{userInfo.role?.description}</h1>
               </div>
             </div>
           </div>

@@ -4,7 +4,6 @@ import { Input, Select, DatePicker, Checkbox } from 'antd';
 import binicon from './Vector.svg';
 import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
-// import axiosInstance from '../../shared/services/http-client';
 import { useState } from 'react';
 import { message } from 'antd';
 import { useEffect } from 'react';
@@ -29,7 +28,7 @@ function CreateOwner() {
       dob: '',
       role: '',
       blocked: undefined,
-      garage: [],
+      garages: [],
     },
   });
 
@@ -67,28 +66,8 @@ function CreateOwner() {
     }, 1000);
 
     setTimeout(() => {
-      nav('/garage_owner');
+      nav('/');
     }, 2000);
-  };
-
-  // chosse garage
-  const [checkedBoxes, setCheckedBoxes] = useState([]);
-
-  const onChangeBox = e => {
-    // const value = e.target.value;
-    // if (e.target.checked) {
-    //   setGarageList([...garageList, value]);
-    // } else {
-    //   setGarageList(garageList.filter(item => item !== value));
-    // }
-    const value = e.target.value;
-    const isChecked = e.target.checked;
-
-    if (isChecked) {
-      setCheckedBoxes([...checkedBoxes, value]);
-    } else {
-      setCheckedBoxes(checkedBoxes.filter(item => item !== value));
-    }
   };
 
   // delete garage
@@ -98,67 +77,59 @@ function CreateOwner() {
 
   const onSubmit = data => {
     data.dob = data.dob.format('YYYY-MM-DD');
-    data.garage = checkedBoxes;
+    data.garages = checkedBoxes;
     console.log(data);
     createOwner(data);
   };
 
   //  call api garage list from api and push it to garageList
-
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredGarages, setFilteredGarages] = useState([]);
   useEffect(() => {
     // axiosInstance.get(`garages`).then(res => {
     //   setGarageList(res.data);
     // });
     const fetchGarageList = async () => {
       try {
-        const res = await createOwnerAPI.getGarageList();
-        setGarageList(res.data);
+        let params = {};
+        params['filters[$or][1][name][$contains]'] = searchTerm;
+        const res = await createOwnerAPI.getGarageList(params);
+        setFilteredGarages(res.data);
       } catch (error) {
         console.log('Failed to fetch garage list: ', error);
       }
     };
-    fetchGarageList();
-  }, []);
+    // Set up a timeout variable
+    const debounceTimer = setTimeout(() => {
+      console.log(`Searching for "${searchTerm}"...`);
+      // Call your search function here
+      fetchGarageList();
+    }, 500);
+
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(debounceTimer);
+  }, [searchTerm]);
+  console.log('list', filteredGarages);
 
   // search garage
-  const [searchTerm, setSearchTerm] = useState('');
-  const [garageList, setGarageList] = useState([]);
 
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredGarages = garageList.filter(
-    garage =>
-      garage.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
-  );
+  // chosse garage
+  const [checkedBoxes, setCheckedBoxes] = useState([]);
 
-  // find garage name include id in checkedBoxes
+  const onChangeBox = e => {
+    const value = e.target.value;
+    const isChecked = e.target.checked;
 
-  // const handleSearchGarage = () => {
-
-  //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
-  //     setGarageList(res.data);
-  //   });
-  // };
-
-  // create owner
-
-  // const createOwner = data => {
-  //   console.log({ data });
-  //   // delete data.status;
-  //   // delete data.garage;
-  //   axiosInstance
-  //     .post(`users`, data)
-  //     .then(res => {
-  //       openMessageAuke();
-  //       console.log(res);
-  //       console.log(res.data);
-  //     })
-  //     .catch(err => {
-  //       openMessageErr();
-  //     });
-  // };
+    if (isChecked) {
+      setCheckedBoxes([...checkedBoxes, value]);
+    } else {
+      setCheckedBoxes(checkedBoxes.filter(item => item !== value));
+    }
+  };
 
   // Post data to API
   const createOwner = async data => {
@@ -411,6 +382,7 @@ function CreateOwner() {
                     checked={checkedBoxes.includes(garageName.id)}
                   >
                     {garageName.attributes.name}
+                    {console.log('hihi', garageName.id)}
                   </Checkbox>
                 ))}
               </div>
@@ -418,7 +390,7 @@ function CreateOwner() {
             <div className={styles['list-garage']}>
               <label htmlFor="">Select garages ({checkedBoxes.length})</label>
               {checkedBoxes.map(item => {
-                const IDObject = garageList.find(obj => obj.id === item);
+                const IDObject = filteredGarages.find(obj => obj.id === item);
                 console.log(IDObject);
                 return (
                   <div className={styles['pickitem']} key={item}>

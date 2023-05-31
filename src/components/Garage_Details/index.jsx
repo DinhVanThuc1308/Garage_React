@@ -10,7 +10,7 @@ const Garage_Details = () => {
   const { id } = useParams();
   useEffect(() => {
     axiosInstance
-      .get(`users/${id}`)
+      .get(`users/${id}?populate=garages`)
       .then(res => {
         console.log(res); // In dữ liệu API
         if (res && res.id) {
@@ -205,7 +205,7 @@ const Garage_Details = () => {
                 Update
               </button>
             </Link>
-            <Link to="/Garage_manage">
+            <Link to="/">
               <button type="button" className={styles['btn-cancel']}>
                 Cancel
               </button>
@@ -219,44 +219,4 @@ const Garage_Details = () => {
 
 export default Garage_Details;
 
-// import React, { useState, useEffect } from "react";
-// import axiosInstance from '../../shared/services/http-client'
 
-// const MainContent = () => {
-//   const [garage, setGarage] = useState([]);
-
-//   useEffect(() => {
-//     axiosInstance.get(`garages`)
-//       .then(res => {
-//         const data = res.data.map(({ id, attributes: { name, image } }) => ({
-//           id,
-//           name,
-//           image
-//         }));
-//         setGarage(data);
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   }, []);
-
-//   const listItems = garage.map((garages) =>
-//     <div className='card' key={garages.id}>
-//       <div className='card_img'>
-//         <img src={garages.image} alt={garages.name} />
-//       </div>
-//       <div className='card_header'>
-//         <h2>{garages.name}</h2>
-//       </div>
-//     </div>
-//   )
-
-//   return (
-//     <div className='main_content'>
-//       <h3>Categories</h3>
-//       {listItems}
-//     </div>
-//   )
-// }
-
-// export default MainContent;

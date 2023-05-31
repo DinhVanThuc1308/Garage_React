@@ -1,26 +1,27 @@
 import axios from "axios";
-import { useState, createContext, useLayoutEffect } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import { ACCESS_TOKEN } from '../shared/constants';
+import LoadingPage from './pageloading';
+
 
 export const AuthContext = createContext();
 
-// Provide Context
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [login, setLogin] = useState(false);
     const [token, setToken] = useState(localStorage.getItem(ACCESS_TOKEN) || '');
     const [loading, setLoading] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
     const api = "http://localhost:1337/api/users/me";
 
     const setKey = (token) => {
-        // save token to local storage
         localStorage.setItem(ACCESS_TOKEN, token);
         setToken(token);
     }
 
-    useLayoutEffect(() => {
-        if (token !== "" || token !== undefined) {
-            setLoading(true)
+    useEffect(() => {
+        setLoading(true);
+        async function fetchUser() {
             try {
                 const config = {
                     headers: {
@@ -30,20 +31,23 @@ export const AuthProvider = ({ children }) => {
                         populate: 'role,avatar'
                     }
                 };
-                axios.get(api, config).then((res) => {
-                    setUser(res.data);
-                    setLogin(true);
-                });
+                const res = await axios.get(api, config);
+                setUser(res.data);
+                setLogin(true);
             } catch (err) {
                 console.error("11111111", err);
                 logout();
             } finally {
                 setLoading(false);
+                setIsLoaded(true);
             }
+        }
+        if (token !== "" && token !== undefined) {
+            fetchUser();
         } else {
             console.error("222");
-
             setLoading(false);
+            setIsLoaded(true);
         }
     }, [token]);
 
@@ -60,9 +64,13 @@ export const AuthProvider = ({ children }) => {
         logout: logout
     }
 
-    return <AuthContext.Provider value={auth}>
-        {
-            loading ? <>loading...</> : children
-        }
-    </AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={auth}>
+            {isLoaded ? (
+                children
+            ) : (
+                <LoadingPage />
+            )}
+        </AuthContext.Provider>
+    );
 };

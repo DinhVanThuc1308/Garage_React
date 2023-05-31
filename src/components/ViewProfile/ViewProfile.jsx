@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 export default function ViewProfile(props) {
   const { id, fullname, phoneNumber, email, dob, role } = props.myProp;
 
+  const useravt = 'http://localhost:1337/uploads/small_9_4e818cdf78.jpg';
+
   return (
     <>
       <div
@@ -18,7 +20,7 @@ export default function ViewProfile(props) {
       <div className={styles['container-view']}>
         <div className={styles['pf-container']}>
           <div className={styles['avatar']}>
-            <img className={styles['img_view_profile']} src={ellipse} />
+            <img className={styles['img_view_profile']} src={useravt} />
           </div>
           <div className={styles['info-wrapper']}>
             <div className={styles['info-left']}>

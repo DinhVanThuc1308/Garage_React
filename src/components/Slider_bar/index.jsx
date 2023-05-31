@@ -1,31 +1,25 @@
 import React from 'react';
 import './Slider_bar.css';
 
-import Update_Profile from '../Update_Profile';
-import SearchAndFilter from '../SearchAndFilter';
+
 
 // Create Owner
-import CreateOwner from '../CreateOwner';
-import { Breadcrumb } from 'antd';
+
 
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme, DatePicker } from 'antd';
+import { Layout, Menu, theme, } from 'antd';
 import { useState } from 'react';
 
 // import img của slider bar
 import sb_img from '../Slider_bar/asset/img/sb_img.png';
-import sb_keybord_img from '../Slider_bar/asset/img/sb__keybord.png';
 import Header_content from '../Header/Header_content';
-import Table from '../Table';
-// import Button from "../Button";
-import Icon from './asset/img/Vector.png';
-import Logout from '../Logout/Logout';
+
 import { Link } from "react-router-dom";
 
 import { useLocation } from 'react-router-dom';
 
-// View Profile
-import ViewProfile from '../ViewProfile/ViewProfile';
+
+
 
 const { Header, Sider, Content } = Layout;
 //props. chi
@@ -75,17 +69,17 @@ const Slide_bar = ({ children }) => {
             {
               key: '1',
               icon: <img src={sb_img}></img>,
-              label: <Link to="/garage_owner">Garage Owner</Link>,
+              label: <Link to="/">Garage Owner</Link>,
             },
             {
               key: '2',
               icon: <img src={sb_img}></img>,
-              label: <Link to="/Garage_manage">Garage</Link>,
+              label: <Link to="/GarageManage">Garage</Link>,
             },
             {
               key: '4',
               icon: <img src={sb_img}></img>,
-              label: <Link to="/Garage_service">Garage-services</Link>,
+              label: <Link to="/GarageService">Garage-services</Link>,
 
             },
           ]}
@@ -111,18 +105,7 @@ const Slide_bar = ({ children }) => {
         </Header>
 
 
-        {/* <Breadcrumb
-            separator=">"
-            items={[
-              {
-                title: 'All Garages',
-              },
-              {
-                title: 'Add a new owner',
-                href: '',
-              },
-            ]}
-          /> */}
+
         <Content
           style={{
             margin: '24px 16px',

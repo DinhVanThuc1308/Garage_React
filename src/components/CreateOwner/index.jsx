@@ -268,7 +268,7 @@ function CreateOwner() {
                 control={control}
                 rules={{ required: true, minLength: 6 }}
                 render={({ field }) => (
-                  <Input
+                  <Input.Password
                     {...field}
                     style={{ width: '100%' }}
                     size="large"
@@ -383,7 +383,7 @@ function CreateOwner() {
                     allowClear
                   >
                     <Option value={false}>Active</Option>
-                    <Option value={true}>Deactive</Option>
+                    <Option value={true}>Inactive</Option>
                   </Select>
                 )}
               />
@@ -441,7 +441,7 @@ function CreateOwner() {
             <button type="submit" className={styles['btn-save']}>
               Save
             </button>
-            <Link to="/garage_owner">
+            <Link to="/">
               <button type="cancel" className={styles['btn-cancel']}>
                 Cancel
               </button>

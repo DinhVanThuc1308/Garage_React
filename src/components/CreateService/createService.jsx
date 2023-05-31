@@ -215,7 +215,7 @@ export default function CreateService() {
             <button type="submit" className={styles['btn-save']}>
               Save
             </button>
-            <Link to="/Garage_service">
+            <Link to="/GarageService">
               <button type="cancel" className={styles['btn-cancel']}>
                 Cancel
               </button>

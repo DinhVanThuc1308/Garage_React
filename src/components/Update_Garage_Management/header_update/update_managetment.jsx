@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, Controller, set } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Input, Select, Checkbox } from 'antd';
 import binicon from './Vector.svg';
 import styles from './styles.module.css';
@@ -77,23 +77,23 @@ function Update_managetment() {
   const [checkedBoxes, setCheckedBoxes] = useState([]);
 
   const onChangeBox = e => {
-    // make checkBoxs empty
-    setCheckedBoxes([]);
-    console.log('before', checkedBoxes);
+    // // make checkBoxs empty
+    // setCheckedBoxes([]);
+
+    // console.log('before', checkedBoxes);
     const value = e.target.value;
     const isChecked = e.target.checked;
 
-    console.log(55, value);
-    console.log(66, isChecked);
+    // console.log(55, value);
+    // console.log(66, isChecked);
+    // setCheckedBoxes([...new Set(checkedBoxes)]);
 
-    if (isChecked && !checkedBoxes.includes(value)) {
+    if (isChecked) {
       setCheckedBoxes([...checkedBoxes, value]);
       console.log(66, e.target.value);
     } else {
       // remove item from array
-
       setCheckedBoxes(checkedBoxes.filter(item => item !== value));
-
       //   setCheckedBoxes(checkedBoxes.filter(item => item !== value));
     }
   };
@@ -144,21 +144,24 @@ function Update_managetment() {
       setServiceList(res.data);
       console.log(res.data);
     });
-  }, []);
-
-  useEffect(() => {
     axiosInstance.get(`users`).then(res => {
       setOwnerList(res);
       console.log(res);
     });
   }, []);
+
+  // useEffect(() => {
+  //   axiosInstance.get(`users`).then(res => {
+  //     setOwnerList(res);
+  //     console.log(res);
+  //   });
+  // }, []);
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
 
   // call API of managetment
   const [managetmentList, setManagetmentList] = useState([]);
-  const [existService, setExistService] = useState([]);
   useEffect(() => {
     async function fetchData() {
       // You can await here
@@ -167,7 +170,9 @@ function Update_managetment() {
       );
 
       setManagetmentList(response.data);
-      setExistService(response.data.attributes?.services.data);
+      const arr = response.data.attributes?.services.data;
+      const newArr = arr.map(item => item.id);
+      setCheckedBoxes(newArr);
       setValue('name', response.data.attributes?.name);
       setValue('address', response.data.attributes?.address);
       setValue('status', response.data.attributes?.status);
@@ -177,22 +182,17 @@ function Update_managetment() {
       setValue('closeTime', response.data.attributes?.closeTime);
       setValue('description', response.data.attributes?.description);
       setValue('policy', response.data.attributes?.policy);
-      setValue(
-        'owner',
-        response.data.attributes?.owner.data.attributes?.fullname
-      );
+      setValue('owner', response.data.attributes?.owner.data.id);
+      // existService.forEach(element => {
+      //   setCheckedBoxes([...checkedBoxes, element.id]);
+      //   console.log(23, checkedBoxes);
+      // });
 
       console.log('id', id);
     }
     fetchData();
   }, [id]);
   console.log('manage List', managetmentList);
-  useEffect(() => {
-    existService.forEach(element => {
-      checkedBoxes.push(element.id);
-      console.log(23, checkedBoxes);
-    });
-  }, [existService]);
 
   console.log(checkedBoxes);
   //   setCheckedBoxes([
@@ -543,7 +543,7 @@ function Update_managetment() {
             <button type="submit" className={styles['btn-save']}>
               Save
             </button>
-            <Link to="/Garage_manage">
+            <Link to="/GarageManage">
               <button type="button" className={styles['btn-cancel']}>
                 Cancel
               </button>

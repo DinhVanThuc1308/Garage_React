@@ -7,7 +7,6 @@ function Page_update_owner() {
     return (
         <Slide_bar>
             <Update_Owner></Update_Owner>
-            <Footer_update_owner></Footer_update_owner>
         </Slide_bar>
     );
 }

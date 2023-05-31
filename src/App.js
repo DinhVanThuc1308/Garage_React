@@ -24,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route element={<GuestRoutes />}>
+         <Route element={<GuestRoutes />}>
           <Route path="/login" element={<Login />} />
         </Route>
         <Route element={<AuthRoutes />}>

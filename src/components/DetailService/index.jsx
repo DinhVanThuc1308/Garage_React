@@ -79,12 +79,12 @@ const Index = () => {
       <div className='container-down-detail-service'>
         <div className='line-detail-service'></div>
         <div className={styles['btn-container']}>
-          <Link to={`/update_service/${id}`}>
+          <Link to={`/update/${id}`}>
             <button type="submit" className={styles['btn-save']}>
               Update
             </button>
           </Link>
-          <Link to='/GarageManage'>
+          <Link to='/GarageService'>
             <button type="button" className={styles['btn-cancel']}>
               Cancel
             </button>

@@ -45,6 +45,20 @@ const Garage_Details = () => {
         console.log(err);
       });
   }, [id]);
+  useEffect(() => {
+    axiosInstance
+      .get(`users/${id}?populate=garages`)
+      .then(res => {
+        const  data  = res;
+        console.log(22222, data);
+        const { garages } = data;
+        const garagesNames = garages.map(garage => garage.name);
+        setGarage(prevGarage => ({ ...prevGarage, garages: garagesNames }));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div>
@@ -118,8 +132,8 @@ const Garage_Details = () => {
           </div>
 
           <div className="container-infomation-down-garage-details">
-            <div className="letter" style={{ marginTop: 30 }}>
-              Garage
+            <div className="letter" style={{ marginTop: 30 }} >
+              {garage.garages?.name}Garage
             </div>
             <div className="container-infomation-down-1-garage-details">
               <div className="">
@@ -133,66 +147,16 @@ const Garage_Details = () => {
                     padding: '10px',
                   }}
                 >
-                  Garage ABC
+                  <ul style={{ listStyleType: 'none' }}>
+                                        {garage.garages?.map((garage, index) => (
+                                        <li key={index} style={{ lineHeight: '1.9'}}>{garage}</li>
+                                        ))}
+                                    </ul>
+                                    
                 </div>
               </div>
 
-              <div className="">
-                <div
-                  className=""
-                  style={{
-                    color: '#805EDF',
-                    fontFamily: 'Popins',
-                    fontSize: 20,
-                    fontWeight: 500,
-                    padding: '10px',
-                  }}
-                >
-                  TLS
-                </div>
-              </div>
-              <div className="">
-                <div
-                  className=""
-                  style={{
-                    color: '#805EDF',
-                    fontFamily: 'Popins',
-                    fontSize: 20,
-                    fontWeight: 500,
-                    padding: '10px',
-                  }}
-                >
-                  AHC
-                </div>
-              </div>
-              <div className="">
-                <div
-                  className=""
-                  style={{
-                    color: '#805EDF',
-                    fontFamily: 'Popins',
-                    fontSize: 20,
-                    fontWeight: 500,
-                    padding: '10px',
-                  }}
-                >
-                  CB Garage
-                </div>
-              </div>
-              <div className="">
-                <div
-                  className=""
-                  style={{
-                    color: '#805EDF',
-                    fontFamily: 'Popins',
-                    fontSize: 20,
-                    fontWeight: 500,
-                    padding: '10px',
-                  }}
-                >
-                  UCQ
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -200,7 +164,7 @@ const Garage_Details = () => {
         <div className="container-save-garage-details">
           <div className="line"></div>
           <div className={styles['btn-container']}>
-            <Link to={`/update_owner/${garage.id}`}>
+            <Link to={`/GarageOwner/update/${garage.id}`}>
               <button type="submit" className={styles['btn-save']}>
                 Update
               </button>

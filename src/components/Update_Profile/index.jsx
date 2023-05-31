@@ -24,6 +24,10 @@ const Update_Profile = () => {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    console.log("Avatar:", avatar);
+  }, [avatar]);
+
   const fetchUserData = async () => {
     try {
       const response = await axiosInstance.get(`/users/${id}`);
@@ -62,7 +66,9 @@ const Update_Profile = () => {
         },
       });
       console.log(response)
-      setAvatar = response.url;
+      setAvatar(response[0].url);
+      console.log(222223,avatar)
+
       return response.avatarUrl;
       
     } catch (error) {
@@ -75,7 +81,7 @@ const Update_Profile = () => {
     // setAvatar(info.file)
     uploadAvatar(info.file)
     if (info.file.status === 'uploading') {
-      console.log("uploading")
+      console.log(222,info.file)
       
       setLoading(true);
       return;
@@ -86,11 +92,7 @@ const Update_Profile = () => {
       console.log("done")
 
     }
-    if (info.file.status === 'error') {
-      // message.error('Failed to upload avatar.');
-      console.log("error")
-      setLoading(false);
-    }
+    
   };
 
 
@@ -108,9 +110,10 @@ const Update_Profile = () => {
 
       if (avatar) {
         const avatarUrl = await uploadAvatar(avatar);
+        
         data.avatar = avatarUrl;
       }
-
+      
       await updateProfileData(data);
     } catch (error) {
       console.log(error);
@@ -123,33 +126,33 @@ const Update_Profile = () => {
           <div className="container_updateProfile_avt">
             <div className="container_updateProfile_avt_1">
             <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://edison-garage-api.savvycom.xyz/api/upload"
-                // beforeUpload={(file) => {
-                //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-                //   if (!isJpgOrPng) {
-                //     message.error('You can only upload JPG/PNG file!');
-                //   }
-                //   const isLt2M = file.size / 1024 / 1024 < 2;
-                //   if (!isLt2M) {
-                //     message.error('Image must be smaller than 2MB!');
-                //   }
-                //   return isJpgOrPng && isLt2M;
-                // }}
-                onChange={handleAvatarChange}
-              >
-                {avatar ? (
-                  <img src={avatar} url={"https://edison-garage-api.savvycom.xyz/"+avatar} alt="avatar" style={{ width: '100%' }} />
-                ) : (
-                  <div>
-                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                    <div className="ant-upload-text">Upload</div>
-                  </div>
-                )}
-              </Upload>
+            
+  name="avatar"
+  listType="picture-card"
+  className="avatar-uploader"
+  showUploadList={false}
+  action="http://localhost:1337/api/upload"
+  onChange={handleAvatarChange}
+>
+  {avatar ? (
+    <img
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+    }}
+      src={"http://localhost:1337" + avatar}
+      alt="avatar"
+      className="avatar-image"
+    />
+  ) : (
+    <div className="upload-placeholder">
+      <PlusOutlined />
+      <div className="upload-text">Upload</div>
+    </div>
+  )}
+</Upload>
+
               <div className="container_updateProfile_avt_1_icon"></div>
             </div>
           </div>
@@ -175,7 +178,7 @@ const Update_Profile = () => {
 
             <div className="container_updateProfile_inf_input">
               <div>Username</div>
-              <input className="container_updateProfile_inf_input_text" value={userData.username} disabled />
+              <input className="container_updateProfile_inf_input_text" defaultValue={userData.username}  />
             </div>
 
             <div className="container_updateProfile_inf_input_1">
@@ -200,8 +203,8 @@ const Update_Profile = () => {
               <div>Address</div>
               <input
                 className="container_updateProfile_inf_input_text"
-                value="Cau Giay, Ha Noi"
-                {...register('address')}
+                defaultValue="Cau Giay, Ha Noi"
+                
               />
             </div>
 

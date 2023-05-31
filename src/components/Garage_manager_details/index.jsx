@@ -4,7 +4,7 @@ import axiosInstance from '../../shared/services/http-client.js';
 import styles from './styles.module.css';
 
 function GarageManagerDetails() {
-    const [garage, setGarage] = useState([]);
+    const [garage, setGarage] = useState({});
     let { id } = useParams();
     useEffect(() => {
         axiosInstance
@@ -31,6 +31,9 @@ function GarageManagerDetails() {
                     owner,
                     status,
                 };
+                console.log(2222,data)
+                // const services = res?.data?.attributes?.services?.map(service => service?.name);
+                // data.services = services;
                 data.id = res.data.id;
                 setGarage(data);
             })
@@ -39,10 +42,14 @@ function GarageManagerDetails() {
             });
     }, [id]);
     useEffect(() => {
-        axiosInstance.get(`users`).then(res => {
-            const data = res.data;
-            const idOwner = data.find(item => item.garages.id === id);
-            console.log(2222, idOwner);
+        axiosInstance.get(`garages/${id}?populate=owner&populate=services`).then(res => {
+            const { attributes } = res.data;
+            const { services } = attributes;
+            const serviceNames = services.data.map(service => service.attributes.name);
+            setGarage(prevGarage => ({ ...prevGarage, services: serviceNames }));
+        })
+        .catch(err => {
+            console.log(err);
         });
     }, []);
 
@@ -134,73 +141,21 @@ function GarageManagerDetails() {
                                         padding: '10px',
                                     }}
                                 >
-                                    Garage ABC
+                                    <ul style={{ listStyleType: 'none' }}>
+                                        {garage.services?.map((service, index) => (
+                                        <li key={index} style={{ lineHeight: '1.9'}}>{service}</li>
+                                        ))}
+                                    </ul>
                                 </div>
                             </div>
-                            <div className="">
-                                <div
-                                    className=""
-                                    style={{
-                                        color: '#805EDF',
-                                        fontFamily: 'Popins',
-                                        fontSize: 20,
-                                        fontWeight: 500,
-                                        padding: '10px',
-                                    }}
-                                >
-                                    TLS
-                                </div>
                             </div>
-                            <div className="">
-                                <div
-                                    className=""
-                                    style={{
-                                        color: '#805EDF',
-                                        fontFamily: 'Popins',
-                                        fontSize: 20,
-                                        fontWeight: 500,
-                                        padding: '10px',
-                                    }}
-                                >
-                                    AHC
-                                </div>
-                            </div>
-                            <div className="">
-                                <div
-                                    className=""
-                                    style={{
-                                        color: '#805EDF',
-                                        fontFamily: 'Popins',
-                                        fontSize: 20,
-                                        fontWeight: 500,
-                                        padding: '10px',
-                                    }}
-                                >
-                                    CB Garage
-                                </div>
-                            </div>
-                            <div className="">
-                                <div
-                                    className=""
-                                    style={{
-                                        color: '#805EDF',
-                                        fontFamily: 'Popins',
-                                        fontSize: 20,
-                                        fontWeight: 500,
-                                        padding: '10px',
-                                    }}
-                                >
-                                    UCQ
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div className="line" style={{ width: 0 }}></div>
                 <div className="container-save-garage-details">
                     <div className="line"></div>
                     <div className={styles['btn-container']}>
-                        <Link to={`/update_management/${garage.id}`}>
+                        <Link to={`/GarageManage/update/${garage.id}`}>
                             <button type="submit" className={styles['btn-save']}>
                                 Update
                             </button>

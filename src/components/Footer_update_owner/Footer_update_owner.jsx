@@ -73,6 +73,7 @@ const Footer_update_owner = () => {
                 }}
                 onSearch={handleSearch}
             />
+            
         </>
     );
 };

@@ -1,127 +1,506 @@
-import { Col, Divider, Row } from 'antd';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import React from 'react';
-import { Button, Checkbox, Form, Input, Space, Select } from 'antd';
-import { DatePicker, TimePicker } from 'antd';
 import './Update_Owner.css';
-import { Switch, Transfer } from 'antd';
-import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { message } from 'antd';
+import binicon from './Vector.svg';
+import { Input, Select, Checkbox, DatePicker } from 'antd';
+import styles from "./styles.module.css";
+import { Option } from 'antd/es/mentions';
+import axiosInstance from '../../shared/services/http-client';
+import moment from 'moment/moment';
+import updateOwnerAPI from '../../shared/api/updateOwnerAPI';
 
 
-const style = {
-    background: '#0092ff',
-    padding: '8px 0',
+function Update_owner() {
+
+    const nav = useNavigate();
+    let { id } = useParams();
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+        setValue,
+    } = useForm({
+        defaultValues: {
+            fullname: '',
+            email: '',
+            username: '',
+            password: '',
+            phoneNumber: '',
+            gender: '',
+            dob: '',
+            role: '',
+            status: '',
+            blocked: undefined,
+            garage: [],
+        },
+    });
+
+    // notification
+    const [messageApi, contextHolder] = message.useMessage();
+    const key = 'updatable';
+    const openMessageErr = () => {
+        messageApi.open({
+            key,
+            type: 'loading',
+            content: 'Loading...',
+        });
+        setTimeout(() => {
+            messageApi.open({
+                key,
+                type: 'error',
+                content: 'Fail! Please try again! ',
+                duration: 2,
+            });
+        }, 1000);
+    };
+    const openMessageAuke = () => {
+        messageApi.open({
+            key,
+            type: 'loading',
+            content: 'Loading...',
+        });
+        setTimeout(() => {
+            messageApi.open({
+                key,
+                type: 'success',
+                content: 'Success! You have created a new owner! ',
+                duration: 2,
+            });
+        }, 1000);
+
+        setTimeout(() => {
+            nav('/');
+        }, 2000);
+    };
+
+    // chosse garage
+    const [checkedBoxes, setCheckedBoxes] = useState([]);
+
+    const onChangeBox = e => {
+        // const value = e.target.value;
+        // if (e.target.checked) {
+        //   setGarageList([...garageList, value]);
+        // } else {
+        //   setGarageList(garageList.filter(item => item !== value));
+        // }
+        const value = e.target.value;
+        const isChecked = e.target.checked;
+
+        if (isChecked) {
+            setCheckedBoxes([...checkedBoxes, value]);
+        } else {
+            setCheckedBoxes(checkedBoxes.filter(item => item !== value));
+        }
+    };
+
+    // delete garage
+    const handleDelete = item => {
+        setCheckedBoxes(checkedBoxes.filter(checked => checked !== item));
+    };
+
+    const onSubmit = data => {
+        data.dob = data.dob.format('YYYY-MM-DD');
+        data.garage = checkedBoxes;
+        console.log(data);
+        updateOwner(data, id);
+    };
+
+    //  call api garage list from api and push it to garageList
+
+    useEffect(() => {
+        // axiosInstance.get(`garages`).then(res => {
+        //   setGarageList(res.data);
+        // });
+        const fetchGarageList = async () => {
+            try {
+                const res = await updateOwnerAPI.getGarageList();
+                setGarageList(res.data);
+            } catch (error) {
+                console.log('Failed to fetch garage list: ', error);
+            }
+        };
+        fetchGarageList();
+    }, []);
+
+    // search garage
+    const [searchTerm, setSearchTerm] = useState('');
+    const [garageList, setGarageList] = useState([]);
+
+    const handleSearch = e => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredGarages = garageList.filter(
+        garage =>
+            garage.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
+    );
+
+    // find garage name include id in checkedBoxes
+
+    // const handleSearchGarage = () => {
+
+    //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
+    //     setGarageList(res.data);
+    //   });
+    // };
+
+    // create owner
+
+    // const createOwner = data => {
+    //   console.log({ data });
+    //   // delete data.status;
+    //   // delete data.garage;
+    //   axiosInstance
+    //     .post(`users`, data)
+    //     .then(res => {
+    //       openMessageAuke();
+    //       console.log(res);
+    //       console.log(res.data);
+    //     })
+    //     .catch(err => {
+    //       openMessageErr();
+    //     });
+    // };
+
+    // Post data to API
+    const updateOwner = async (data, idNumber) => {
+        try {
+            const res = await updateOwnerAPI.updateOwnerData(data, idNumber);
+            openMessageAuke();
+            console.log("update", res);
+        } catch (error) {
+            console.log("Failed to update owner", error);
+            openMessageErr();
+        }
+    };
+
+    // call api of update_owner
+    const [userList, setUserList] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            console.log("id", id);
+            let existID = id;
+            let params = {
+                populate: ['garages', 'role'],
+
+            };
+            const response = await updateOwnerAPI.getExistingOwnerData(existID, params)
+            setUserList(response);
+            console.log("pull", response);
+            const arr = response.garages;
+            const newArr = arr.map(item => item.id);
+            setCheckedBoxes(newArr);
+            setValue('fullname', response.fullname);
+            setValue('email', response.email);
+            setValue('username', response.username);
+            setValue('password', response.password);
+            setValue('phoneNumber', response.phoneNumber);
+            setValue('gender', response.gender);
+            setValue('dob', moment(response.dob, 'YYYY-MM-DD'));
+            setValue('role', parseInt(response.role.id));
+            setValue('blocked', Boolean(response.blocked));
+            console.log('id', id);
+            console.log(111, response.fullname);
+            console.log('role', parseInt(response.role.id));
+            console.log('blocked', Boolean(response.blocked));
+            console.log('dob', response.dob);
+
+        }
+        fetchData();
+    }, [id], setValue);
+
+    console.log('user list', userList);
+
+    console.log(checkedBoxes);
+
+
+    return (
+        <>
+            <div
+                style={{ width: '100%', backgroundColor: '#f8f5f5', padding: '10px' }}
+            >
+                <h3 style={{ fontFamily: 'Poppins', fontSize: 20 }}>
+                    <span
+                        style={{ fontFamily: 'Poppins', fontSize: '23', color: '#cacaca' }}
+                    >
+                        All Garages Owner &gt;
+                    </span>{' '}
+                    Chua fix{' '}
+                </h3>
+            </div>
+            <div className={styles['create-form']}>
+                {contextHolder}
+                <form
+                    action=""
+                    onSubmit={handleSubmit(onSubmit)}
+                    className={styles['form-container']}
+                >
+                    <div className={styles['form-row']}>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                Name <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="fullname"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <Input
+                                        {...field}
+                                        style={{ width: '100%' }}
+                                        size="large"
+                                        placeholder={userList.garages?.name}
+                                    />
+                                )}
+                            />
+                            {errors.fullname && (
+                                <p style={{ color: 'red' }}>Please enter your name</p>
+                            )}
+                        </div>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                Email <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="email"
+                                control={control}
+                                rules={{ required: true, pattern: /^\S+@\S+$/i }}
+                                render={({ field }) => (
+                                    <Input
+                                        size="large"
+                                        {...field}
+                                        placeholder="Enter owner email"
+                                    />
+                                )}
+                            />
+                            {errors.email && (
+                                <p style={{ color: 'red' }}>
+                                    Please enter a valid email address
+                                </p>
+                            )}
+                        </div>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                Username <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="username"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <Input
+                                        size="large"
+                                        {...field}
+                                        placeholder="Enter owner username"
+                                    />
+                                )}
+                            />
+                            {errors.username && (
+                                <p style={{ color: 'red' }}>Please enter username</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className={styles['form-row']}>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                Password <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="password"
+                                control={control}
+                                rules={{ required: true, minLength: 6 }}
+                                render={({ field }) => (
+                                    <Input.Password
+                                        {...field}
+                                        style={{ width: '100%' }}
+                                        size="large"
+                                        placeholder="Enter owner password"
+                                    />
+                                )}
+                            />
+                            {errors.password && (
+                                <p style={{ color: 'red' }}>Please enter a valid password</p>
+                            )}
+                        </div>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                Phone number <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="phoneNumber"
+                                control={control}
+                                rules={{ required: true, minLength: 10, maxLength: 10 }}
+                                render={({ field }) => (
+                                    <Input
+                                        size="large"
+                                        {...field}
+                                        placeholder="Enter owner phone number"
+                                    />
+                                )}
+                            />
+                            {errors.phone && (
+                                <p style={{ color: 'red' }}>Please enter a valid phonenumber</p>
+                            )}
+                        </div>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                Gender <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="gender"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <Select
+                                        {...field}
+                                        size="large"
+                                        placeholder="Select owner gender"
+                                        allowClear
+                                    >
+                                        <Option value="male">Male</Option>
+                                        <Option value="female">Female</Option>
+                                        <Option value="Other">Other</Option>
+                                    </Select>
+                                )}
+                            />
+                            {errors.gender && (
+                                <p style={{ color: 'red' }}>Please select gender</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className={styles['form-row']}>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                DOB <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="dob"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <DatePicker {...field} size="large"></DatePicker>
+                                )}
+                            />
+                            {errors.dob && (
+                                <p style={{ color: 'red' }}>Please select date of birth</p>
+                            )}
+                        </div>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                Role <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="role"
+                                control={control}
+                                // rules={{ required: true }}
+                                render={({ field }) => (
+                                    <Select
+                                        {...field}
+                                        size="large"
+                                        placeholder="Select a role"
+                                        allowClear
+                                    >
+                                        <Option value={1}>Admin</Option>
+                                        <Option value={2}>User</Option>
+                                    </Select>
+                                )}
+                            />
+                            {errors.role && (
+                                <p style={{ color: 'red' }}>Please select role</p>
+                            )}
+                        </div>
+                        <div className={styles['row-item']}>
+                            <label htmlFor="" className={styles['title-label']}>
+                                Status <span style={{ color: 'red' }}>*</span>{' '}
+                            </label>
+                            <Controller
+                                name="blocked"
+                                control={control}
+                                // rules={{ required: true }}
+                                render={({ field }) => (
+                                    <Select
+                                        {...field}
+                                        size="large"
+                                        placeholder="Select a Status"
+                                        allowClear
+                                    >
+                                        <Option value={false}>Active</Option>
+                                        <Option value={true}>Inactive</Option>
+                                    </Select>
+                                )}
+                            />
+                            {errors.status && (
+                                <p style={{ color: 'red' }}>Please select status</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className={styles['choose-container']}>
+                        <div className={styles['checkbox-garage']}>
+                            <Input
+                                size="large"
+                                placeholder="Search for garages .."
+                                value={searchTerm}
+                                onChange={handleSearch}
+                            />
+                            <div className={styles['checkbox-list']}>
+                                {filteredGarages.map(garageName => (
+                                    <Checkbox
+                                        key={garageName}
+                                        style={{ marginLeft: '8px' }}
+                                        onChange={onChangeBox}
+                                        value={garageName.id}
+                                        checked={checkedBoxes.includes(garageName.id)}
+                                    >
+                                        {garageName.attributes.name}
+                                    </Checkbox>
+                                ))}
+                            </div>
+                        </div>
+                        <div className={styles['list-garage']}>
+                            <label htmlFor="">Select garages ({checkedBoxes.length})</label>
+                            {checkedBoxes.map(item => {
+                                const IDObject = garageList.find(obj => obj.id === item);
+                                if (!IDObject) {
+                                    console.error(`IDObject with id ${item} is undefined`);
+                                    return null;
+                                }
+                                console.log(IDObject);
+                                return (
+                                    <div className={styles['pickitem']} key={item}>
+                                        <div className="pickitem-name">
+                                            {IDObject.attributes?.name}
+                                        </div>
+                                        <img
+                                            src={binicon}
+                                            alt=""
+                                            onClick={() => handleDelete(item)}
+                                            style={{ cursor: 'pointer', marginLeft: '5px' }}
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <hr style={{ width: '100%' }} />
+                    <div className={styles['btn-container']}>
+                        <button type="submit" className={styles['btn-save']}>
+                            Save
+                        </button>
+                        <Link to="/">
+                            <button type="cancel" className={styles['btn-cancel']}>
+                                Cancel
+                            </button>
+                        </Link>
+                    </div>
+                    {/* <button type="submit">Submit</button> */}
+                </form>
+            </div>
+        </>
+    );
 };
-const { Option } = Select;
-
-const Update_Owner = () => (
-    <>
-        <Row gutter={[30, 20]}>
-            <Col className="gutter-row Owner_col" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Name"
-                    rules={[{ required: true, message: 'Please input your name!' }]}
-                    name="Name"
-                ></Form.Item>
-                <Input size="large" placeholder="Enter owner name" />
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Email"
-                    rules={[{ required: true, message: 'Please input your email!' }]}
-                    name="Email"
-                ></Form.Item>
-                <Input size="large" placeholder="Enter owner email" />
-
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Username"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                    name="Username"
-                ></Form.Item>
-                <Input size="large" placeholder="Enter owner username" />
-
-            </Col>
-
-            <Col className="gutter-row Owner_lable" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
-                    name="password"
-                ></Form.Item>
-
-                <Input.Password size="large" placeholder="Enter owner password" />
-
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Phone Number"
-                    rules={[{ required: true, message: 'Please input your phone number!' }]}
-                    name="Phone Number"
-                ></Form.Item>
-                <Input size="large" placeholder="Enter owner phone number" />
-            </Col>
-            <Col className="gutter-row" span={8}>
-
-                <Form.Item className='Owner_require'
-                    label="Gender"
-                    rules={[{ required: true, message: 'Please input your gender!' }]}
-                    name="Gender"
-                ></Form.Item>
-                <Select size="large" className='Owner_select'
-                    placeholder="Select owner gender"
-                    allowClear
-                >
-                    <Option value="Male">Male</Option>
-                    <Option value="Female">Female</Option>
-                    <Option value="Other">Other</Option>
-                </Select>
-            </Col>
-
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="DOB"
-                    rules={[{ required: true, message: 'Please input your DOB!' }]}
-                    name="DOB"
-                ></Form.Item>
-                <DatePicker className='Owner_DOB'></DatePicker>
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Role"
-                    rules={[{ required: true, message: 'Please select your role!' }]}
-                    name="Role"
-                ></Form.Item>
-                <Select size="large" className='Owner_select'
-                    placeholder="Select a role"
-                    allowClear
-                >
-                    <Option value="Male">User</Option>
-                    <Option value="Female">.....</Option>
-                    <Option value="Other">.....</Option>
-                </Select>
-            </Col>
-            <Col className="gutter-row" span={8}>
-                <Form.Item className='Owner_require'
-                    label="Status"
-                    rules={[{ required: true, message: 'Please select your Status!' }]}
-                    name="Status"
-                ></Form.Item>
-                <Select size="large" className='Owner_select'
-                    placeholder="Select a Status"
-                    allowClear
-                >
-                    <Option value="Male">Active</Option>
-                    <Option value="Female">.....</Option>
-                    <Option value="Other">.....</Option>
-                </Select>
-            </Col>
-        </Row>
-
-
-
-    </>
-);
-export default Update_Owner;
+export default Update_owner;
 

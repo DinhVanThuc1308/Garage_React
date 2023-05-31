@@ -7,11 +7,10 @@ import { message } from 'antd';
 import binicon from './Vector.svg';
 import { Input, Select, Checkbox, DatePicker } from 'antd';
 import styles from "./styles.module.css";
-import createOwnerAPI from '../../shared/api/createOwnerAPI';
 import { Option } from 'antd/es/mentions';
-import axios from 'axios';
 import axiosInstance from '../../shared/services/http-client';
 import moment from 'moment/moment';
+import updateOwnerAPI from '../../shared/api/updateOwnerAPI';
 
 
 function Update_owner() {
@@ -73,7 +72,7 @@ function Update_owner() {
         }, 1000);
 
         setTimeout(() => {
-            nav('/garage_owner');
+            nav('/');
         }, 2000);
     };
 
@@ -117,7 +116,7 @@ function Update_owner() {
         // });
         const fetchGarageList = async () => {
             try {
-                const res = await createOwnerAPI.getGarageList();
+                const res = await updateOwnerAPI.getGarageList();
                 setGarageList(res.data);
             } catch (error) {
                 console.log('Failed to fetch garage list: ', error);
@@ -169,10 +168,11 @@ function Update_owner() {
     // Post data to API
     const updateOwner = async (data, idNumber) => {
         try {
-            const res = await axiosInstance.put(`users/${idNumber}`, data);
+            const res = await updateOwnerAPI.updateOwnerData(data, idNumber);
             openMessageAuke();
             console.log("update", res);
         } catch (error) {
+            console.log("Failed to update owner", error);
             openMessageErr();
         }
     };
@@ -181,10 +181,15 @@ function Update_owner() {
     const [userList, setUserList] = useState([]);
     useEffect(() => {
         async function fetchData() {
-            const response = await axiosInstance.get(
-                `users/${id}?populate=garages&populate=role`
-            );
+            console.log("id", id);
+            let existID = id;
+            let params = {
+                populate: ['garages', 'role'],
+
+            };
+            const response = await updateOwnerAPI.getExistingOwnerData(existID, params)
             setUserList(response);
+            console.log("pull", response);
             const arr = response.garages;
             const newArr = arr.map(item => item.id);
             setCheckedBoxes(newArr);
@@ -210,15 +215,6 @@ function Update_owner() {
     console.log('user list', userList);
 
     console.log(checkedBoxes);
-
-    const updateGarageOwner = (data, idNumber) => {
-        axiosInstance
-            .put(`users/${idNumber}`, data)
-            .then(res => {
-
-            })
-    };
-
 
 
     return (
@@ -468,11 +464,15 @@ function Update_owner() {
                             <label htmlFor="">Select garages ({checkedBoxes.length})</label>
                             {checkedBoxes.map(item => {
                                 const IDObject = garageList.find(obj => obj.id === item);
+                                if (!IDObject) {
+                                    console.error(`IDObject with id ${item} is undefined`);
+                                    return null;
+                                }
                                 console.log(IDObject);
                                 return (
                                     <div className={styles['pickitem']} key={item}>
                                         <div className="pickitem-name">
-                                            {IDObject.attributes.name}
+                                            {IDObject.attributes?.name}
                                         </div>
                                         <img
                                             src={binicon}
@@ -490,7 +490,7 @@ function Update_owner() {
                         <button type="submit" className={styles['btn-save']}>
                             Save
                         </button>
-                        <Link to="/garage_owner">
+                        <Link to="/">
                             <button type="cancel" className={styles['btn-cancel']}>
                                 Cancel
                             </button>

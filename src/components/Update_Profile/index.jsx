@@ -1,233 +1,298 @@
-import React from 'react';
-import { Layout, Menu, DatePicker, Upload, Button, message,PhonePicker } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { useState,useEffect } from 'react';
-import Header_avt from '../Header/asset/img/avt2.jpg';
-import Icon from '../Slider_bar/asset/img/Vector.png';
-import './style.css';
-import moment from 'moment';
-import axios from 'axios'
-import axiosInstance from '../../shared/services/http-client.js';
-import { Link, useParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  Avatar as AntAvatar,
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  message,
+  Select,
+  Modal,
+} from 'antd';
+import { ReactComponent as Ellipse3 } from './Camera/Ellipse 3.svg';
+import { ReactComponent as Camera } from './Camera/Vector.svg';
+import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import './style.css'
 
-const Update_Profile = () => {
-  const { id } = useParams();
-  const [userData, setUserData] = useState({});
-  const { control, handleSubmit, setValue, register } = useForm();
-  const [dob, setDob] = useState(null);
+const AvatarContainer = styled.div`
+  position: relative;
+  width: 250px;
+  height: 250px;
+  
+`;
+
+const Avatar = styled(AntAvatar)`
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const AvatarImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+`;
+
+const CameraAvatar = styled(Avatar)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #eeeeee;
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+`;
+
+const BlackClover = styled(AntAvatar)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+function UpdateProfile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
   const [avatar, setAvatar] = useState(null);
-  const [loading, setLoading] = useState(false);
+
+  const { Option } = Select;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { data, role, userId } = location.state || {};
+
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    fetchUserData();
+    const fetchProfile = async () => {
+      try {
+        const jwt = localStorage.getItem('jwt');
+
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+          redirect: 'follow',
+        };
+
+        const response = await fetch(
+          'http://localhost:1337/api/users/me?populate=avatar',
+          requestOptions
+        );
+        const result = await response.json();
+
+        if (response.ok) {
+          setAvatar(result?.avatar?.url);
+        } else {
+          console.error('Failed to fetch profile:', result);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
-  useEffect(() => {
-    console.log("Avatar:", avatar);
-  }, [avatar]);
-
-  const fetchUserData = async () => {
+  const onFinish = async values => {
     try {
-      const response = await axiosInstance.get(`/users/${id}`);
-      setUserData(response);
-      setDob(response.dob); // Set giá trị mặc định cho dob
-      console.log(response.dob);
-      setValue('name', response.fullname);
-      setValue('email', response.email);
-      setValue('dob', response.dob);
-      setValue('phoneNumber', response.phoneNumber);
-      setValue('address', response.address);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      const jwt = localStorage.getItem('jwt');
+      const { dob, address, phoneNumber } = values;
 
-  const updateProfileData = async (data) => {
-    try {
-      await axiosInstance.put(`/users/${id}`, data);
-      message.success('Success! You have updated your profile!');
-    } catch (error) {
-      message.error('Fail! Please try again!');
-    }
-  };
-
-  const uploadAvatar = async (file) => {
-
-    console.log({file});
-    try {
       const formData = new FormData();
-      formData.append('files', file.originFileObj);
+      
+      
+      formData.append('files', uploadedImage);
 
-      const response = await axiosInstance.post("upload", formData, {
+      const requestOptions = {
+        method: 'POST',
         headers: {
-          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${jwt}`,
         },
-      });
-      console.log(response)
-      setAvatar(response[0].url);
-      console.log(222223,avatar)
-
-      return response.avatarUrl;
-      
-    } catch (error) {
-      throw new Error('Failed to upload avatar.');
-    }
-  };
-  
-  const handleAvatarChange = (info) => {
-    // console.log(info);
-    // setAvatar(info.file)
-    uploadAvatar(info.file)
-    if (info.file.status === 'uploading') {
-      console.log(222,info.file)
-      
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      setAvatar(info.file.response.avatarUrl );
-      setLoading(false);
-      console.log("done")
-
-    }
-    
-  };
-
-
-
-  const onSubmit = async (formData) => {
-    try {
-      const { name, dob, phoneNumber, address, email } = formData;
-      const data = {
-        fullname: name,
-        dob: dob,
-        phoneNumber,
-        address,
-        email,
+        body: formData,
+        redirect: 'follow',
       };
 
-      if (avatar) {
-        const avatarUrl = await uploadAvatar(avatar);
-        
-        data.avatar = avatarUrl;
+      const response = await fetch(
+        'http://localhost:1337/api/upload',
+        requestOptions
+      );
+      const uploadResult = await response.json();
+
+      if (response.ok) {
+        const raw = JSON.stringify({
+          dob: dob.format('YYYY-MM-DD'),
+          address,
+          phoneNumber,
+        });
+
+        const updateRequestOptions = {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: raw,
+          redirect: 'follow',
+        };
+        console.log(2222,userId);
+        const updateResponse = await fetch(
+          `http://localhost:1337/api/users/${userId}`,
+          updateRequestOptions
+        );
+        const data = await updateResponse.json();
+
+        if (updateResponse.ok) {
+          message.success('Form submitted successfully!');
+          navigate('/');
+        } else {
+          message.error('Failed to submit form!');
+        }
+      } else {
+        message.error('Failed to upload image!');
       }
-      
-      await updateProfileData(data);
     } catch (error) {
-      console.log(error);
+      message.error('An error occurred');
     }
   };
+
+  const handleCancelForm = () => {
+    navigate('/');
+  };
+
+  const handlePreviewAvatar = e => {
+    const file = e.target.files[0];
+    setUploadedImage(file);
+    setIsModalOpen(false);
+  };
+
+  const onOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="full_container_updateProfile">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="full_container_updateProfile_header">
-          <div className="container_updateProfile_avt">
-            <div className="container_updateProfile_avt_1">
-            <Upload
-            
-  name="avatar"
-  listType="picture-card"
-  className="avatar-uploader"
-  showUploadList={false}
-  action="http://localhost:1337/api/upload"
-  onChange={handleAvatarChange}
->
-  {avatar ? (
-    <img
-    style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "contain",
-    }}
-      src={"http://localhost:1337" + avatar}
-      alt="avatar"
-      className="avatar-image"
-    />
-  ) : (
-    <div className="upload-placeholder">
-      <PlusOutlined />
-      <div className="upload-text">Upload</div>
-    </div>
-  )}
-</Upload>
-
-              <div className="container_updateProfile_avt_1_icon"></div>
-            </div>
-          </div>
-
-          <div className="container_updateProfile_inf">
-            <div className="container_updateProfile_inf_input">
-              <div>Name</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                defaultValue={userData.fullname}
-                {...register('name')}
-              />
-            </div>
-
-            <div className="container_updateProfile_inf_input">
-              <div>Email</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                defaultValue={userData.email}
-                {...register('email')}
-              />
-            </div>
-
-            <div className="container_updateProfile_inf_input">
-              <div>Username</div>
-              <input className="container_updateProfile_inf_input_text" defaultValue={userData.username}  />
-            </div>
-
-            <div className="container_updateProfile_inf_input_1">
-              <div>
-                <div>Dob</div>
-                <DatePicker className="container_updateProfile_inf_input_dob_phone" 
-                value={dayjs(dob)} onChange={setDob}
-                
-                {...register('dob')} />
-              </div>
-              <div>
-                <div>Phone</div>
-                <input
-                  className="container_updateProfile_inf_input_dob_phone"
-                  defaultValue={userData.phoneNumber}
-                  {...register('phoneNumber')}
+    <div className='full'>
+    <div className="wrapper">
+      <div className="container">
+        <div className="profile">
+          <div className="image">
+            <div className='image-wrapper'>
+            <AvatarContainer>
+              {uploadedImage ? (
+                <AvatarImage
+                  src={URL.createObjectURL(uploadedImage)}
+                  alt="Avatar"
                 />
+              ) : (
+                <AvatarImage
+                  src={avatar ? `http://localhost:1337${avatar}` : ''}
+                />
+              )}
+              <Modal
+                title="Update Avatar"
+                visible={isModalOpen}
+                onOk={onOk}
+                onCancel={handleCancel}
+              >
+                <input type="file" onChange={handlePreviewAvatar} />
+              </Modal>
+              <BlackClover size={250} icon={<Ellipse3 />} onClick={showModal} />
+              <CameraAvatar size={50} icon={<Camera />} onClick={showModal} />
+            </AvatarContainer>
+            </div>
+          </div>
+          <div className="infor">
+            <Form
+              form={form}
+              layout="vertical"
+              initialValues={{
+                ...data,
+                dob: dayjs(data?.dob),
+                role: role,
+              }}
+              onFinish={onFinish}
+              id="myForm"
+              size="large"
+            >
+              <Form.Item label="Name" name="fullname">
+                <Input placeholder="" disabled />
+              </Form.Item>
+              <Form.Item label="Email" name="email">
+                <Input placeholder="" disabled />
+              </Form.Item>
+              <Form.Item label="Username" name="username">
+                <Input placeholder="" disabled />
+              </Form.Item>
+              <Row gutter={[16, 0]}>
+                <Col span={8}>
+                  <Form.Item label="DOB" name="dob">
+                    <DatePicker />
+                  </Form.Item>
+                </Col>
+                <Col span={12}style={{ marginLeft: '10px' }}>
+                  <Form.Item label="Phone Number" name="phoneNumber">
+                    <Input placeholder="" maxLength={10} style={{ width: '188px', }} />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Form.Item label="Address" name="address">
+                <Input placeholder="" />
+              </Form.Item>
+              <Form.Item label="Role" name="role">
+                {data?.role.type === 'admin' ? (
+                  <Select placeholder="">
+                    <Option value="admin">Admin</Option>
+                    <Option value="user">User</Option>
+                  </Select>
+                ) : (
+                  <Input placeholder="" disabled />
+                )}
+              </Form.Item>
+              
+            </Form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div className="btn-u">
+    <div className="line"></div>
+    <div className="container.container_updateProfile_button">              
+    <Form.Item>
+                <Button className="button_update" style={{ backgroundColor: '#8767E1',marginRight: '10px' }}
+                  type="primary"
+                  htmlType="submit"
+               
+                >
+                  Update
+                </Button>
+                <Button onClick={handleCancelForm} className="button_update" style={{ color: '#8767E1' }}>Cancel</Button>
+              </Form.Item>
               </div>
-            </div>
-
-            <div className="container_updateProfile_inf_input">
-              <div>Address</div>
-              <input
-                className="container_updateProfile_inf_input_text"
-                defaultValue="Cau Giay, Ha Noi"
-                
-              />
-            </div>
-
-            <div className="container_updateProfile_inf_input">
-              <div>Role</div>
-              <input className="container_updateProfile_inf_input_text" value="Admin" disabled />
-            </div>
-          </div>
-        </div>
-        <div className="full_container_updateProfile_footer">
-          <div className="line"></div>
-          <div className="container.container_updateProfile_button">
-            <button className="button_update" style={{ backgroundColor: '#8767E1' }} type="submit">
-            <Link to="/view_profile" style={{color: 'white'}}>Save</Link>
-            </button>
-            <button className="button_update" style={{ color: '#8767E1' }}>
-              <Link to="/view_profile" style={{color: '#8767E1'}}>Cancel</Link>
-            </button>
-          </div>
-        </div>
-      </form>
+    </div>
     </div>
   );
-};
+}
 
-export default Update_Profile;
+export default UpdateProfile;

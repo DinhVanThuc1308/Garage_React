@@ -19,6 +19,7 @@ export default function ViewProfile(props) {
         const response = await viewProfileAPI.getMyInfo(params);
         setAvatar(response.avatar.formats.small.url);
         setUserInfo(response);
+        console.log(22222,response);
       } catch (error) {
         console.log(error);
       }
@@ -32,6 +33,7 @@ export default function ViewProfile(props) {
   console.log('linkAvatar', linkAvatar);
 
   const id = userInfo.id;
+  console.log(id);
 
   return (
     <>
@@ -51,12 +53,12 @@ export default function ViewProfile(props) {
             <div className={styles['info-left']}>
               <div className={styles['title']}>
                 <label htmlFor="">Name</label>
-                <h1>{userInfo.fullname}</h1>
+                <h1>{userInfo?.fullname}</h1>
               </div>
 
               <div className={styles['title']}>
                 <label htmlFor="">Phone Number</label>
-                <h1>{userInfo.phoneNumber}</h1>
+                <h1>{userInfo?.phoneNumber}</h1>
               </div>
 
               <div className={styles['title']}>
@@ -67,17 +69,17 @@ export default function ViewProfile(props) {
             <div className={styles['info-right']}>
               <div className={styles['title']}>
                 <label htmlFor="">Email</label>
-                <h1>{userInfo.email}</h1>
+                <h1>{userInfo?.email}</h1>
               </div>
 
               <div className={styles['title']}>
                 <label htmlFor="">DOB</label>
-                <h1>{userInfo.dob}</h1>
+                <h1>{userInfo?.dob}</h1>
               </div>
 
               <div className={styles['title']}>
                 <label htmlFor="">Role</label>
-                <h1>{userInfo.role?.description}</h1>
+                <h1>{userInfo?.role?.description}</h1>
               </div>
             </div>
           </div>
@@ -85,7 +87,7 @@ export default function ViewProfile(props) {
         <hr />
         <div className={styles['buttons']}>
           <button className={styles['update-btn']}>
-            <Link to={`/update/${id}`}>Update Profile</Link>
+            <Link to={`/update/${1}`}>Update Profile</Link>
           </button>
           <button className={styles['change-btn']}>
             <Link to="/change_password">Change Password</Link>

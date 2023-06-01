@@ -114,7 +114,7 @@ function GarageManagerDetails() {
                             <div className="letter">
                                 Garage Owner:
                                 <div className="container-infomation-up-1-1-garage-details">
-                                    <div className="letter1">{garage.name}</div>
+                                    <div className="letter1">{garage.owner?.data.attributes.fullname}</div>
                                 </div>
                             </div>
                             <div className="letter">

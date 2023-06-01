@@ -73,16 +73,11 @@ function App() {
     };
     if (search === 'All') {
       params = '';
-    }
-    else if (
-      status === true
-    ) {
+    } else if (status === true) {
+      params['filters[blocked][$eq]'] = status;
+    } else if (status === false) {
       params['filters[blocked][$eq]'] = status;
     }
-    else if (status === false) {
-      params['filters[blocked][$eq]'] = status;
-    }
-
 
     if (TypeSearch === 'Name') {
       params['filters[fullname][$contains]'] = search;
@@ -96,7 +91,7 @@ function App() {
 
     console.log(response);
 
-    const users = response.map((user) => ({
+    const users = response.map(user => ({
       id: user.id,
       name: user.fullname,
       email: user.email,
@@ -125,9 +120,19 @@ function App() {
     setTotalItems(response.meta.pagination.total);
 
   };
-
   useEffect(() => {
     callApi();
+  }, []);
+
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      console.log(`Searching for "${search}"...`);
+      // Call your search function here
+      callApi();
+    }, 2000);
+
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(debounceTimer);
   }, [search, status, pageSize, currentPage]);
 
   const columns = [
@@ -165,7 +170,9 @@ function App() {
   return (
     <div style={{ marginTop: 0 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1 style={{ fontFamily: 'Poppins', fontSize: 20 }}>All Garage Owner</h1>
+        <h1 style={{ fontFamily: 'Poppins', fontSize: 20 }}>
+          All Garage Owner
+        </h1>
         <Button
           style={{
             backgroundColor: '#8767E1',
@@ -190,7 +197,7 @@ function App() {
             <Space.Compact style={{ width: '500px' }} size="large">
               <Select
                 defaultValue="Name"
-                onChange={(value) => setTypeSearch(value)}
+                onChange={value => setTypeSearch(value)}
                 options={options}
                 onClick={() => {
                   callApi();
@@ -203,13 +210,13 @@ function App() {
                 suffix={<SearchOutlined />}
                 style={{ width: '70%' }}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={e => setSearch(e.target.value)}
                 size="large"
               />
             </Space.Compact>
             <Select
               defaultValue="All"
-              onChange={(value) => setStatus(value)}
+              onChange={value => setStatus(value)}
               options={options2}
               style={{ marginLeft: '10px', width: '150px' }}
               size="large"

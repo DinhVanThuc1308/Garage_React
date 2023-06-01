@@ -117,6 +117,17 @@ function App() {
 
   useEffect(() => {
     callApi();
+  }, []);
+
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      console.log(`Searching for "${search}"...`);
+      // Call your search function here
+      callApi();
+    }, 2000);
+
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(debounceTimer);
   }, [search, status, pageSize, currentPage]);
 
   const columns = [

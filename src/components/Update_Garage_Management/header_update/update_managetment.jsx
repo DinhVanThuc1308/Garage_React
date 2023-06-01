@@ -141,7 +141,7 @@ function Update_managetment() {
       console.log(`Searching for "${searchTerm}"...`);
       // Call your search function here
       fetchGarageServiceList();
-    }, 500);
+    }, 3000);
 
     // Clear timeout if the component is unmounted
     return () => clearTimeout(debounceTimer);

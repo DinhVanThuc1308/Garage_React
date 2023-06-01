@@ -45,7 +45,6 @@ function App() {
   const pageSize = 10;
   const [totalItems, setTotalItems] = useState(0);
 
-
   const handleDelete = async id => {
     setDeletingItemId(id);
     setConfirmModalVisible(true);
@@ -58,12 +57,10 @@ function App() {
     callApi();
   };
 
-
   const handleCancelDelete = () => {
     setDeletingItemId(null);
     setConfirmModalVisible(false);
   };
-
 
   const callApi = async () => {
     const filters = {
@@ -82,7 +79,9 @@ function App() {
       filters['filters[status][$eq]'] = 'active';
     }
 
-    const responseData = await axiosInstance.get('garages', { params: filters });
+    const responseData = await axiosInstance.get('garages', {
+      params: filters,
+    });
 
     console.log(responseData);
 
@@ -115,7 +114,6 @@ function App() {
     setData([...users]);
     setTotalItems(responseData.meta.pagination.total);
   };
-
 
   useEffect(() => {
     callApi();
@@ -204,7 +202,7 @@ function App() {
               />
             </Space.Compact>
             <Select
-              defaultValue='All'
+              defaultValue="All"
               onChange={value => setStatus(value)}
               options={options2}
               style={{ marginLeft: '10px', width: '150px' }}

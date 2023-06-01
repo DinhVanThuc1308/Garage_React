@@ -4,54 +4,58 @@ import axiosInstance from '../../shared/services/http-client.js';
 import styles from './styles.module.css';
 
 function GarageManagerDetails() {
-    const [garage, setGarage] = useState({});
-    let { id } = useParams();
-    useEffect(() => {
-        axiosInstance
-            .get(`garages/${id}?populate=owner&populate=services`)
-            .then(res => {
-                // Tiếp tục xử lý dữ liệu nếu cần thiết
-                const {
-                    name,
-                    email,
-                    phoneNumber,
-                    address,
-                    openTime,
-                    closeTime,
-                    owner,
-                    status,
-                } = res.data.attributes;
-                const data = {
-                    name,
-                    email,
-                    phoneNumber,
-                    address,
-                    openTime,
-                    closeTime,
-                    owner,
-                    status,
-                };
-                console.log(2222,data)
-                // const services = res?.data?.attributes?.services?.map(service => service?.name);
-                // data.services = services;
-                data.id = res.data.id;
-                setGarage(data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }, [id]);
-    useEffect(() => {
-        axiosInstance.get(`garages/${id}?populate=owner&populate=services`).then(res => {
-            const { attributes } = res.data;
-            const { services } = attributes;
-            const serviceNames = services.data.map(service => service.attributes.name);
-            setGarage(prevGarage => ({ ...prevGarage, services: serviceNames }));
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    }, []);
+  const [garage, setGarage] = useState({});
+  let { id } = useParams();
+  useEffect(() => {
+    axiosInstance
+      .get(`garages/${id}?populate=owner&populate=services`)
+      .then(res => {
+        // Tiếp tục xử lý dữ liệu nếu cần thiết
+        const {
+          name,
+          email,
+          phoneNumber,
+          address,
+          openTime,
+          closeTime,
+          owner,
+          status,
+        } = res.data.attributes;
+        const data = {
+          name,
+          email,
+          phoneNumber,
+          address,
+          openTime,
+          closeTime,
+          owner,
+          status,
+        };
+        console.log(2222, data);
+        // const services = res?.data?.attributes?.services?.map(service => service?.name);
+        // data.services = services;
+        data.id = res.data.id;
+        setGarage(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [id]);
+  useEffect(() => {
+    axiosInstance
+      .get(`garages/${id}?populate=owner&populate=services`)
+      .then(res => {
+        const { attributes } = res.data;
+        const { services } = attributes;
+        const serviceNames = services.data.map(
+          service => service.attributes.name
+        );
+        setGarage(prevGarage => ({ ...prevGarage, services: serviceNames }));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
     return (
         <div>

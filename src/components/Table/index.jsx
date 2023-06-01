@@ -43,7 +43,9 @@ function App() {
   const [TypeSearch, setTypeSearch] = useState('Name');
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [deletingItemId, setDeletingItemId] = useState(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const [totalItems, setTotalItems] = useState(0);
 
 
   const handleDelete = async (id) => {
@@ -65,6 +67,8 @@ function App() {
 
   const callApi = async () => {
     let params = {
+      'pagination[page]': currentPage,
+      'pagination[pageSize]': pageSize,
 
     };
     if (search === 'All') {
@@ -118,11 +122,13 @@ function App() {
     }));
 
     setData([...users]);
+    setTotalItems(response.meta.pagination.total);
+
   };
 
   useEffect(() => {
     callApi();
-  }, [search, status]);
+  }, [search, status, pageSize, currentPage]);
 
   const columns = [
     {
@@ -210,7 +216,15 @@ function App() {
             />
           </span>
         </Space>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} pagination={{
+          current: currentPage,
+          pageSize: pageSize,
+          total: totalItems,
+          onChange: (page, pageSize) => {
+            setCurrentPage(page);
+
+          },
+        }} />
       </div>
       <Modal
         visible={confirmModalVisible}

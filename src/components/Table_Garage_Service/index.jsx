@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../shared/services/http-client.js';
 
-import { Button, Input, Select } from 'antd';
+import { Button, Input, } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
@@ -18,7 +18,9 @@ function App() {
   const [search, setSearch] = useState('');
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [deletingItemId, setDeletingItemId] = useState(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const [totalItems, setTotalItems] = useState(0);
 
 
   const handleDelete = async (id) => {
@@ -41,6 +43,8 @@ function App() {
 
   const callApi = async () => {
     let params = {
+      'pagination[page]': currentPage,
+      'pagination[pageSize]': pageSize,
 
     };
     params['filters[name][$contains]'] = search;
@@ -81,11 +85,13 @@ function App() {
     }));
 
     setData([...users]);
+    setTotalItems(responseData.meta.pagination.total);
+
   };
 
   useEffect(() => {
     callApi();
-  }, [search,]);
+  }, [search, pageSize, currentPage]);
 
   const columns = [
     {
@@ -161,7 +167,15 @@ function App() {
 
         </span>
       </Space>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} pagination={{
+        current: currentPage,
+        pageSize: pageSize,
+        total: totalItems,
+        onChange: (page, pageSize) => {
+          setCurrentPage(page);
+
+        },
+      }} />
       <Modal
         visible={confirmModalVisible}
         onOk={handleConfirmDelete}

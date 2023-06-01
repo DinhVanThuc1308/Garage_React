@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../shared/services/http-client.js';
 
 import { Button, Input, Select } from 'antd';
-import { InteractionFilled, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 
 const options = [
   {
@@ -42,7 +42,7 @@ function App() {
   const [deletingItemId, setDeletingItemId] = useState(null);
   const [searchBy, setSearchBy] = useState('Name');
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const pageSize = 10;
   const [totalItems, setTotalItems] = useState(0);
 
 
@@ -119,7 +119,7 @@ function App() {
 
   useEffect(() => {
     callApi();
-  }, [search, status]);
+  }, [search, status, pageSize, currentPage]);
 
   const columns = [
     {
@@ -221,7 +221,7 @@ function App() {
             total: totalItems,
             onChange: (page, pageSize) => {
               setCurrentPage(page);
-              setPageSize(pageSize);
+
             },
           }}
         />

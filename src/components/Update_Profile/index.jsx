@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../../shared/services/http-client';
+import moment from 'moment/moment';
 import {
   Avatar as AntAvatar,
   Form,
@@ -16,13 +18,12 @@ import { ReactComponent as Ellipse3 } from './Camera/Ellipse 3.svg';
 import { ReactComponent as Camera } from './Camera/Vector.svg';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import './style.css'
+import './style.css';
 
 const AvatarContainer = styled.div`
   position: relative;
   width: 250px;
   height: 250px;
-  
 `;
 
 const Avatar = styled(AntAvatar)`
@@ -64,6 +65,7 @@ const BlackClover = styled(AntAvatar)`
 `;
 
 function UpdateProfile() {
+  let { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [avatar, setAvatar] = useState(null);
@@ -71,41 +73,52 @@ function UpdateProfile() {
   const { Option } = Select;
   const navigate = useNavigate();
   const location = useLocation();
-  const { data, role, userId } = location.state || {};
+  // const { data, role, userId } = location.state || {};
+  const [myUser, setMyUser] = useState({});
 
   const [form] = Form.useForm();
+
+  console.log('location', location.state);
+
+  console.log('myid', id);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const jwt = localStorage.getItem('jwt');
+        // const jwt = localStorage.getItem('jwt');
 
-        const requestOptions = {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-          redirect: 'follow',
-        };
+        // const requestOptions = {
+        //   method: 'GET',
+        //   headers: {
+        //     Authorization: `Bearer ${jwt}`,
+        //   },
+        //   redirect: 'follow',
+        // };
 
-        const response = await fetch(
-          'http://localhost:1337/api/users/me?populate=avatar',
-          requestOptions
+        // const response = await fetch(
+        //   'http://localhost:1337/api/users/me?populate=avatar',
+        //   requestOptions
+        // );
+
+        const response = await axiosInstance.get(
+          '/users/me?populate=avatar&populate=role'
         );
-        const result = await response.json();
+        // const result = await response.json();
+        // const result = response;
+        console.log('result', response);
+        setMyUser(response);
 
-        if (response.ok) {
-          setAvatar(result?.avatar?.url);
-        } else {
-          console.error('Failed to fetch profile:', result);
-        }
+        setAvatar(response.avatar.url);
+        console.log('resultavt', response.avatar.url);
       } catch (error) {
-        console.error('An error occurred:', error);
+        console.log('An error occurred:', error);
       }
     };
 
     fetchProfile();
   }, []);
+  console.log('myUser', myUser);
+  console.log('name', myUser.fullname);
 
   const onFinish = async values => {
     try {
@@ -113,8 +126,7 @@ function UpdateProfile() {
       const { dob, address, phoneNumber } = values;
 
       const formData = new FormData();
-      
-      
+
       formData.append('files', uploadedImage);
 
       const requestOptions = {
@@ -148,9 +160,9 @@ function UpdateProfile() {
           body: raw,
           redirect: 'follow',
         };
-        console.log(2222,userId);
+        // console.log(2222, userId);
         const updateResponse = await fetch(
-          `http://localhost:1337/api/users/${userId}`,
+          `http://localhost:1337/api/users/${id}`,
           updateRequestOptions
         );
         const data = await updateResponse.json();
@@ -183,6 +195,8 @@ function UpdateProfile() {
     setIsModalOpen(false);
   };
 
+  console.log('newavt', uploadedImage);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -192,105 +206,121 @@ function UpdateProfile() {
   };
 
   return (
-    <div className='full'>
-    <div className="wrapper">
-      <div className="container">
-        <div className="profile">
-          <div className="image">
-            <div className='image-wrapper'>
-            <AvatarContainer>
-              {uploadedImage ? (
-                <AvatarImage
-                  src={URL.createObjectURL(uploadedImage)}
-                  alt="Avatar"
-                />
-              ) : (
-                <AvatarImage
-                  src={avatar ? `http://localhost:1337${avatar}` : ''}
-                />
-              )}
-              <Modal
-                title="Update Avatar"
-                visible={isModalOpen}
-                onOk={onOk}
-                onCancel={handleCancel}
-              >
-                <input type="file" onChange={handlePreviewAvatar} />
-              </Modal>
-              <BlackClover size={250} icon={<Ellipse3 />} onClick={showModal} />
-              <CameraAvatar size={50} icon={<Camera />} onClick={showModal} />
-            </AvatarContainer>
+    <div className="full" myUser={myUser}>
+      <div className="wrapper">
+        <div className="container">
+          <div className="profile">
+            <div className="image">
+              <div className="image-wrapper">
+                <AvatarContainer>
+                  {uploadedImage ? (
+                    <AvatarImage
+                      src={URL.createObjectURL(uploadedImage)}
+                      alt="Avatar"
+                    />
+                  ) : (
+                    <AvatarImage
+                      src={avatar ? `http://localhost:1337${avatar}` : ''}
+                    />
+                  )}
+                  <Modal
+                    title="Update Avatar"
+                    visible={isModalOpen}
+                    onOk={onOk}
+                    onCancel={handleCancel}
+                  >
+                    <input type="file" onChange={handlePreviewAvatar} />
+                  </Modal>
+                  <BlackClover
+                    size={250}
+                    icon={<Ellipse3 />}
+                    onClick={showModal}
+                  />
+                  <CameraAvatar
+                    size={50}
+                    icon={<Camera />}
+                    onClick={showModal}
+                  />
+                </AvatarContainer>
+              </div>
             </div>
-          </div>
-          <div className="infor">
-            <Form
-              form={form}
-              layout="vertical"
-              initialValues={{
-                ...data,
-                dob: dayjs(data?.dob),
-                role: role,
-              }}
-              onFinish={onFinish}
-              id="myForm"
-              size="large"
-            >
-              <Form.Item label="Name" name="fullname">
-                <Input placeholder="" disabled />
-              </Form.Item>
-              <Form.Item label="Email" name="email">
-                <Input placeholder="" disabled />
-              </Form.Item>
-              <Form.Item label="Username" name="username">
-                <Input placeholder="" disabled />
-              </Form.Item>
-              <Row gutter={[16, 0]}>
-                <Col span={8}>
-                  <Form.Item label="DOB" name="dob">
-                    <DatePicker />
-                  </Form.Item>
-                </Col>
-                <Col span={12}style={{ marginLeft: '10px' }}>
-                  <Form.Item label="Phone Number" name="phoneNumber">
-                    <Input placeholder="" maxLength={10} style={{ width: '188px', }} />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Form.Item label="Address" name="address">
-                <Input placeholder="" />
-              </Form.Item>
-              <Form.Item label="Role" name="role">
-                {data?.role.type === 'admin' ? (
-                  <Select placeholder="">
-                    <Option value="admin">Admin</Option>
-                    <Option value="user">User</Option>
-                  </Select>
-                ) : (
+            <div className="infor">
+              <Form
+                form={form}
+                layout="vertical"
+                initialValues={{
+                  fullname: JSON.stringify(myUser.fullname),
+                }}
+                onFinish={onFinish}
+                id="myForm"
+                size="large"
+              >
+                <Form.Item label="Name" name="fullname">
+                  <Input placeholder="Enter Name" />
+                </Form.Item>
+                <Form.Item label="Email" name="email">
                   <Input placeholder="" disabled />
-                )}
-              </Form.Item>
-              
-            </Form>
+                </Form.Item>
+                <Form.Item label="Username" name="username">
+                  <Input placeholder="" disabled />
+                </Form.Item>
+                <Row gutter={[16, 0]}>
+                  <Col span={8}>
+                    <Form.Item label="DOB" name="dob">
+                      <DatePicker />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12} style={{ marginLeft: '10px' }}>
+                    <Form.Item label="Phone Number" name="phoneNumber">
+                      <Input
+                        placeholder=""
+                        maxLength={10}
+                        style={{ width: '188px' }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Form.Item label="Address" name="address">
+                  <Input placeholder="" />
+                </Form.Item>
+                <Form.Item label="Role" name="role">
+                  {/* {role === 'admin' ? (
+                    <Select placeholder="">
+                      <Option value="admin">Admin</Option>
+                      <Option value="user">User</Option>
+                    </Select>
+                  ) : (
+                    <Input placeholder="" disabled />
+                  )} */}
+                </Form.Item>
+              </Form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    <div className="btn-u">
-    <div className="line"></div>
-    <div className="container.container_updateProfile_button">              
-    <Form.Item>
-                <Button className="button_update" style={{ backgroundColor: '#8767E1',marginRight: '10px' }}
-                  type="primary"
-                  htmlType="submit"
-               
-                >
-                  Update
-                </Button>
-                <Button onClick={handleCancelForm} className="button_update" style={{ color: '#8767E1' }}>Cancel</Button>
-              </Form.Item>
-              </div>
-    </div>
+
+      <div className="btn-u">
+        <div className="line"></div>
+        <div className="container.container_updateProfile_button">
+          <Form.Item>
+            <Button
+              className="button_update"
+              style={{ backgroundColor: '#8767E1', marginRight: '10px' }}
+              type="primary"
+              htmlType="submit"
+            >
+              Update
+            </Button>
+            <Button
+              onClick={handleCancelForm}
+              className="button_update"
+              style={{ color: '#8767E1' }}
+            >
+              Cancel
+            </Button>
+          </Form.Item>
+        </div>
+      </div>
     </div>
   );
 }

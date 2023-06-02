@@ -86,7 +86,7 @@ export default function UpdateService() {
     }, 1000);
 
     setTimeout(() => {
-      nav('/Garage_service');
+      nav('/GarageService');
     }, 2000);
   };
 

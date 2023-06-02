@@ -70,7 +70,7 @@ function Update_managetment() {
     }, 1000);
 
     setTimeout(() => {
-      nav('/Garage_manage');
+      nav('/GarageManage');
     }, 2000);
   };
   // choose garage

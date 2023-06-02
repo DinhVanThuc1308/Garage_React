@@ -55,7 +55,7 @@ const Slide_bar = ({ children }) => {
         collapsible
         collapsed={collapsed}
       >
-        <p className="Slider_text">Menu</p>
+        <Link to="/"><p className="Slider_text">Menu</p></Link>
 
         <Menu
           className="sb_item"

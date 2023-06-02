@@ -50,10 +50,9 @@ const Slide_bar = ({ children }) => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-      >
-        <Link to="/">
-          <p className="Slider_text">Menu</p>
-        </Link>
+
+        <Link to="/"><p className="Slider_text">Menu</p></Link>
+
 
         <Menu
           className="sb_item"

@@ -49,9 +49,7 @@ function Header_content() {
         />
         <div className={styles['header__text']}>
           <p className={styles['header__text1']}>{userInfo.fullname}</p>
-          <p className={styles['header__text2']}>
-            {userInfo.role?.description}
-          </p>
+          <p className={styles['header__text2']}>{userInfo.role?.name}</p>
         </div>
       </div>
 

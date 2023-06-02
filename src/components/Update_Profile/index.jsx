@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../../shared/services/http-client';
+// import moment from 'moment/moment';
+import { useForm, Controller } from 'react-hook-form';
+import ImageUpload from './input';
 import {
   Avatar as AntAvatar,
   Form,
   Input,
   Button,
-  Row,
-  Col,
+  // Row,
+  // Col,
   message,
-  Select,
+  // Select,
   Modal,
 } from 'antd';
 import { ReactComponent as Ellipse3 } from './Camera/Ellipse 3.svg';
 import { ReactComponent as Camera } from './Camera/Vector.svg';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import './style.css'
+import './style.css';
+import updateProfileAPI from '../../shared/api/updateProfileAPI';
 
 const AvatarContainer = styled.div`
   position: relative;
   width: 250px;
   height: 250px;
-  
 `;
 
 const Avatar = styled(AntAvatar)`
@@ -64,244 +68,265 @@ const BlackClover = styled(AntAvatar)`
 `;
 
 function UpdateProfile() {
+  let { id } = useParams();
+  const nav = useNavigate();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    defaultValues: {
+      fullname: '',
+      email: '',
+      username: '',
+      phoneNumber: '',
+      dob: '',
+      role: '',
+    },
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [avatar, setAvatar] = useState(null);
 
-  const { Option } = Select;
+  // const { Option } = Select;
   const navigate = useNavigate();
-  const location = useLocation();
-  const { data, role, userId } = location.state || {};
-  const [form] = Form.useForm();
-  const [formData, setFormData] = useState(null);
-  
 
+  console.log('myid', id);
+
+  const [myUser, setMyUser] = useState({});
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const jwt = localStorage.getItem('jwt');
-
-        const requestOptions = {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-          redirect: 'follow',
-        };
-        form
-      .validateFields()
-      .then(values => {
-        setFormData(values);
-        console.log('Form data:', values);
-        // Các xử lý khác...
-      })
-      .catch(error => {
-        console.log('Error:', error);
-      });
-        const response = await fetch(
-          'http://localhost:1337/api/users/me?populate=avatar',
-          requestOptions
-        );
-        const result = await response.json();
-
-        if (response.ok) {
-          setAvatar(result?.avatar?.url);
-        } else {
-          console.error('Failed to fetch profile:', result);
-        }
-      } catch (error) {
-        console.error('An error occurred:', error);
-      }
-    };
-
-    fetchProfile();
-  }, []);
-
-  const onFinish = async values => {
-    try {
-      const jwt = localStorage.getItem('jwt');
-      const { dob, address, phoneNumber } = values;
-
-      const formData = new FormData();
-      
-      
-      formData.append('files', uploadedImage);
-
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-        body: formData,
-        redirect: 'follow',
+    const fetchInfo = async () => {
+      let params = {
+        populate: 'role,avatar',
       };
 
-      const response = await fetch(
-        'http://localhost:1337/api/upload',
-        requestOptions
-      );
-      const uploadResult = await response.json();
-
-      if (response.ok) {
-        const raw = JSON.stringify({
-          dob: dob.format('YYYY-MM-DD'),
-          address,
-          phoneNumber,
-        });
-
-        const updateRequestOptions = {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${jwt}`,
-          },
-          body: raw,
-          redirect: 'follow',
-        };
-        console.log(2222,userId);
-        const updateResponse = await fetch(
-          `http://localhost:1337/api/users/${userId}`,
-          updateRequestOptions
-        );
-        const data = await updateResponse.json();
-
-        if (updateResponse.ok) {
-          message.success('Form submitted successfully!');
-          navigate('/');
-        } else {
-          message.error('Failed to submit form!');
-        }
-      } else {
-        message.error('Failed to upload image!');
+      try {
+        const response = await updateProfileAPI.getProfileData(params);
+        setAvatar(response.avatar.formats.small.url);
+        setMyUser(response);
+        setValue('fullname', response.fullname);
+        setValue('email', response.email);
+        setValue('username', response.username);
+        setValue('phoneNumber', response.phoneNumber);
+        setValue('dob', dayjs(response.dob));
+        setValue('role', response.role.name);
+        console.log(22222, response);
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      message.error('An error occurred');
-    }
+    };
+    fetchInfo();
+  }, []);
+
+  // Notification
+  const [messageApi, contextHolder] = message.useMessage();
+  const key = 'updatable';
+  const openMessageErr = () => {
+    messageApi.open({
+      key,
+      type: 'loading',
+      content: 'Loading...',
+    });
+    setTimeout(() => {
+      messageApi.open({
+        key,
+        type: 'error',
+        content: 'Fail! Please try again! ',
+        duration: 2,
+      });
+    }, 1000);
   };
+  const openMessageAuke = () => {
+    messageApi.open({
+      key,
+      type: 'loading',
+      content: 'Loading...',
+    });
+    setTimeout(() => {
+      messageApi.open({
+        key,
+        type: 'success',
+        content: 'Success! You have created a new owner! ',
+        duration: 2,
+      });
+    }, 1000);
+
+    setTimeout(() => {
+      nav('/');
+    }, 2000);
+  };
+
+  console.log('myUser', myUser);
 
   const handleCancelForm = () => {
     navigate('/');
   };
 
-  const handlePreviewAvatar = e => {
-    const file = e.target.files[0];
-    setUploadedImage(file);
-    setIsModalOpen(false);
+  const updateDataProfile = async (data, idNumber) => {
+    try {
+      const res = await updateProfileAPI.updateProfileData(data, idNumber);
+      console.log('res', res);
+      openMessageAuke();
+    } catch (error) {
+      console.log(error);
+      openMessageErr();
+    }
   };
 
-  const onOk = () => {
-    setIsModalOpen(false);
+  const onSubmit = data => {
+    const IdUpdate = id;
+    data.dob = data.dob.format('YYYY-MM-DD');
+    // remove username
+    delete data.username;
+    // remove role
+    delete data.role;
+    // remove email
+    delete data.email;
+    console.log('data', data);
+    try {
+      const res = updateProfileAPI.updateAvatar(fileUpload, id);
+      console.log('resavt', res);
+    } catch (error) {
+      console.log(error);
+    }
+
+    updateDataProfile(data, IdUpdate);
   };
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const [fileUpload, setFileUpload] = useState(null);
+  const handleUploadImage = file => {
+    console.log({ file });
+    setFileUpload(file);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  const handleRemoveImage = () => {};
+
+  console.log('fileUpload', fileUpload);
 
   return (
-    <div className='full'>
-    <div className="wrapper">
-      <div className="container">
-        <div className="profile">
-          <div className="image">
-            <div className='image-wrapper'>
-            <AvatarContainer>
-              {uploadedImage ? (
-                <AvatarImage
-                  src={URL.createObjectURL(uploadedImage)}
-                  alt="Avatar"
-                />
-              ) : (
-                <AvatarImage
-                  src={avatar ? `http://localhost:1337${avatar}` : ''}
-                />
-              )}
-              <Modal
-                title="Update Avatar"
-                visible={isModalOpen}
-                onOk={onOk}
-                onCancel={handleCancel}
-              >
-                <input type="file" onChange={handlePreviewAvatar} />
-              </Modal>
-              <BlackClover size={250} icon={<Ellipse3 />} onClick={showModal} />
-              <CameraAvatar size={50} icon={<Camera />} onClick={showModal} />
-            </AvatarContainer>
+    <div className="full">
+      {contextHolder}
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <div className="wrapper">
+          <div className="container">
+            <div className="profile">
+              <div className="image">
+                <div className="image-wrapper">
+                  <ImageUpload
+                    handleUploadImage={handleUploadImage}
+                    onRemoveImage={handleRemoveImage}
+                  />
+                </div>
+              </div>
+              <div className="infor">
+                <div className="form-items">
+                  <label htmlFor="">Name</label>
+                  <Controller
+                    name="fullname"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        size="large"
+                        placeholder="Enter your name"
+                      />
+                    )}
+                  />
+                </div>
+                <div className="form-items">
+                  <label htmlFor="">Email</label>
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        size="large"
+                        placeholder="Enter your email"
+                        disabled
+                      />
+                    )}
+                  />
+                </div>
+                <div className="form-items">
+                  <label htmlFor="">Username</label>
+                  <Controller
+                    name="username"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        size="large"
+                        placeholder="Enter your username"
+                        disabled
+                      />
+                    )}
+                  />
+                </div>
+                <div className="dob-phone">
+                  <div className="form-items-dob">
+                    <label htmlFor="">DOB</label>
+                    <Controller
+                      name="dob"
+                      control={control}
+                      render={({ field }) => (
+                        <DatePicker {...field} size="large" />
+                      )}
+                    />
+                  </div>
+                  <div className="form-items-phone">
+                    <label htmlFor="">Phone Number</label>
+                    <Controller
+                      name="phoneNumber"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          size="large"
+                          placeholder="Enter your phone number"
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-items">
+                  <label htmlFor="">Address</label>
+                  <Input size="large" value={'Hà Nội'} disabled />
+                </div>
+                <div className="form-items">
+                  <label htmlFor="">Role</label>
+                  <Controller
+                    name="role"
+                    control={control}
+                    render={({ field }) => (
+                      <Input {...field} size="large" disabled />
+                    )}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="infor">
-            <Form
-              form={form}
-              layout="vertical"
-              initialValues={{
-                ...data,
-                dob: dayjs(data?.dob),
-                role: role,
-              }}
-              onFinish={onFinish}
-              id="myForm"
-              size="large"
-            >
-              <Form.Item label="Name" name="fullname">
-                <Input placeholder="" disabled />
-              </Form.Item>
-              <Form.Item label="Email" name="email">
-                <Input placeholder="" disabled />
-              </Form.Item>
-              <Form.Item label="Username" name="username">
-                <Input placeholder="" disabled />
-              </Form.Item>
-              <Row gutter={[16, 0]}>
-                <Col span={8}>
-                  <Form.Item label="DOB" name="dob">
-                    <DatePicker />
-                  </Form.Item>
-                </Col>
-                <Col span={12}style={{ marginLeft: '10px' }}>
-                  <Form.Item label="Phone Number" name="phoneNumber">
-                    <Input placeholder="" maxLength={10} style={{ width: '180px', }} />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Form.Item label="Address" name="address">
-                <Input placeholder="" />
-              </Form.Item>
-              <Form.Item label="Role" name="role">
-                {data?.role.type === 'admin' ? (
-                  <Select placeholder="">
-                    <Option value="admin">Admin</Option>
-                    <Option value="user">User</Option>
-                  </Select>
-                ) : (
-                  <Input placeholder="" disabled />
-                )}
-              </Form.Item>
-              
-            </Form>
+        </div>
+
+        <div className="btn-u">
+          <div className="line"></div>
+          <div className="container.container_updateProfile_button">
+            <Form.Item>
+              <button className="button_update" type="submit" htmlType="submit">
+                Update
+              </button>
+              <button onClick={handleCancelForm} className="button_cancel">
+                Cancel
+              </button>
+            </Form.Item>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <div className="btn-u">
-    <div className="line"></div>
-    <div className="container.container_updateProfile_button">              
-    <Form.Item>
-                <Button className="button_update" style={{ backgroundColor: '#8767E1',marginRight: '10px' }}
-                  type="primary"
-                  htmlType="submit"
-                  onClick={() => form.submit()}
-                >
-                  Update
-                </Button>
-                <Button onClick={handleCancelForm} className="button_update" style={{ color: '#8767E1' }}>Cancel</Button>
-              </Form.Item>
-              </div>
-    </div>
+      </form>
     </div>
   );
 }

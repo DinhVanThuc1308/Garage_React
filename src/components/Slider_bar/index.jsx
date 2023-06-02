@@ -1,25 +1,20 @@
 import React from 'react';
 import './Slider_bar.css';
-
-
+import { matchPath } from 'react-router-dom';
 
 // Create Owner
 
-
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme, } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import { useState } from 'react';
 
 // import img của slider bar
 import sb_img from '../Slider_bar/asset/img/sb_img.png';
 import Header_content from '../Header/Header_content';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import { useLocation } from 'react-router-dom';
-
-
-
 
 const { Header, Sider, Content } = Layout;
 //props. chi
@@ -33,17 +28,18 @@ const Slide_bar = ({ children }) => {
   const location = useLocation();
 
   React.useEffect(() => {
-    switch (location.pathname) {
-      case '/garage_owner':
-        setSelectedMenu('1');
-        break;
-      case '/Garage_manage':
-        setSelectedMenu('2');
-        break;
-      case '/Garage_service':
-        setSelectedMenu('4');
-        break;
-      default:
+    const OwnerSTR = 'GarageOwner';
+    const ManageSTR = 'GarageManage';
+    const ServiceSTR = 'GarageService';
+
+    if (location.pathname.includes(OwnerSTR)) {
+      setSelectedMenu('1');
+    }
+    if (location.pathname.includes(ManageSTR)) {
+      setSelectedMenu('2');
+    }
+    if (location.pathname.includes(ServiceSTR)) {
+      setSelectedMenu('3');
     }
   }, [location.pathname]);
   return (
@@ -54,8 +50,9 @@ const Slide_bar = ({ children }) => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-      >
+
         <Link to="/"><p className="Slider_text">Menu</p></Link>
+
 
         <Menu
           className="sb_item"
@@ -65,7 +62,6 @@ const Slide_bar = ({ children }) => {
           selectedKeys={[selectedMenu]}
           onSelect={({ key }) => setSelectedMenu(key)}
           items={[
-
             {
               key: '1',
               icon: <img src={sb_img}></img>,
@@ -77,10 +73,9 @@ const Slide_bar = ({ children }) => {
               label: <Link to="/GarageManage">Garage</Link>,
             },
             {
-              key: '4',
+              key: '3',
               icon: <img src={sb_img}></img>,
               label: <Link to="/GarageService">Garage-services</Link>,
-
             },
           ]}
         />
@@ -104,14 +99,17 @@ const Slide_bar = ({ children }) => {
           {/* <Logout></Logout> */}
         </Header>
 
-
-
         <Content
           style={{
             margin: '24px 16px',
             // padding: 24,
             minHeight: 280,
-            background: selectedMenu === '2' || selectedMenu === '3' || selectedMenu === '4' ? '#e6e6e6' : colorBgContainer,
+            background:
+              selectedMenu === '2' ||
+              selectedMenu === '3' ||
+              selectedMenu === '4'
+                ? '#e6e6e6'
+                : colorBgContainer,
           }}
         >
           {children}

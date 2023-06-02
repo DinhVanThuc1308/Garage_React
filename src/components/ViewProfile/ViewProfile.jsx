@@ -19,7 +19,7 @@ export default function ViewProfile(props) {
         const response = await viewProfileAPI.getMyInfo(params);
         setAvatar(response.avatar.formats.small.url);
         setUserInfo(response);
-        console.log(22222,response);
+        console.log(22222, response);
       } catch (error) {
         console.log(error);
       }
@@ -79,7 +79,7 @@ export default function ViewProfile(props) {
 
               <div className={styles['title']}>
                 <label htmlFor="">Role</label>
-                <h1>{userInfo?.role?.description}</h1>
+                <h1>{userInfo?.role?.name}</h1>
               </div>
             </div>
           </div>

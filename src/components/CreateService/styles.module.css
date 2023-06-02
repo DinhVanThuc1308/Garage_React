@@ -34,7 +34,7 @@
     background-color: #FFFFFF;
 }
 
-.antform-size{
+.antform-size {
     font-family: 'Poppins';
     width: 100%;
 }
@@ -43,7 +43,7 @@
     color: red;
 }
 
-.description-form{
+.description-form {
     width: 100%;
     margin-top: 24px;
 }
@@ -94,10 +94,13 @@
     border: 1px solid #8767E1;
     border-radius: 8px;
 }
-.btn-cancel:hover{
-    transform:scale(1.0);
+
+.btn-cancel:hover {
+    transform: scale(1.0);
     cursor: pointer;
 }
-.btn-save:hover{
-    transform:scale(1.0);
+
+.btn-save:hover {
+    transform: scale(1.0);
+    cursor: pointer;
 }

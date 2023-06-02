@@ -45,25 +45,22 @@ function App() {
   const pageSize = 10;
   const [totalItems, setTotalItems] = useState(0);
 
-
   const handleDelete = async id => {
     setDeletingItemId(id);
     setConfirmModalVisible(true);
   };
 
   const handleConfirmDelete = async () => {
-    await axiosInstance.delete(`users/${deletingItemId}`);
+    await axiosInstance.delete(`garages/${deletingItemId}`);
     setDeletingItemId(null);
     setConfirmModalVisible(false);
     callApi();
   };
 
-
   const handleCancelDelete = () => {
     setDeletingItemId(null);
     setConfirmModalVisible(false);
   };
-
 
   const callApi = async () => {
     const filters = {
@@ -82,29 +79,31 @@ function App() {
       filters['filters[status][$eq]'] = 'active';
     }
 
-    const responseData = await axiosInstance.get('garages', { params: filters });
+    const responseData = await axiosInstance.get('garages', {
+      params: filters,
+    });
 
     console.log(responseData);
 
-    const users = responseData.data.map((user) => ({
-      id: user.id,
-      name: user.attributes.name,
-      email: user.attributes.email,
-      phoneNumber: user.attributes.phoneNumber,
-      ownerName: user.attributes.owner.data?.attributes?.fullname,
-      status: user.attributes.status,
+    const users = responseData.data.map((garage) => ({
+      id: garage.id,
+      name: garage.attributes.name,
+      email: garage.attributes.email,
+      phoneNumber: garage.attributes.phoneNumber,
+      ownerName: garage.attributes.owner.data?.attributes?.fullname,
+      status: garage.attributes.status,
       action: (
-        <Space key={user.id} size="middle">
-          <Link to={`/GarageManage/details/${user.id}`}>
+        <Space key={garage.id} size="middle">
+          <Link to={`/GarageManage/details/${garage.id}`}>
             <img src={eye} style={{ width: '14.05px', height: '16.03px' }} />
           </Link>
-          <Link to={`/GarageManage/update/${user.id}`}>
+          <Link to={`/GarageManage/update/${garage.id}`}>
             <img src={edit} />
           </Link>
           <button
             style={{ border: 'none', backgroundColor: '#fff' }}
             className="btn_xoa"
-            onClick={() => handleDelete(user.id)}
+            onClick={() => handleDelete(garage.id)}
           >
             <img src={deleteIcon} />
           </button>
@@ -116,9 +115,19 @@ function App() {
     setTotalItems(responseData.meta.pagination.total);
   };
 
-
   useEffect(() => {
     callApi();
+  }, []);
+
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      console.log(`Searching for "${search}"...`);
+      // Call your search function here
+      callApi();
+    }, 2000);
+
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(debounceTimer);
   }, [search, status, pageSize, currentPage]);
 
   const columns = [
@@ -204,7 +213,7 @@ function App() {
               />
             </Space.Compact>
             <Select
-              defaultValue='All'
+              defaultValue="All"
               onChange={value => setStatus(value)}
               options={options2}
               style={{ marginLeft: '10px', width: '150px' }}

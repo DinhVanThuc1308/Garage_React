@@ -104,7 +104,7 @@ function CreateOwner() {
       console.log(`Searching for "${searchTerm}"...`);
       // Call your search function here
       fetchGarageList();
-    }, 500);
+    }, 2000);
 
     // Clear timeout if the component is unmounted
     return () => clearTimeout(debounceTimer);

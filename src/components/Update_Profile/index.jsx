@@ -72,8 +72,10 @@ function UpdateProfile() {
   const navigate = useNavigate();
   const location = useLocation();
   const { data, role, userId } = location.state || {};
-
   const [form] = Form.useForm();
+  const [formData, setFormData] = useState(null);
+  
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -87,7 +89,16 @@ function UpdateProfile() {
           },
           redirect: 'follow',
         };
-
+        form
+      .validateFields()
+      .then(values => {
+        setFormData(values);
+        console.log('Form data:', values);
+        // Các xử lý khác...
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
         const response = await fetch(
           'http://localhost:1337/api/users/me?populate=avatar',
           requestOptions
@@ -252,7 +263,7 @@ function UpdateProfile() {
                 </Col>
                 <Col span={12}style={{ marginLeft: '10px' }}>
                   <Form.Item label="Phone Number" name="phoneNumber">
-                    <Input placeholder="" maxLength={10} style={{ width: '188px', }} />
+                    <Input placeholder="" maxLength={10} style={{ width: '180px', }} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -283,7 +294,7 @@ function UpdateProfile() {
                 <Button className="button_update" style={{ backgroundColor: '#8767E1',marginRight: '10px' }}
                   type="primary"
                   htmlType="submit"
-               
+                  onClick={() => form.submit()}
                 >
                   Update
                 </Button>

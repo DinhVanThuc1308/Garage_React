@@ -25,13 +25,35 @@
   /* Adjust the spacing as needed */
 }
 
-.image-wrapper {
-  position: relative;
-  width: 250px;
-  height: 250px;
-  margin: 0 auto;
+.image img {
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
 }
 
+.image-wrapper .remove-image {
+  display: none;
+}
+
+.image-wrapper {
+  position: relative;
+  margin: 0 auto;
+  border-radius: 50px;
+}
+
+
+.remove-img {
+  font-size: large;
+  height: 30px;
+  width: 30px;
+  background: #F1F4F9;
+  border: 1px solid #8767E1;
+  border-radius: 5px;
+}
+
+.remove-img:hover {
+  cursor: pointer;
+}
 
 .btn-u {
   display: flex;

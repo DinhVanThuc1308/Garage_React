@@ -202,7 +202,7 @@ function UpdateProfile() {
     setFileUpload(file);
   };
 
-  const handleRemoveImage = () => {};
+  const handleRemoveImage = () => { };
 
   console.log('fileUpload', fileUpload);
 

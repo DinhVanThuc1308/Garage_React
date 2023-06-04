@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Upload } from 'antd';
+import './style.css';
 // import "./global.scss";
 
 const ImageUpload = ({
   handleUploadImage,
-  className = '',
+  className = 'img-profile',
   filesPath,
   uploadContent,
   onRemoveImage,
@@ -72,7 +73,7 @@ const ImageUpload = ({
             </span>
           </div>
           <span>
-            <button type="button" onClick={removeImage}>
+            <button className='remove-img' type="button" onClick={removeImage}>
               X
             </button>
           </span>

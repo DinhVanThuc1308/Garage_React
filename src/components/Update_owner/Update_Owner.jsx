@@ -8,7 +8,6 @@ import binicon from './Vector.svg';
 import { Input, Select, Checkbox, DatePicker } from 'antd';
 import styles from './styles.module.css';
 import { Option } from 'antd/es/mentions';
-import axiosInstance from '../../shared/services/http-client';
 import moment from 'moment/moment';
 import updateOwnerAPI from '../../shared/api/updateOwnerAPI';
 
@@ -106,7 +105,9 @@ function Update_owner() {
     updateOwner(data, id);
   };
 
-  //  call api garage list from api and push it to garageList
+  //  call api garage list from api
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredGarages, setFilteredGarages] = useState([]);
 
   useEffect(() => {
     // axiosInstance.get(`garages`).then(res => {
@@ -114,54 +115,32 @@ function Update_owner() {
     // });
     const fetchGarageList = async () => {
       try {
-        const res = await updateOwnerAPI.getGarageList();
-        setGarageList(res.data);
+        let params = {};
+        params['filters[name][$contains]'] = searchTerm;
+        const res = await updateOwnerAPI.getGarageList(params);
+        console.log('res', res);
+        setFilteredGarages(res.data);
       } catch (error) {
         console.log('Failed to fetch garage list: ', error);
       }
     };
-    fetchGarageList();
-  }, []);
+    // Set up a timeout variable
+    const debounceTimer = setTimeout(() => {
+      console.log(`Searching for "${searchTerm}"...`);
+      // Call your search function here
+      fetchGarageList();
+    }, 3000);
+
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(debounceTimer);
+  }, [searchTerm]);
 
   // search garage
-  const [searchTerm, setSearchTerm] = useState('');
-  const [garageList, setGarageList] = useState([]);
+  // const [garageList, setGarageList] = useState([]);
 
   const handleSearch = e => {
     setSearchTerm(e.target.value);
   };
-
-  const filteredGarages = garageList.filter(
-    garage =>
-      garage.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) //lọc danh sách garage dựa vào searchTerm
-  );
-
-  // find garage name include id in checkedBoxes
-
-  // const handleSearchGarage = () => {
-
-  //   axiosInstance.get(`garages?name=${searchTerm}`).then(res => {
-  //     setGarageList(res.data);
-  //   });
-  // };
-
-  // create owner
-
-  // const createOwner = data => {
-  //   console.log({ data });
-  //   // delete data.status;
-  //   // delete data.garage;
-  //   axiosInstance
-  //     .post(`users`, data)
-  //     .then(res => {
-  //       openMessageAuke();
-  //       console.log(res);
-  //       console.log(res.data);
-  //     })
-  //     .catch(err => {
-  //       openMessageErr();
-  //     });
-  // };
 
   // Post data to API
   const updateOwner = async (data, idNumber) => {
@@ -465,7 +444,7 @@ function Update_owner() {
             <div className={styles['list-garage']}>
               <label htmlFor="">Select garages ({checkedBoxes.length})</label>
               {checkedBoxes.map(item => {
-                const IDObject = garageList.find(obj => obj.id === item);
+                const IDObject = filteredGarages.find(obj => obj.id === item);
                 if (!IDObject) {
                   console.error(`IDObject with id ${item} is undefined`);
                   return null;

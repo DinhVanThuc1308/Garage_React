@@ -49,11 +49,10 @@ const Slide_bar = ({ children }) => {
         className="Slide_bar"
         trigger={null}
         collapsible
-        collapsed={collapsed}
-      >
-        <Link to="/">
-          <p className="Slider_text">Menu</p>
-        </Link>
+        collapsed={collapsed}>
+
+        <Link to="/"><p className="Slider_text">Menu</p></Link>
+
 
         <Menu
           className="sb_item"
@@ -107,8 +106,8 @@ const Slide_bar = ({ children }) => {
             minHeight: 280,
             background:
               selectedMenu === '2' ||
-              selectedMenu === '3' ||
-              selectedMenu === '4'
+                selectedMenu === '3' ||
+                selectedMenu === '4'
                 ? '#e6e6e6'
                 : colorBgContainer,
           }}

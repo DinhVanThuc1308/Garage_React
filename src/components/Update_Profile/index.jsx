@@ -218,6 +218,7 @@ function UpdateProfile() {
                   <ImageUpload
                     handleUploadImage={handleUploadImage}
                     onRemoveImage={handleRemoveImage}
+                    defaultImage={avatar}
                   />
                 </div>
               </div>

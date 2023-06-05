@@ -228,3 +228,32 @@
   flex-grow: 0;
 
 }
+
+.image-container {
+  position: relative;
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.image-wrapper img {
+  position: relative;
+  z-index: 1;
+}
+
+.image-wrapper .ant-upload {
+  position: absolute;
+  top: 85px;
+  left: 70px;
+  z-index: 2;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.imgchange {
+  width: 50px !important;
+  height: 40px !important;
+  opacity: 0.5;
+}
